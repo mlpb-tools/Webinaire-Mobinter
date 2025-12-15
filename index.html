@@ -1,0 +1,1673 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webinaire Mobilité Internationale - Mission Locale Pays Basque</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --color-orange: #f39200;
+            --color-vert: #95c11f;
+            --color-bleu: #2897d5;
+            --color-rose: #d60b52;
+            --color-violet: #a3195b;
+            --color-rouge: #9f3d3f;
+            --color-noir: #171718;
+            --color-white: #FFFFFF;
+            --color-grey: #F5F5F5;
+            --color-jaune: #FFD166;
+            --color-turquoise: #06D6A0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--color-white);
+            color: var(--color-noir);
+            overflow-x: hidden;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="%23f39200"/><circle cx="12" cy="12" r="6" fill="white"/></svg>'), auto;
+        }
+
+        /* NAVIGATION SLIDES */
+        .presentation {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100vh;
+            display: none;
+            position: relative;
+            padding: 40px 50px;
+            overflow-y: auto;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* FORMES GÉOMÉTRIQUES */
+        .slide::before {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            opacity: 0.08;
+            z-index: 0;
+        }
+
+        .slide::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            opacity: 0.06;
+            z-index: 0;
+        }
+
+        .slide:nth-child(odd)::before {
+            background: var(--color-vert);
+            top: -150px;
+            right: -150px;
+        }
+
+        .slide:nth-child(even)::before {
+            background: var(--color-bleu);
+            bottom: -200px;
+            left: -200px;
+        }
+
+        .slide:nth-child(3n)::after {
+            border-left: 120px solid transparent;
+            border-right: 120px solid transparent;
+            border-bottom: 200px solid var(--color-orange);
+            top: -80px;
+            left: 100px;
+        }
+
+        /* CONTENU */
+        .content {
+            max-width: 1200px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 56px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            margin-bottom: 15px;
+            line-height: 1.1;
+        }
+
+        h2 {
+            font-size: 38px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .subtitle {
+            font-size: 20px;
+            font-weight: 400;
+            margin-bottom: 25px;
+            opacity: 0.9;
+        }
+
+        /* SLIDE COUVERTURE */
+        .slide-cover {
+            background: var(--color-noir);
+            color: var(--color-white);
+        }
+
+        .logo {
+            width: 200px;
+            margin-bottom: 40px;
+        }
+
+        .title-highlight {
+            color: var(--color-orange);
+        }
+
+        /* GRILLES */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-top: 25px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        /* CARTES PROGRAMME */
+        .program-card {
+            background: var(--color-white);
+            border: 3px solid var(--color-noir);
+            padding: 20px;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .program-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 60px;
+            height: 60px;
+            clip-path: polygon(100% 0, 0 0, 100% 100%);
+            opacity: 0.15;
+        }
+
+        .program-card:hover {
+            transform: translate(3px, -3px);
+            box-shadow: -5px 5px 0 var(--color-noir);
+        }
+
+        .program-card.erasmus::before {
+            background: var(--color-bleu);
+        }
+
+        .program-card.ces::before {
+            background: var(--color-orange);
+        }
+
+        .program-card.service-civique::before {
+            background: var(--color-violet);
+        }
+
+        .program-card.pvt::before {
+            background: var(--color-vert);
+        }
+
+        .program-card.stage::before {
+            background: var(--color-rose);
+        }
+
+        .program-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--color-grey);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            margin-bottom: 12px;
+        }
+
+        .program-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        .program-desc {
+            font-size: 13px;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .program-details {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 12px;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .detail-icon {
+            width: 18px;
+            height: 18px;
+            background: var(--color-grey);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            flex-shrink: 0;
+        }
+
+        /* TIMELINE */
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+            margin-top: 25px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 12px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--color-noir);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -34px;
+            top: 5px;
+            width: 20px;
+            height: 20px;
+            background: var(--color-rose);
+            border: 3px solid var(--color-noir);
+            border-radius: 50%;
+        }
+
+        .timeline-number {
+            position: absolute;
+            left: -60px;
+            top: 0;
+            width: 40px;
+            height: 40px;
+            background: var(--color-orange);
+            color: var(--color-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 900;
+            border: 3px solid var(--color-noir);
+        }
+
+        .timeline-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .timeline-content {
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        /* TABLEAU COMPARATIF */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            border: 3px solid var(--color-noir);
+            font-size: 12px;
+        }
+
+        .comparison-table th {
+            background: var(--color-orange);
+            color: var(--color-white);
+            padding: 10px 8px;
+            font-weight: 700;
+            text-align: left;
+            border: 3px solid var(--color-noir);
+            font-size: 12px;
+        }
+
+        .comparison-table td {
+            padding: 10px 8px;
+            border: 2px solid var(--color-noir);
+            font-size: 11px;
+            line-height: 1.4;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background: var(--color-grey);
+        }
+
+        /* TAGS */
+        .tag {
+            display: inline-block;
+            padding: 4px 10px;
+            background: var(--color-grey);
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-right: 6px;
+            margin-top: 6px;
+        }
+
+        .tag.orange { background: var(--color-orange); color: var(--color-white); }
+        .tag.bleu { background: var(--color-bleu); color: var(--color-white); }
+        .tag.vert { background: var(--color-vert); color: var(--color-white); }
+        .tag.rose { background: var(--color-rose); color: var(--color-white); }
+        .tag.violet { background: var(--color-violet); color: var(--color-white); }
+
+        /* CHECKLIST */
+        .checklist {
+            display: grid;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .check-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: var(--color-grey);
+            border-left: 4px solid var(--color-vert);
+        }
+
+        .check-icon {
+            width: 26px;
+            height: 26px;
+            background: var(--color-vert);
+            color: var(--color-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 16px;
+        }
+
+        .check-text {
+            font-size: 13px;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        /* NAVIGATION */
+        .nav-controls {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            width: 60px;
+            height: 60px;
+            background: var(--color-noir);
+            color: var(--color-white);
+            border: 3px solid var(--color-noir);
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+        }
+
+        .nav-btn:hover {
+            background: var(--color-white);
+            color: var(--color-noir);
+            transform: translate(3px, -3px);
+            box-shadow: -4px 4px 0 var(--color-orange);
+        }
+
+        .slide-counter {
+            position: fixed;
+            bottom: 40px;
+            left: 40px;
+            background: var(--color-noir);
+            color: var(--color-white);
+            padding: 15px 25px;
+            font-weight: 700;
+            font-size: 18px;
+            border: 3px solid var(--color-noir);
+            z-index: 1000;
+        }
+
+        /* BOX HIGHLIGHT */
+        .highlight-box {
+            background: var(--color-grey);
+            border-left: 5px solid var(--color-rose);
+            padding: 18px;
+            margin-top: 20px;
+        }
+
+        .highlight-box h3 {
+            color: var(--color-rose);
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .highlight-box p {
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        /* ICONES */
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .icon-item {
+            text-align: center;
+            padding: 15px;
+        }
+
+        .icon-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--color-grey);
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            border: 3px solid var(--color-noir);
+        }
+
+        .icon-text {
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .slide {
+                padding: 25px 15px;
+            }
+
+            h1 {
+                font-size: 32px;
+                line-height: 1.1;
+            }
+
+            h2 {
+                font-size: 24px;
+                margin-bottom: 12px;
+            }
+
+            h3 {
+                font-size: 18px;
+            }
+
+            .subtitle {
+                font-size: 14px;
+                margin-bottom: 15px;
+            }
+
+            .grid-2,
+            .grid-3,
+            .grid-4 {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .program-card {
+                padding: 15px;
+            }
+
+            .program-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 22px;
+            }
+
+            .program-title {
+                font-size: 16px;
+            }
+
+            .program-desc {
+                font-size: 12px;
+            }
+
+            .nav-controls {
+                bottom: 15px;
+                right: 15px;
+            }
+
+            .nav-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+
+            .slide-counter {
+                bottom: 15px;
+                left: 15px;
+                font-size: 13px;
+                padding: 8px 12px;
+            }
+
+            .icon-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .icon-circle {
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
+            }
+
+            .timeline {
+                padding-left: 35px;
+            }
+
+            .timeline-number {
+                width: 35px;
+                height: 35px;
+                font-size: 18px;
+                left: -55px;
+            }
+
+            .comparison-table {
+                font-size: 10px;
+            }
+
+            .comparison-table th,
+            .comparison-table td {
+                padding: 6px;
+            }
+
+            .stat-number {
+                font-size: 36px;
+            }
+
+            .stat-label {
+                font-size: 11px;
+            }
+
+            .checklist {
+                gap: 8px;
+            }
+
+            .check-item {
+                padding: 10px;
+            }
+
+            .badge {
+                font-size: 9px;
+                padding: 5px 10px;
+            }
+        }
+
+        /* STAT BOXES */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .stat-box {
+            background: var(--color-grey);
+            padding: 20px;
+            text-align: center;
+            border: 3px solid var(--color-noir);
+        }
+
+        .stat-number {
+            font-size: 42px;
+            font-weight: 900;
+            color: var(--color-orange);
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        /* ANIMATIONS GAMIFIÉES */
+        .step-card:hover {
+            transform: translateY(-10px) rotate(2deg);
+            box-shadow: 12px 12px 0 rgba(0,0,0,0.15);
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .program-card:hover {
+            animation: bounce 0.6s ease;
+        }
+
+        /* BADGES DE PROGRESSION */
+        .badge {
+            display: inline-block;
+            padding: 6px 12px;
+            background: linear-gradient(135deg, var(--color-orange), var(--color-rose));
+            color: white;
+            border-radius: 15px;
+            border: 2px solid var(--color-noir);
+            font-weight: 700;
+            font-size: 10px;
+            text-transform: uppercase;
+            box-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+            animation: pulse 2s infinite;
+        }
+
+        .badge.new {
+            background: linear-gradient(135deg, var(--color-vert), var(--color-turquoise));
+        }
+
+        .badge.hot {
+            background: linear-gradient(135deg, var(--color-rouge), var(--color-orange));
+        }
+
+        /* ÉLÉMENTS LUDIQUES */
+        .emoji-float {
+            animation: bounce 3s infinite ease-in-out;
+        }
+
+        /* PROGRESS BAR */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 6px;
+            background: linear-gradient(90deg, var(--color-orange), var(--color-rose), var(--color-violet));
+            z-index: 9999;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation">
+        
+        <!-- BARRE DE PROGRESSION -->
+        <div class="progress-bar" id="progressBar"></div>
+        
+        <!-- SLIDE 1 - COUVERTURE -->
+        <div class="slide slide-cover active">
+            <div class="content" style="text-align: center;">
+                <img src="https://static.wixstatic.com/media/dd5dab_47743b1c86024865ba19e623a3db327f~mv2.avif" alt="Mission Locale Pays Basque" style="width: 180px; margin-bottom: 30px;">
+                <h1 style="font-size: 52px;">TROUVEZ VOTRE<br><span class="title-highlight">AVENTURE INTERNATIONALE</span></h1>
+                <p class="subtitle" style="font-size: 18px; margin-bottom: 30px;">Le guide des programmes de mobilité pour les 18-30 ans</p>
+                <div class="stats-grid" style="margin-top: 30px;">
+                    <div class="stat-box" style="background: var(--color-orange); color: white; border-color: var(--color-noir); padding: 18px;">
+                        <div class="stat-number" style="color: white; font-size: 48px;">15+</div>
+                        <div class="stat-label" style="color: white; font-size: 12px;">Pays disponibles</div>
+                    </div>
+                    <div class="stat-box" style="background: var(--color-bleu); color: white; border-color: var(--color-noir); padding: 18px;">
+                        <div class="stat-number" style="color: white; font-size: 48px;">45</div>
+                        <div class="stat-label" style="color: white; font-size: 12px;">Offres actuelles</div>
+                    </div>
+                    <div class="stat-box" style="background: var(--color-vert); color: white; border-color: var(--color-noir); padding: 18px;">
+                        <div class="stat-number" style="color: white; font-size: 48px;">7</div>
+                        <div class="stat-label" style="color: white; font-size: 12px;">Types de programmes</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2 - COMMENT CE WEBINAIRE VA VOUS AIDER -->
+        <div class="slide" style="background: linear-gradient(135deg, #FFF9E6 0%, #E3F2FD 100%);">
+            <div class="content">
+                <h2 style="font-size: 32px; margin-bottom: 10px; text-align: center;">COMMENT CE WEBINAIRE VA VOUS AIDER</h2>
+                <p class="subtitle" style="font-size: 15px; margin-bottom: 20px; text-align: center;">3 étapes pour construire votre projet de mobilité</p>
+
+                <div class="grid-3" style="gap: 20px; margin-top: 20px;">
+                    <!-- ÉTAPE 1 : EXPLORER -->
+                    <div style="background: white; padding: 20px; border: 3px solid var(--color-noir); border-radius: 15px; text-align: center; transition: all 0.3s;" class="step-card">
+                        <div style="font-size: 42px; margin-bottom: 10px;">🧭</div>
+                        <h3 style="font-size: 18px; color: var(--color-bleu); margin-bottom: 10px; line-height: 1.2;">Explorer les<br>Possibilités</h3>
+                        <p style="font-size: 12px; line-height: 1.4; color: var(--color-noir);">
+                            Nous démystifions les différents programmes pour que vous compreniez clairement chaque option.
+                        </p>
+                    </div>
+
+                    <!-- ÉTAPE 2 : TROUVER -->
+                    <div style="background: white; padding: 20px; border: 3px solid var(--color-noir); border-radius: 15px; text-align: center; transition: all 0.3s;" class="step-card">
+                        <div style="font-size: 42px; margin-bottom: 10px;">🗺️</div>
+                        <h3 style="font-size: 18px; color: var(--color-orange); margin-bottom: 10px; line-height: 1.2;">Trouver Votre<br>Chemin</h3>
+                        <p style="font-size: 12px; line-height: 1.4; color: var(--color-noir);">
+                            Nous vous guidons à travers les questions clés pour identifier le parcours idéal.
+                        </p>
+                    </div>
+
+                    <!-- ÉTAPE 3 : PRÉPARER -->
+                    <div style="background: white; padding: 20px; border: 3px solid var(--color-noir); border-radius: 15px; text-align: center; transition: all 0.3s;" class="step-card">
+                        <div style="font-size: 42px; margin-bottom: 10px;">📋</div>
+                        <h3 style="font-size: 18px; color: var(--color-vert); margin-bottom: 10px; line-height: 1.2;">Préparer Votre<br>Départ</h3>
+                        <p style="font-size: 12px; line-height: 1.4; color: var(--color-noir);">
+                            Nous vous donnons les étapes concrètes pour préparer votre candidature.
+                        </p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 25px; text-align: center; background: linear-gradient(135deg, var(--color-bleu), var(--color-vert)); color: white; padding: 18px; border-radius: 15px; border: 3px solid var(--color-noir);">
+                    <p style="font-size: 16px; font-weight: 700; margin: 0;">🎯 Prêt(e) à trouver votre voie ? C'est parti ! 🚀</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3 - PAR OÙ COMMENCER -->
+        <div class="slide">
+            <div class="content">
+                <h2>PAR OÙ COMMENCER ?</h2>
+                <p class="subtitle">Posez-vous les bonnes questions <span class="emoji-float" style="display: inline-block;">🤔</span></p>
+                
+                <div class="grid-3">
+                    <div class="program-card erasmus">
+                        <span class="badge" style="position: absolute; top: -15px; right: 20px;">🕐 TEMPS</span>
+                        <div class="program-icon">⏱️</div>
+                        <div class="program-title">LA DURÉE</div>
+                        <div class="program-desc">
+                            <strong>Expérience courte</strong><br>
+                            &lt; 2 mois<br><br>
+                            <strong>Immersion longue</strong><br>
+                            &gt; 2 mois
+                        </div>
+                    </div>
+
+                    <div class="program-card ces">
+                        <span class="badge hot" style="position: absolute; top: -15px; right: 20px;">🎯 BUT</span>
+                        <div class="program-icon">🎯</div>
+                        <div class="program-title">L'OBJECTIF</div>
+                        <div class="program-desc">
+                            <strong>S'engager et partager</strong><br>
+                            Volontariat / Échange<br><br>
+                            <strong>Développer ses compétences</strong><br>
+                            Stage / Travail
+                        </div>
+                    </div>
+
+                    <div class="program-card service-civique">
+                        <span class="badge new" style="position: absolute; top: -15px; right: 20px;">👥 GROUPE</span>
+                        <div class="program-icon">👥</div>
+                        <div class="program-title">LE FORMAT</div>
+                        <div class="program-desc">
+                            <strong>L'énergie du collectif</strong><br>
+                            En groupe<br><br>
+                            <strong>L'autonomie et l'immersion</strong><br>
+                            En individuel
+                        </div>
+                    </div>
+                </div>
+
+                <div class="highlight-box" style="margin-top: 25px; padding: 15px;">
+                    <h3 style="font-size: 18px;">💡 Le point de départ</h3>
+                    <p style="font-size: 13px; line-height: 1.4; margin: 0;">Votre projet idéal dépend de vos envies. Ces trois questions clés vous guideront vers le programme qui vous correspond. <strong>C'est parti ! 🚀</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3 - AVENTURE COLLECTIVE -->
+        <div class="slide">
+            <div class="content">
+                <h2>L'AVENTURE COLLECTIVE</h2>
+                <p class="subtitle">Des expériences courtes et intenses</p>
+
+                <div class="grid-2">
+                    <div class="program-card erasmus">
+                        <div class="program-icon">🗣️</div>
+                        <div class="program-title">Échange de Jeunes - Erasmus+</div>
+                        <div class="program-desc">Rencontres et débats interculturels.</div>
+                        <div class="program-details">
+                            <div class="detail-item">
+                                <div class="detail-icon">👤</div>
+                                <span>18-30 ans. Pas de niveau d'anglais attendu.</span>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon">⏱️</div>
+                                <span>5 à 21 jours</span>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon">👥</div>
+                                <span>5-6 jeunes de 6-7 pays différents</span>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon">💰</div>
+                                <span>~50€ d'inscription</span>
+                            </div>
+                        </div>
+                        <div style="margin-top: 15px;">
+                            <span class="tag bleu">Échanges interculturels</span>
+                            <span class="tag bleu">Débats</span>
+                        </div>
+                    </div>
+
+                    <div class="program-card ces">
+                        <div class="program-icon">🤝</div>
+                        <div class="program-title">Équipes de Volontaires - CES</div>
+                        <div class="program-desc">S'engager ensemble sur une mission concrète.</div>
+                        <div class="program-details">
+                            <div class="detail-item">
+                                <div class="detail-icon">👤</div>
+                                <span>18-30 ans. Pas de niveau d'anglais attendu.</span>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon">⏱️</div>
+                                <span>Jusqu'à 2 mois</span>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon">👥</div>
+                                <span>6 à 40 jeunes</span>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon">💰</div>
+                                <span>~50€ d'inscription</span>
+                            </div>
+                        </div>
+                        <div style="margin-top: 15px;">
+                            <span class="tag orange">Restauration patrimoine</span>
+                            <span class="tag orange">Écologie</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <h3>✨ Pourquoi choisir le collectif ?</h3>
+                    <p>Idéal pour une première expérience, pour rencontrer des jeunes de toute l'Europe et vivre une aventure humaine forte en quelques semaines.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4 - S'ENGAGER EN SOLO -->
+        <div class="slide">
+            <div class="content">
+                <h2>S'ENGAGER EN SOLO</h2>
+                <p class="subtitle">Pour une immersion totale</p>
+
+                <div class="grid-3">
+                    <div class="program-card ces">
+                        <div class="program-icon">✈️</div>
+                        <div class="program-title">CES Court Terme</div>
+                        <div class="program-desc">Une première expérience individuelle pour tester une mission.</div>
+                        <div class="program-details">
+                            <div class="detail-item">
+                                <div class="detail-icon">⏱️</div>
+                                <span>10 jours à 2 mois</span>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon">👤</div>
+                                <span>18-30 ans</span>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon">🎯</div>
+                                <span>Suivi par un tuteur</span>
+                            </div>
+                        </div>
+                        <span class="tag orange">CES</span>
+                    </div>
+
+                    <div class="program-card ces">
+                        <div class="program-icon">🌍</div>
+                        <div class="program-title">CES Long Terme</div>
+                        <div class="program-desc">L'engagement phare pour une immersion complète.</div>
+                        <div class="program-details">
+                            <div class="detail-item">
+                                <div class="detail-icon">⏱️</div>
+                                <span>2 à 12 mois</span>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon">👤</div>
+                                <span>18-30 ans</span>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon">🎯</div>
+                                <span>Plateforme linguistique</span>
+                            </div>
+                        </div>
+                        <span class="tag orange">CES</span>
+                    </div>
+
+                    <div class="program-card service-civique">
+                        <div class="program-icon">🇫🇷</div>
+                        <div class="program-title">Service Civique International</div>
+                        <div class="program-desc">Un engagement citoyen soutenu par la France.</div>
+                        <div class="program-details">
+                            <div class="detail-item">
+                                <div class="detail-icon">⏱️</div>
+                                <span>6 à 12 mois</span>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon">👤</div>
+                                <span>18-25 ans (30 si PSH)</span>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon">💰</div>
+                                <span>Indemnité ~550€/mois</span>
+                            </div>
+                        </div>
+                        <span class="tag violet">Service Civique</span>
+                    </div>
+                </div>
+
+                <table class="comparison-table" style="margin-top: 25px;">
+                    <thead>
+                        <tr>
+                            <th style="font-size: 11px; padding: 8px;">Critère</th>
+                            <th style="font-size: 11px; padding: 8px;">CES Court</th>
+                            <th style="font-size: 11px; padding: 8px;">CES Long</th>
+                            <th style="font-size: 11px; padding: 8px;">Service Civique</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 8px;"><strong>Financement</strong></td>
+                            <td style="padding: 8px;">Logement, nourriture, transport + argent de poche</td>
+                            <td style="padding: 8px;">Logement, nourriture, transport + argent de poche</td>
+                            <td style="padding: 8px;">Logement, transport, nourriture à votre charge (~550€/mois)</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px;"><strong>Aides sociales</strong></td>
+                            <td style="padding: 8px;">CEJ & PACEA maintenus. ARE suspendue</td>
+                            <td style="padding: 8px;">CEJ & PACEA maintenus. ARE suspendue</td>
+                            <td style="padding: 8px;">ARE, CEJ & PACEA suspendus</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- SLIDE 5 - BOOSTER SON CV -->
+        <div class="slide">
+            <div class="content">
+                <h2>BOOSTER SON CV</h2>
+                <p class="subtitle">Les stages en Europe</p>
+
+                <div class="grid-3">
+                    <div class="program-card stage">
+                        <div class="program-icon">🔍</div>
+                        <div class="program-title">Why Not</div>
+                        <div class="program-desc">Le stage d'observation pour découvrir un métier (3 semaines).</div>
+                        <div class="program-details">
+                            <div class="detail-item">
+                                <div class="detail-icon">👤</div>
+                                <span>18-25 ans</span>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon">💰</div>
+                                <span>Logement & transport pris en charge</span>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon">⚠️</div>
+                                <span>Plus disponible pour 2025</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="program-card stage">
+                        <div class="program-icon">💼</div>
+                        <div class="program-title">Take Off Pro</div>
+                        <div class="program-desc">Le stage professionnalisant dans des secteurs prédéfinis (1-2 mois).</div>
+                        <div class="program-details">
+                            <div class="detail-item">
+                                <div class="detail-icon">👤</div>
+                                <span>18-25 ans</span>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon">🏗️</div>
+                                <span>Écoconstruction, hôtellerie, tourisme</span>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon">💰</div>
+                                <span>Logement & transport + Bourse Erasmus+</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="program-card stage">
+                        <div class="program-icon">🎒</div>
+                        <div class="program-title">Bagages</div>
+                        <div class="program-desc">Le stage sur-mesure en lien avec votre projet (3-6 mois).</div>
+                        <div class="program-details">
+                            <div class="detail-item">
+                                <div class="detail-icon">👤</div>
+                                <span>18-30 ans</span>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon">📚</div>
+                                <span>Domaine validé par études/stages</span>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon">💰</div>
+                                <span>Logement & transport + Bourse (900-1300€)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="highlight-box" style="margin-top: 20px; padding: 15px;">
+                    <h3 style="font-size: 18px;">💡 Bon à savoir</h3>
+                    <p style="font-size: 12px; line-height: 1.4; margin: 0;"><strong>Why Not</strong> : Stage en groupe avec travail individuel + 1 jour de cours de langue par semaine.<br>
+                    <strong>Take Off Pro</strong> : Départ en duo ou groupe avec accompagnement renforcé (structure Erasmus+).<br>
+                    <strong>Bagages</strong> : L'opérateur de mobilité recherche l'entreprise pour vous.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6 - PROGRAMME VACANCES-TRAVAIL -->
+        <div class="slide">
+            <div class="content">
+                <h2>PROGRAMME VACANCES-TRAVAIL (PVT)</h2>
+                <p class="subtitle">Votre passeport pour l'aventure !</p>
+
+                <div class="grid-2">
+                    <div>
+                        <h3>🌏 Un concept unique</h3>
+                        <p style="margin-bottom: 20px;">Voyagez et travaillez à l'étranger pendant 1 à 2 ans</p>
+                        
+                        <div class="checklist">
+                            <div class="check-item">
+                                <div class="check-icon">✓</div>
+                                <div class="check-text">Un visa axé sur la découverte culturelle avec la liberté de travailler sur place</div>
+                            </div>
+                            <div class="check-item">
+                                <div class="check-icon">✓</div>
+                                <div class="check-text">Accessible sans condition de diplôme ou de langue</div>
+                            </div>
+                            <div class="check-item">
+                                <div class="check-icon">✓</div>
+                                <div class="check-text">15+ pays hors Union Européenne disponibles</div>
+                            </div>
+                            <div class="check-item">
+                                <div class="check-icon">✓</div>
+                                <div class="check-text">Programme ouvert au plus grand nombre, offrant une grande autonomie</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3>🌍 Destinations phares</h3>
+                        
+                        <div class="program-card pvt">
+                            <div class="program-title">🇨🇦 Canada</div>
+                            <div class="program-details">
+                                <div class="detail-item">
+                                    <div class="detail-icon">👤</div>
+                                    <span>18-35 ans</span>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-icon">⏱️</div>
+                                    <span>2 ans max</span>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-icon">💰</div>
+                                    <span>2 500 $CA économies requises</span>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-icon">📊</div>
+                                    <span>~7 000 places (tirage au sort)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="program-card pvt">
+                            <div class="program-title">🇦🇺 Australie</div>
+                            <div class="program-details">
+                                <div class="detail-item">
+                                    <div class="detail-icon">👤</div>
+                                    <span>18-35 ans</span>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-icon">⏱️</div>
+                                    <span>1 an (renouvelable 2 fois)</span>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-icon">💰</div>
+                                    <span>5 000 $AU économies requises</span>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-icon">📊</div>
+                                    <span>Illimité</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="program-card pvt">
+                            <div class="program-title">🇳🇿 Nouvelle-Zélande</div>
+                            <div class="program-details">
+                                <div class="detail-item">
+                                    <div class="detail-icon">👤</div>
+                                    <span>18-30 ans</span>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-icon">⏱️</div>
+                                    <span>1 an (prolongation possible)</span>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-icon">💰</div>
+                                    <span>4 200 $NZ économies requises</span>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-icon">📊</div>
+                                    <span>Illimité</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <h3>⚠️ Important</h3>
+                    <p>Les pays anglophones (Canada, Australie, Nouvelle-Zélande) attirent la majorité des pvtistes français. D'autres destinations : Japon, Argentine, Brésil, Chili...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7 - AUTRES PISTES -->
+        <div class="slide">
+            <div class="content">
+                <h2 style="font-size: 30px; margin-bottom: 10px;">L'HORIZON EST VASTE 🌍</h2>
+                <p class="subtitle" style="font-size: 14px; margin-bottom: 18px;">Et il existe aussi...</p>
+
+                <p style="text-align: center; font-size: 12px; margin-bottom: 20px; font-style: italic; color: #9f3d3f;">
+                    Le monde de la mobilité est riche ! D'autres dispositifs existent,<br>mais nous n'accompagnons pas directement sur ceux-ci :
+                </p>
+
+                <div class="grid-3" style="gap: 20px;">
+                    <div class="program-card pvt" style="padding: 18px;">
+                        <div class="program-icon" style="width: 45px; height: 45px; font-size: 24px; margin-bottom: 10px;">🏡</div>
+                        <div class="program-title" style="font-size: 16px; margin-bottom: 8px;">Au Pair</div>
+                        <div class="program-desc" style="font-size: 12px; margin-bottom: 10px;">Vivre dans une famille en échange de la garde d'enfants.</div>
+                        <div class="program-details" style="gap: 5px; font-size: 11px;">
+                            <div class="detail-item">
+                                <div class="detail-icon" style="width: 16px; height: 16px; font-size: 10px;">⏱️</div>
+                                <span>6-12 mois</span>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon" style="width: 16px; height: 16px; font-size: 10px;">🏠</div>
+                                <span>Logé + nourri</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="program-card vert" style="padding: 18px;">
+                        <div class="program-icon" style="width: 45px; height: 45px; font-size: 24px; margin-bottom: 10px;">🌱</div>
+                        <div class="program-title" style="font-size: 16px; margin-bottom: 8px;">Woofing, Work Away...</div>
+                        <div class="program-desc" style="font-size: 12px; margin-bottom: 10px;">Volontariat dans des fermes ou chez l'habitant.</div>
+                        <div class="program-details" style="gap: 5px; font-size: 11px;">
+                            <div class="detail-item">
+                                <div class="detail-icon" style="width: 16px; height: 16px; font-size: 10px;">⏱️</div>
+                                <span>Flexible</span>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon" style="width: 16px; height: 16px; font-size: 10px;">🌍</div>
+                                <span>Mondial</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="program-card bleu" style="padding: 18px;">
+                        <div class="program-icon" style="width: 45px; height: 45px; font-size: 24px; margin-bottom: 10px;">🍁</div>
+                        <div class="program-title" style="font-size: 16px; margin-bottom: 8px;">OFQJ</div>
+                        <div class="program-desc" style="font-size: 12px; margin-bottom: 10px;">L'Office Franco-Québécois pour la Jeunesse.</div>
+                        <div class="program-details" style="gap: 5px; font-size: 11px;">
+                            <div class="detail-item">
+                                <div class="detail-icon" style="width: 16px; height: 16px; font-size: 10px;">🌍</div>
+                                <span>Québec/Canada</span>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon" style="width: 16px; height: 16px; font-size: 10px;">💼</div>
+                                <span>18-35 ans</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 25px; text-align: center; background: linear-gradient(135deg, #9f3d3f, #d60b52); color: white; padding: 20px; border-radius: 15px; border: 3px solid var(--color-noir);">
+                    <h3 style="font-size: 20px; margin-bottom: 10px; color: white;">Votre histoire n'attend que vous 📖</h3>
+                    <p style="font-size: 13px; line-height: 1.5; margin: 0;">
+                        Chaque parcours est unique. Que vous cherchiez à vous engager, à apprendre un métier ou à rencontrer le monde, <strong>une expérience vous attend.</strong><br>
+                        <span style="font-size: 16px; margin-top: 8px; display: inline-block;">✨ Laquelle choisirez-vous d'écrire ? ✨</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 8 - LE FINANCEMENT -->
+        <div class="slide">
+            <div class="content">
+                <h2 style="font-size: 34px; margin-bottom: 12px;">LE FINANCEMENT DÉCRYPTÉ</h2>
+                <p class="subtitle" style="font-size: 16px; margin-bottom: 15px;">Qui paie quoi ?</p>
+
+                <table class="comparison-table" style="font-size: 10px; margin-top: 15px;">
+                    <thead>
+                        <tr>
+                            <th style="padding: 6px; font-size: 10px;"></th>
+                            <th style="padding: 6px; font-size: 10px;">Échanges / Volontariat</th>
+                            <th style="padding: 6px; font-size: 10px;">CES Individuel</th>
+                            <th style="padding: 6px; font-size: 10px;">Service Civique</th>
+                            <th style="padding: 6px; font-size: 10px;">Stages</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 5px;"><strong>✈️ Transport</strong></td>
+                            <td style="background: rgba(149,193,31,0.2); padding: 5px;">✓</td>
+                            <td style="background: rgba(149,193,31,0.2); padding: 5px;">✓</td>
+                            <td style="background: rgba(243,146,0,0.2); padding: 5px;">€</td>
+                            <td style="background: rgba(149,193,31,0.2); padding: 5px;">✓</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 5px;"><strong>🏠 Logement</strong></td>
+                            <td style="background: rgba(149,193,31,0.2); padding: 5px;">✓</td>
+                            <td style="background: rgba(149,193,31,0.2); padding: 5px;">✓</td>
+                            <td style="background: rgba(243,146,0,0.2); padding: 5px;">€</td>
+                            <td style="background: rgba(149,193,31,0.2); padding: 5px;">✓</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 5px;"><strong>🍽️ Nourriture</strong></td>
+                            <td style="background: rgba(149,193,31,0.2); padding: 5px;">✓</td>
+                            <td style="background: rgba(149,193,31,0.2); padding: 5px;">✓</td>
+                            <td style="background: rgba(243,146,0,0.2); padding: 5px;">€</td>
+                            <td style="background: rgba(243,146,0,0.2); padding: 5px;">€</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 5px;"><strong>💰 Argent</strong></td>
+                            <td style="background: rgba(149,193,31,0.2); padding: 5px;">✓ Pécule</td>
+                            <td style="background: rgba(149,193,31,0.2); padding: 5px;">✓ Poche</td>
+                            <td style="background: rgba(243,146,0,0.2); padding: 5px;">€ ~550€</td>
+                            <td style="background: rgba(149,193,31,0.2); padding: 5px;">✓ Bourse</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 5px;"><strong>📝 Inscription</strong></td>
+                            <td style="background: rgba(243,146,0,0.2); padding: 5px;">~50€</td>
+                            <td style="background: rgba(243,146,0,0.2); padding: 5px;">~50€</td>
+                            <td style="padding: 5px;">-</td>
+                            <td style="background: rgba(243,146,0,0.2); padding: 5px;">~50€</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 5px;"><strong>🤝 CEJ/PACEA</strong></td>
+                            <td style="background: rgba(149,193,31,0.2); padding: 5px;">↔️</td>
+                            <td style="background: rgba(149,193,31,0.2); padding: 5px;">↔️</td>
+                            <td style="background: rgba(243,146,0,0.2); padding: 5px;">⚠️</td>
+                            <td style="background: rgba(149,193,31,0.2); padding: 5px;">↔️</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 5px;"><strong>💼 ARE</strong></td>
+                            <td style="background: rgba(243,146,0,0.2); padding: 5px;">↔️</td>
+                            <td style="background: rgba(243,146,0,0.2); padding: 5px;">⚠️</td>
+                            <td style="background: rgba(243,146,0,0.2); padding: 5px;">⚠️</td>
+                            <td style="background: rgba(149,193,31,0.2); padding: 5px;">↔️</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="icon-grid" style="margin-top: 20px; gap: 10px;">
+                    <div class="icon-item" style="padding: 10px;">
+                        <div class="icon-circle" style="background: rgba(149,193,31,0.2); color: var(--color-vert); width: 50px; height: 50px; font-size: 24px;">✓</div>
+                        <div class="icon-text" style="font-size: 11px;">Pris en charge</div>
+                    </div>
+                    <div class="icon-item" style="padding: 10px;">
+                        <div class="icon-circle" style="background: rgba(243,146,0,0.2); color: var(--color-orange); width: 50px; height: 50px; font-size: 24px;">€</div>
+                        <div class="icon-text" style="font-size: 11px;">À votre charge</div>
+                    </div>
+                    <div class="icon-item" style="padding: 10px;">
+                        <div class="icon-circle" style="background: rgba(243,146,0,0.2); color: var(--color-rouge); width: 50px; height: 50px; font-size: 24px;">⚠️</div>
+                        <div class="icon-text" style="font-size: 11px;">Suspendu</div>
+                    </div>
+                    <div class="icon-item" style="padding: 10px;">
+                        <div class="icon-circle" style="background: rgba(149,193,31,0.2); color: var(--color-bleu); width: 50px; height: 50px; font-size: 24px;">↔️</div>
+                        <div class="icon-text" style="font-size: 11px;">Maintenu</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 9 - PRÊT À POSTULER -->
+        <div class="slide">
+            <div class="content">
+                <h2>PRÊT(E) À POSTULER ?</h2>
+                <p class="subtitle">Votre plan d'action</p>
+
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-number">1</div>
+                        <div class="timeline-title">La Recherche</div>
+                        <div class="timeline-content">
+                            <strong>Action :</strong> Trouver l'annonce qui vous fait vibrer.<br>
+                            <strong>Outil principal :</strong> Le Portail Européen de la Jeunesse (youth.europa). C'est LA référence.<br>
+                            <strong>Conseil :</strong> "Premiers arrivés, premiers servis !" Ne tardez pas à explorer.
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-number">2</div>
+                        <div class="timeline-title">Le Dossier</div>
+                        <div class="timeline-content">
+                            <strong>Action :</strong> Créer votre dossier de candidature.<br>
+                            <strong>Contenu :</strong> CV et Lettre de motivation (souvent en Anglais) ou questionnaire à remplir.<br>
+                            <strong>Rappel :</strong> Mettez en avant votre <strong>motivation</strong> ! C'est ce qui compte le plus.
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-number">3</div>
+                        <div class="timeline-title">La Sélection</div>
+                        <div class="timeline-content">
+                            <strong>Action :</strong> Passer l'entretien de sélection.<br>
+                            <strong>Communication :</strong> Informez-nous de votre avancée ! Envoyez un mail à l'organisation et tenez-nous au courant.
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-number">4</div>
+                        <div class="timeline-title">L'Administration</div>
+                        <div class="timeline-content">
+                            <strong>Action :</strong> Finaliser les formalités avant le départ.
+                            <ul style="margin-top: 10px; margin-left: 20px;">
+                                <li>Créer son espace personnel pour obtenir son numéro de participant au Corps Européen de Solidarité</li>
+                                <li>Signer les conventions (avec Pistes Solidaires, région, organisation hôte)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 10 - CHECK-LIST AVANT LE DÉPART -->
+        <div class="slide">
+            <div class="content">
+                <h2 style="font-size: 34px; margin-bottom: 12px;">LA CHECK-LIST AVANT LE DÉPART</h2>
+                <p class="subtitle" style="font-size: 16px; margin-bottom: 20px;">L'aventure est proche ! Quelques points essentiels.</p>
+
+                <div class="grid-2" style="gap: 15px; margin-top: 20px;">
+                    <div class="checklist" style="gap: 8px; margin-top: 0;">
+                        <div class="check-item" style="padding: 10px; gap: 10px;">
+                            <div class="check-icon" style="width: 24px; height: 24px; font-size: 14px;">🆔</div>
+                            <div class="check-text" style="font-size: 12px;"><strong>Papiers d'Identité :</strong> Vérifiez la validité de votre CNI ou Passeport.</div>
+                        </div>
+                        <div class="check-item" style="padding: 10px; gap: 10px;">
+                            <div class="check-icon" style="width: 24px; height: 24px; font-size: 14px;">🏥</div>
+                            <div class="check-text" style="font-size: 12px;"><strong>Santé :</strong> Demandez votre CEAM. C'est gratuit et indispensable.</div>
+                        </div>
+                        <div class="check-item" style="padding: 10px; gap: 10px;">
+                            <div class="check-icon" style="width: 24px; height: 24px; font-size: 14px;">✈️</div>
+                            <div class="check-text" style="font-size: 12px;"><strong>Transport :</strong> Achetez votre billet d'avion / train / bus.</div>
+                        </div>
+                        <div class="check-item" style="padding: 10px; gap: 10px;">
+                            <div class="check-icon" style="width: 24px; height: 24px; font-size: 14px;">💬</div>
+                            <div class="check-text" style="font-size: 12px;"><strong>Préparation :</strong> Participez à l'entretien de préparation. Anticipez le choc culturel !</div>
+                        </div>
+                    </div>
+
+                    <div class="checklist" style="gap: 8px; margin-top: 0;">
+                        <div class="check-item" style="padding: 10px; gap: 10px;">
+                            <div class="check-icon" style="width: 24px; height: 24px; font-size: 14px;">📱</div>
+                            <div class="check-text" style="font-size: 12px;"><strong>Communication :</strong> Vérifiez votre forfait mobile ou prenez une SIM locale.</div>
+                        </div>
+                        <div class="check-item" style="padding: 10px; gap: 10px;">
+                            <div class="check-icon" style="width: 24px; height: 24px; font-size: 14px;">💳</div>
+                            <div class="check-text" style="font-size: 12px;"><strong>Argent :</strong> Informez votre banque et vérifiez les frais à l'étranger.</div>
+                        </div>
+                        <div class="check-item" style="padding: 10px; gap: 10px;">
+                            <div class="check-icon" style="width: 24px; height: 24px; font-size: 14px;">📋</div>
+                            <div class="check-text" style="font-size: 12px;"><strong>Documents :</strong> Photocopiez vos documents et conservez-les séparément.</div>
+                        </div>
+                        <div class="check-item" style="padding: 10px; gap: 10px;">
+                            <div class="check-icon" style="width: 24px; height: 24px; font-size: 14px;">🎒</div>
+                            <div class="check-text" style="font-size: 12px;"><strong>Bagages :</strong> Préparez l'essentiel. Pensez aux adaptateurs !</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="highlight-box" style="margin-top: 20px; padding: 15px;">
+                    <h3 style="font-size: 18px; margin-bottom: 8px;">💡 Astuce Mission Locale</h3>
+                    <p style="font-size: 12px; line-height: 1.4; margin: 0;">N'hésitez pas à nous contacter pour toute question sur votre départ. Nous sommes là pour vous accompagner jusqu'au bout !</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 11 - UNE QUESTION ? CONTACTEZ PISTES SOLIDAIRES -->
+        <div class="slide" style="background: linear-gradient(135deg, #F5E6D3 0%, #E8F4F8 100%);">
+            <div class="content">
+                <h2 style="font-size: 30px; margin-bottom: 10px; text-align: center;">UNE QUESTION ? ENVIE DE VOUS LANCER ?</h2>
+                <p class="subtitle" style="font-size: 15px; margin-bottom: 25px; text-align: center; color: var(--color-orange); font-weight: 700;">Contactez Pistes Solidaires 🤝</p>
+
+                <div class="grid-2" style="gap: 25px; align-items: center;">
+                    <!-- IMAGE PLACEHOLDER -->
+                    <div style="background: linear-gradient(135deg, #2897d5, #95c11f); padding: 60px; border-radius: 20px; border: 4px solid var(--color-noir); display: flex; align-items: center; justify-content: center; min-height: 250px;">
+                        <div style="text-align: center; color: white;">
+                            <div style="font-size: 65px; margin-bottom: 12px;">🌍</div>
+                            <div style="font-size: 24px; font-weight: 900; text-shadow: 2px 2px 4px rgba(0,0,0,0.2);">Votre Aventure<br>Commence Ici</div>
+                        </div>
+                    </div>
+
+                    <!-- INFORMATIONS DE CONTACT -->
+                    <div>
+                        <div style="background: white; padding: 22px; border-radius: 15px; border: 3px solid var(--color-noir); box-shadow: 6px 6px 0 rgba(0,0,0,0.1);">
+                            <h3 style="font-size: 26px; font-weight: 900; margin-bottom: 18px; color: var(--color-noir);">Pistes Solidaires</h3>
+                            
+                            <div style="display: flex; flex-direction: column; gap: 15px;">
+                                <!-- EMAIL -->
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <div style="width: 42px; height: 42px; background: var(--color-orange); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; border: 3px solid var(--color-noir); flex-shrink: 0;">✉️</div>
+                                    <div>
+                                        <div style="font-size: 10px; text-transform: uppercase; font-weight: 700; color: #999; margin-bottom: 2px;">Email</div>
+                                        <div style="font-size: 13px; font-weight: 600; color: var(--color-noir);">mobilite@pistes-solidaires.fr</div>
+                                    </div>
+                                </div>
+
+                                <!-- TÉLÉPHONE -->
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <div style="width: 42px; height: 42px; background: var(--color-vert); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; border: 3px solid var(--color-noir); flex-shrink: 0;">📞</div>
+                                    <div>
+                                        <div style="font-size: 10px; text-transform: uppercase; font-weight: 700; color: #999; margin-bottom: 2px;">Téléphone</div>
+                                        <div style="font-size: 13px; font-weight: 600; color: var(--color-noir);">+33 5 59 81 21 86</div>
+                                    </div>
+                                </div>
+
+                                <!-- SITE WEB -->
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <div style="width: 42px; height: 42px; background: var(--color-bleu); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; border: 3px solid var(--color-noir); flex-shrink: 0;">🌐</div>
+                                    <div>
+                                        <div style="font-size: 10px; text-transform: uppercase; font-weight: 700; color: #999; margin-bottom: 2px;">Site web</div>
+                                        <div style="font-size: 13px; font-weight: 600; color: var(--color-noir);">pistes-solidaires.fr</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 18px; background: linear-gradient(135deg, var(--color-rose), var(--color-violet)); color: white; padding: 15px; border-radius: 15px; border: 3px solid var(--color-noir); box-shadow: 4px 4px 0 rgba(0,0,0,0.1); text-align: center;">
+                            <p style="font-size: 13px; font-weight: 700; margin: 0; line-height: 1.4;">
+                                💬 <strong>Prenez rendez-vous</strong> pour discuter de votre projet.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 25px; text-align: center; background: var(--color-orange); color: white; padding: 18px; border-radius: 15px; border: 4px solid var(--color-noir); box-shadow: 6px 6px 0 rgba(0,0,0,0.1);">
+                    <p style="font-size: 17px; font-weight: 900; margin: 0;">
+                        🌟 Votre aventure internationale commence par un simple message ! 🚀
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- NAVIGATION CONTROLS -->
+    <div class="slide-counter">
+        <span id="currentSlide">1</span> / <span id="totalSlides">11</span>
+    </div>
+
+    <div class="nav-controls">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">←</button>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">→</button>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        let totalSlides = 0;
+
+        // Fonctions globales accessibles par onclick
+        function changeSlide(n) {
+            currentSlide += n;
+            showSlide(currentSlide);
+        }
+
+        function updateProgressBar() {
+            const progressBar = document.getElementById('progressBar');
+            if (progressBar) {
+                const progress = (currentSlide / totalSlides) * 100;
+                progressBar.style.width = progress + '%';
+            }
+        }
+
+        function showSlide(n) {
+            const slides = document.querySelectorAll('.slide');
+            
+            if (n > totalSlides) {
+                currentSlide = 1;
+            }
+            if (n < 1) {
+                currentSlide = totalSlides;
+            }
+            
+            slides.forEach(slide => {
+                slide.classList.remove('active');
+            });
+            
+            if (slides[currentSlide - 1]) {
+                slides[currentSlide - 1].classList.add('active');
+            }
+            
+            const currentSlideElement = document.getElementById('currentSlide');
+            if (currentSlideElement) {
+                currentSlideElement.textContent = currentSlide;
+            }
+            
+            updateProgressBar();
+            window.scrollTo(0, 0);
+            
+            // Confetti only on first slide
+            if (currentSlide === 1) {
+                createConfetti();
+            }
+        }
+
+        function createConfetti() {
+            const colors = ['#f39200', '#95c11f', '#2897d5', '#d60b52', '#a3195b'];
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.position = 'fixed';
+                confetti.style.width = '10px';
+                confetti.style.height = '10px';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = Math.random() * window.innerWidth + 'px';
+                confetti.style.top = '-10px';
+                confetti.style.opacity = '1';
+                confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                confetti.style.zIndex = '10000';
+                confetti.style.pointerEvents = 'none';
+                document.body.appendChild(confetti);
+                
+                const duration = Math.random() * 3 + 2;
+                const angle = Math.random() * 360;
+                
+                confetti.animate([
+                    { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
+                    { transform: `translateY(${window.innerHeight}px) rotate(${angle}deg)`, opacity: 0 }
+                ], {
+                    duration: duration * 1000,
+                    easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                });
+                
+                setTimeout(() => {
+                    try {
+                        if (confetti && confetti.parentNode) {
+                            confetti.remove();
+                        }
+                    } catch(e) {}
+                }, duration * 1000);
+            }
+        }
+
+        // Initialisation au chargement
+        document.addEventListener('DOMContentLoaded', function() {
+            totalSlides = document.querySelectorAll('.slide').length;
+            
+            const totalSlidesElement = document.getElementById('totalSlides');
+            if (totalSlidesElement) {
+                totalSlidesElement.textContent = totalSlides;
+            }
+
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft') {
+                    changeSlide(-1);
+                } else if (e.key === 'ArrowRight') {
+                    changeSlide(1);
+                }
+            });
+
+            // Visual feedback for clicks
+            const cards = document.querySelectorAll('.program-card, .step-card');
+            cards.forEach(card => {
+                card.addEventListener('click', () => {
+                    card.style.animation = 'shake 0.3s';
+                    setTimeout(() => {
+                        card.style.animation = '';
+                    }, 300);
+                });
+            });
+
+            // Show first slide
+            showSlide(currentSlide);
+        });
+    </script>
+</body>
+</html>
