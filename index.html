@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Webinaire Mobilité - MLPB</title>
@@ -127,12 +126,21 @@
             width: 100%;
         }
 
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            width: 100%;
+        }
+
         h1 {
             font-size: 56px;
             font-weight: 900;
             text-transform: uppercase;
             letter-spacing: -2px;
             margin-bottom: 20px;
+            text-align: center;
         }
 
         h3 {
@@ -140,628 +148,693 @@
             font-weight: 700;
             margin-bottom: 12px;
         }
-    </style>
 
+        /* Modale BAGAGES */
+        .modal-bagages {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        .modal-bagages.active {
+            display: flex;
+        }
+
+        .modal-content-bagages {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            max-width: 1000px;
+            max-height: 90vh;
+            overflow: auto;
+            position: relative;
+        }
+
+        .modal-content-bagages img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        a {
+            color: inherit;
+        }
+    </style>
 </head>
 <body>
-    <div class="progress-bar" id="progressBar"></div>
-    
-    <div class="presentation">
-<div class="slide active">
-    <h1 style="color: var(--color-orange);">🎯 Objectifs du webinaire</h1>
-    <div class="grid grid-2">
-        <div class="card" style="border-left: 8px solid var(--color-bleu);">
-            <div style="font-size: 48px; margin-bottom: 12px;">🌍</div>
-            <h3 style="color: var(--color-bleu);">Comprendre les options de mobilité</h3>
-            <p>Découvrir les différents types de programmes disponibles</p>
-        </div>
-        <div class="card" style="border-left: 8px solid var(--color-vert);">
-            <div style="font-size: 48px; margin-bottom: 12px;">📋</div>
-            <h3 style="color: var(--color-vert);">Découvrir les programmes existants</h3>
-            <p>Explorer 45 offres concrètes dans 15+ pays</p>
-        </div>
-        <div class="card" style="border-left: 8px solid var(--color-orange);">
-            <div style="font-size: 48px; margin-bottom: 12px;">🧭</div>
-            <h3 style="color: var(--color-orange);">Identifier ton profil mobilité</h3>
-            <p>Trouver le programme qui te correspond</p>
-        </div>
-        <div class="card" style="border-left: 8px solid var(--color-rose);">
-            <div style="font-size: 48px; margin-bottom: 12px;">✅</div>
-            <h3 style="color: var(--color-rose);">Repartir avec un plan d'action</h3>
-            <p>Avoir des étapes concrètes pour démarrer</p>
+<div class="progress-bar" id="progressBar"></div>
+
+<div class="presentation">
+
+    <!-- SLIDE 1 : Objectifs -->
+    <div class="slide active">
+        <h1 style="color: var(--color-orange);">🎯 Objectifs du webinaire</h1>
+        <div class="grid-2">
+            <div class="card" style="border-left: 8px solid var(--color-bleu);">
+                <div style="font-size: 48px; margin-bottom: 12px;">🌍</div>
+                <h3 style="color: var(--color-bleu);">Comprendre les options de mobilité</h3>
+                <p>Découvrir les différents types de programmes disponibles</p>
+            </div>
+            <div class="card" style="border-left: 8px solid var(--color-vert);">
+                <div style="font-size: 48px; margin-bottom: 12px;">📋</div>
+                <h3 style="color: var(--color-vert);">Découvrir les programmes existants</h3>
+                <p>Explorer 45 offres concrètes dans 15+ pays</p>
+            </div>
+            <div class="card" style="border-left: 8px solid var(--color-orange);">
+                <div style="font-size: 48px; margin-bottom: 12px;">🧭</div>
+                <h3 style="color: var(--color-orange);">Identifier ton profil mobilité</h3>
+                <p>Trouver le programme qui te correspond</p>
+            </div>
+            <div class="card" style="border-left: 8px solid var(--color-rose);">
+                <div style="font-size: 48px; margin-bottom: 12px;">✅</div>
+                <h3 style="color: var(--color-rose);">Repartir avec un plan d'action</h3>
+                <p>Avoir des étapes concrètes pour démarrer</p>
+            </div>
         </div>
     </div>
-    
-</div>
-<div class="slide" style="background: linear-gradient(135deg, var(--color-orange), var(--color-rose)); justify-content: center;">
-    <h1 style="color: white; text-align: center; font-size: 52px; margin-bottom: 30px;">🎯 AUTO-POSITIONNEMENT</h1>
-    <p style="color: white; text-align: center; font-size: 24px; margin-bottom: 50px;">Où en es-tu avec la mobilité internationale ?</p>
-    
-    <div style="background: white; border-radius: 20px; padding: 40px; max-width: 900px; overflow-y: auto; max-height: 70vh;">
-        <div style="display: flex; flex-direction: column; gap: 30px;">
-            
-            <!-- Q1 -->
-            <div>
-                <h3 style="color: var(--color-bleu); font-size: 20px; margin-bottom: 15px;">Q1 – Quand tu as un imprévu dans ta journée, tu réagis comment ?</h3>
-                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-                    <div style="background: #e8f5e9; padding: 12px 20px; border-radius: 10px; border: 2px solid var(--color-vert);">👍 Je me débrouille</div>
-                    <div style="background: #fff3e0; padding: 12px 20px; border-radius: 10px; border: 2px solid var(--color-orange);">😐 Parfois oui, parfois non</div>
-                    <div style="background: #ffebee; padding: 12px 20px; border-radius: 10px; border: 2px solid var(--color-rose);">😕 C'est compliqué pour moi</div>
+
+    <!-- SLIDE 2 : Auto-positionnement -->
+    <div class="slide" style="background: linear-gradient(135deg, var(--color-orange), var(--color-rose)); justify-content: center;">
+        <h1 style="color: white; font-size: 52px; margin-bottom: 30px;">🎯 AUTO-POSITIONNEMENT</h1>
+        <p style="color: white; font-size: 24px; margin-bottom: 50px;">Où en es-tu avec la mobilité internationale ?</p>
+
+        <div style="background: white; border-radius: 20px; padding: 40px; max-width: 900px; overflow-y: auto; max-height: 70vh;">
+            <div style="display: flex; flex-direction: column; gap: 30px;">
+
+                <!-- Q1 -->
+                <div>
+                    <h3 style="color: var(--color-bleu); font-size: 20px; margin-bottom: 15px;">Q1 – Quand tu as un imprévu dans ta journée, tu réagis comment ?</h3>
+                    <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                        <div style="background: #e8f5e9; padding: 12px 20px; border-radius: 10px; border: 2px solid var(--color-vert);">👍 Je me débrouille</div>
+                        <div style="background: #fff3e0; padding: 12px 20px; border-radius: 10px; border: 2px solid var(--color-orange);">😐 Parfois oui, parfois non</div>
+                        <div style="background: #ffebee; padding: 12px 20px; border-radius: 10px; border: 2px solid var(--color-rose);">😕 C'est compliqué pour moi</div>
+                    </div>
+                </div>
+
+                <!-- Q2 -->
+                <div>
+                    <h3 style="color: var(--color-vert); font-size: 20px; margin-bottom: 15px;">Q2 – Rencontrer des jeunes d'autres pays / cultures, ça te ferait quoi ?</h3>
+                    <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                        <div style="background: #e8f5e9; padding: 12px 20px; border-radius: 10px; border: 2px solid var(--color-vert);">😄 Je serais partant(e)</div>
+                        <div style="background: #fff3e0; padding: 12px 20px; border-radius: 10px; border: 2px solid var(--color-orange);">🤔 J'hésiterais</div>
+                        <div style="background: #ffebee; padding: 12px 20px; border-radius: 10px; border: 2px solid var(--color-rose);">😬 Ça me stresserait</div>
+                    </div>
+                </div>
+
+                <!-- Q3 -->
+                <div>
+                    <h3 style="color: var(--color-orange); font-size: 20px; margin-bottom: 15px;">Q3 – Si tu dois parler anglais/espagnol, tu te sens où ?</h3>
+                    <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                        <div style="background: #e8f5e9; padding: 12px 20px; border-radius: 10px; border: 2px solid var(--color-vert);">🗣️ Je peux parler un peu</div>
+                        <div style="background: #fff3e0; padding: 12px 20px; border-radius: 10px; border: 2px solid var(--color-orange);">🙂 Je comprends quelques mots</div>
+                        <div style="background: #ffebee; padding: 12px 20px; border-radius: 10px; border: 2px solid var(--color-rose);">📚 Je débute complètement</div>
+                    </div>
+                </div>
+
+                <!-- Q4 -->
+                <div>
+                    <h3 style="color: var(--color-bleu); font-size: 20px; margin-bottom: 15px;">Q4 – Être loin de ta famille / tes potes, tu gères ?</h3>
+                    <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                        <div style="background: #e8f5e9; padding: 12px 20px; border-radius: 10px; border: 2px solid var(--color-vert);">😎 Oui, pas de souci</div>
+                        <div style="background: #fff3e0; padding: 12px 20px; border-radius: 10px; border: 2px solid var(--color-orange);">😐 Ça dépend de la durée</div>
+                        <div style="background: #ffebee; padding: 12px 20px; border-radius: 10px; border: 2px solid var(--color-rose);">😢 Ce serait difficile</div>
+                    </div>
+                </div>
+
+                <!-- Q5 -->
+                <div>
+                    <h3 style="color: var(--color-violet); font-size: 20px; margin-bottom: 15px;">Q5 – Tu sais déjà ce que tu voudrais faire à l'étranger ?</h3>
+                    <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                        <div style="background: #e8f5e9; padding: 12px 20px; border-radius: 10px; border: 2px solid var(--color-vert);">🎯 Oui, c'est clair</div>
+                        <div style="background: #fff3e0; padding: 12px 20px; border-radius: 10px; border: 2px solid var(--color-orange);">💡 J'ai des idées floues</div>
+                        <div style="background: #ffebee; padding: 12px 20px; border-radius: 10px; border: 2px solid var(--color-rose);">❓ Pas trouvé encore</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <p style="color: white; text-align: center; font-size: 18px; margin-top: 30px;">💬 Partagez vos réponses dans le chat Teams !</p>
+    </div>
+
+    <!-- SLIDE 3 : Qu'est-ce que la mobilité ? -->
+    <div class="slide">
+        <h1 style="color: var(--color-bleu);">💡 Qu'est-ce que la mobilité internationale ?</h1>
+        <div style="background: linear-gradient(135deg, var(--color-bleu), var(--color-vert)); padding: 35px; border-radius: 20px; color: white; margin: 24px 0;">
+            <h2 style="color: white; font-size: 26px;">Une expérience à l'étranger</h2>
+            <p style="font-size: 18px; line-height: 1.7;">Partir dans un autre pays pour découvrir une nouvelle culture, développer des compétences et vivre une aventure humaine enrichissante.</p>
+        </div>
+        <div class="grid-2">
+            <div class="card" style="border-top: 6px solid var(--color-vert);">
+                <h3 style="color: var(--color-vert);">🌟 Bénéfices personnels</h3>
+                <p>Autonomie • Confiance • Découverte culturelle • Amitiés internationales • Aventure • Ouverture d'esprit</p>
+            </div>
+            <div class="card" style="border-top: 6px solid var(--color-orange);">
+                <h3 style="color: var(--color-orange);">💼 Bénéfices professionnels</h3>
+                <p>Langues • Compétences transversales • CV enrichi • Différenciation employeurs • Réseau international</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 4 : Programmes courts -->
+    <div class="slide">
+        <h1 style="color: var(--color-orange);">👥 Programmes courts collectifs</h1>
+        <div class="grid-2">
+            <div class="card" style="border: 4px solid var(--color-bleu);">
+                <div style="font-size: 48px; text-align: center;">🗣️</div>
+                <h2 style="color: var(--color-bleu); text-align: center; font-size: 22px;">Échange de Jeunes Erasmus+</h2>
+                <p style="margin-top: 16px;"><strong>👤</strong> 18-30 ans • <strong>⏱️</strong> 5-21 jours • <strong>👥</strong> 5-6 jeunes • <strong>💰</strong> ~50€</p>
+            </div>
+            <div class="card" style="border: 4px solid var(--color-vert);">
+                <div style="font-size: 48px; text-align: center;">🤝</div>
+                <h2 style="color: var(--color-vert); text-align: center; font-size: 22px;">Équipes Volontaires CES</h2>
+                <p style="margin-top: 16px;"><strong>👤</strong> 18-30 ans • <strong>⏱️</strong> Jusqu'à 2 mois • <strong>👥</strong> 6-40 jeunes • <strong>💰</strong> ~50€</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 5 : Programmes longs + BAGAGES -->
+    <div class="slide">
+        <h1 style="color: var(--color-rose);">✈️ Programmes longs individuels</h1>
+        <div class="grid-3" style="margin-top:24px;">
+            <a href="https://youth.europa.eu/home_fr" target="_blank" class="card" style="border-left: 6px solid var(--color-bleu); text-decoration:none;">
+                <h3 style="color: var(--color-bleu);">CES Court Terme</h3>
+                <p><strong>⏱️</strong> 10 jours - 2 mois<br><strong>🎯</strong> Suivi par tuteur<br><strong>✅</strong> Tester une première immersion</p>
+            </a>
+            <a href="https://youth.europa.eu/home_fr" target="_blank" class="card" style="border-left: 6px solid var(--color-vert); text-decoration:none;">
+                <h3 style="color: var(--color-vert);">CES Long Terme</h3>
+                <p><strong>⏱️</strong> 2-12 mois<br><strong>🎯</strong> Plateforme linguistique en ligne<br><strong>✅</strong> Immersion longue</p>
+            </a>
+            <div class="card" style="border-left: 10px solid var(--color-orange); padding: 28px; cursor: pointer; transition: all 0.3s;"
+                 onclick="openBagagesModal()"
+                 onmouseover="this.style.transform='translate(5px, -5px)'; this.style.boxShadow='-10px 10px 0 var(--color-orange)';"
+                 onmouseout="this.style.transform=''; this.style.boxShadow='';">
+                <div style="font-size: 48px; margin-bottom: 15px;">🎒</div>
+                <h3 style="color: var(--color-orange); font-size: 24px; margin-bottom: 12px;">Stages BAGAGES</h3>
+                <p style="font-size: 15px; margin: 12px 0; line-height: 1.5;">Stage professionnel de 3 ou 6 mois en Europe pour les 18-30 ans.</p>
+                <div style="margin-top: 18px; display: flex; flex-direction: column; gap: 11px; font-size: 14px;">
+                    <div><strong>⏱️</strong> 3 à 6 mois</div>
+                    <div><strong>👤</strong> Jeunes de Nouvelle-Aquitaine</div>
+                    <div><strong>🏢</strong> Inscrit à France Travail ou Mission Locale</div>
+                    <div><strong>💰</strong> Voyage, séjour et gestion couverts par une bourse</div>
+                </div>
+                <div style="background: var(--color-orange); color: white; padding: 12px; border-radius: 8px; text-align: center; margin-top: 20px; font-weight: 700; font-size: 15px;">
+                    👁️ Cliquez pour voir l'infographie complète
                 </div>
             </div>
-            
-            <!-- Q2 -->
-            <div>
-                <h3 style="color: var(--color-vert); font-size: 20px; margin-bottom: 15px;">Q2 – Rencontrer des jeunes d'autres pays / cultures, ça te ferait quoi ?</h3>
-                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-                    <div style="background: #e8f5e9; padding: 12px 20px; border-radius: 10px; border: 2px solid var(--color-vert);">😄 Je serais partant(e)</div>
-                    <div style="background: #fff3e0; padding: 12px 20px; border-radius: 10px; border: 2px solid var(--color-orange);">🤔 J'hésiterais</div>
-                    <div style="background: #ffebee; padding: 12px 20px; border-radius: 10px; border: 2px solid var(--color-rose);">😬 Ça me stresserait</div>
-                </div>
-            </div>
-            
-            <!-- Q3 -->
-            <div>
-                <h3 style="color: var(--color-orange); font-size: 20px; margin-bottom: 15px;">Q3 – Si tu dois parler anglais/espagnol, tu te sens où ?</h3>
-                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-                    <div style="background: #e8f5e9; padding: 12px 20px; border-radius: 10px; border: 2px solid var(--color-vert);">🗣️ Je peux parler un peu</div>
-                    <div style="background: #fff3e0; padding: 12px 20px; border-radius: 10px; border: 2px solid var(--color-orange);">🙂 Je comprends quelques mots</div>
-                    <div style="background: #ffebee; padding: 12px 20px; border-radius: 10px; border: 2px solid var(--color-rose);">📚 Je débute complètement</div>
-                </div>
-            </div>
-            
-            <!-- Q4 -->
-            <div>
-                <h3 style="color: var(--color-bleu); font-size: 20px; margin-bottom: 15px;">Q4 – Être loin de ta famille / tes potes, tu gères ?</h3>
-                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-                    <div style="background: #e8f5e9; padding: 12px 20px; border-radius: 10px; border: 2px solid var(--color-vert);">😎 Oui, pas de souci</div>
-                    <div style="background: #fff3e0; padding: 12px 20px; border-radius: 10px; border: 2px solid var(--color-orange);">😐 Ça dépend de la durée</div>
-                    <div style="background: #ffebee; padding: 12px 20px; border-radius: 10px; border: 2px solid var(--color-rose);">😢 Ce serait difficile</div>
-                </div>
-            </div>
-            
-            <!-- Q5 -->
-            <div>
-                <h3 style="color: var(--color-violet); font-size: 20px; margin-bottom: 15px;">Q5 – Tu sais déjà ce que tu voudrais faire à l'étranger ?</h3>
-                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-                    <div style="background: #e8f5e9; padding: 12px 20px; border-radius: 10px; border: 2px solid var(--color-vert);">🎯 Oui, c'est clair</div>
-                    <div style="background: #fff3e0; padding: 12px 20px; border-radius: 10px; border: 2px solid var(--color-orange);">💡 J'ai des idées floues</div>
-                    <div style="background: #ffebee; padding: 12px 20px; border-radius: 10px; border: 2px solid var(--color-rose);">❓ Pas trouvé encore</div>
-                </div>
-            </div>
-            
         </div>
     </div>
-    
-    <p style="color: white; text-align: center; font-size: 18px; margin-top: 30px;">💬 Partagez vos réponses dans le chat Teams !</p>
-</div>
 
-<div class="slide">
-    <h1 style="color: var(--color-bleu);">💡 Qu'est-ce que la mobilité internationale ?</h1>
-    <div style="background: linear-gradient(135deg, var(--color-bleu), var(--color-vert)); padding: 35px; border-radius: 20px; color: white; margin: 24px 0;">
-        <h2 style="color: white; font-size: 26px;">Une expérience à l'étranger</h2>
-        <p style="font-size: 18px; line-height: 1.7;">Partir dans un autre pays pour découvrir une nouvelle culture, développer des compétences et vivre une aventure humaine enrichissante.</p>
-    </div>
-    <div class="grid grid-2">
-        <div class="card" style="border-top: 6px solid var(--color-vert);">
-            <h3 style="color: var(--color-vert);">🌟 Bénéfices personnels</h3>
-            <p>Autonomie • Confiance • Découverte culturelle • Amitiés internationales • Aventure • Ouverture d'esprit</p>
-        </div>
-        <div class="card" style="border-top: 6px solid var(--color-orange);">
-            <h3 style="color: var(--color-orange);">💼 Bénéfices professionnels</h3>
-            <p>Langues • Compétences transversales • CV enrichi • Différenciation employeurs • Réseau international</p>
-        </div>
-    </div>
-    
-</div>
+    <!-- SLIDE 6 : PVT avec 1ère image -->
+    <div class="slide" style="justify-content: center;">
+        <h1 style="color: var(--color-vert); margin-bottom: 40px;">🌏 Programme Vacances-Travail (PVT)</h1>
 
-<div class="slide">
-    <h1 style="color: var(--color-orange);">👥 Programmes courts collectifs</h1>
-    <div class="grid grid-2">
-        <div class="card" style="border: 4px solid var(--color-bleu);">
-            <div style="font-size: 48px; text-align: center;">🗣️</div>
-            <h2 style="color: var(--color-bleu); text-align: center; font-size: 22px;">Échange de Jeunes Erasmus+</h2>
-            <p style="margin-top: 16px;"><strong>👤</strong> 18-30 ans • <strong>⏱️</strong> 5-21 jours • <strong>👥</strong> 5-6 jeunes • <strong>💰</strong> ~50€</p>
-        </div>
-        <div class="card" style="border: 4px solid var(--color-vert);">
-            <div style="font-size: 48px; text-align: center;">🤝</div>
-            <h2 style="color: var(--color-vert); text-align: center; font-size: 22px;">Équipes Volontaires CES</h2>
-            <p style="margin-top: 16px;"><strong>👤</strong> 18-30 ans • <strong>⏱️</strong> Jusqu'à 2 mois • <strong>👥</strong> 6-40 jeunes • <strong>💰</strong> ~50€</p>
+        <div style="max-width: 1100px; margin: 0 auto;">
+            <!-- 1ère image PVT -->
+            <img C:\Users\mathieub\Downloads\unnamed (9).png
+                 alt="Infographie Programme Vacances-Travail (PVT)"
+                 style="width: 100%; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.2);">
         </div>
     </div>
-    
-</div>
 
-<div class="slide">
-    <h1 style="color: var(--color-rose);">✈️ Programmes longs individuels</h1>
-    <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 24px;">
-        <div class="card" style="border-left: 6px solid var(--color-bleu);">
-            <h3 style="color: var(--color-bleu);"><a href="https://youth.europa.eu/home_fr" target="_blank" style="color: var(--color-bleu); text-decoration: none;">CES Court Terme</a></h3>
-            <p><strong>⏱️</strong> 10 jours - 2 mois • <strong>🎯</strong> Suivi par tuteur • <strong>✅</strong> Tester</p>
-        </div>
-        <div class="card" style="border-left: 6px solid var(--color-vert);">
-            <h3 style="color: var(--color-vert);"><a href="https://youth.europa.eu/home_fr" target="_blank" style="color: var(--color-vert); text-decoration: none;">CES Long Terme</a></h3>
-            <p><strong>⏱️</strong> 2-12 mois • <strong>🎯</strong> Plateforme linguistique • <strong>✅</strong> Immersion</p>
-        <div class="card" style="border-left: 10px solid var(--color-orange); padding: 28px; cursor: pointer; transition: all 0.3s;" onclick="openBagagesModal()" onmouseover="this.style.transform='translate(5px, -5px)'; this.style.boxShadow='-10px 10px 0 var(--color-orange)';" onmouseout="this.style.transform=''; this.style.boxShadow='';">
-            <div style="font-size: 48px; margin-bottom: 15px;">🎒</div>
-            <h3 style="color: var(--color-orange); font-size: 24px; margin-bottom: 12px;">Stages BAGAGES</h3>
-            <p style="font-size: 15px; margin: 12px 0; line-height: 1.5;">Stage professionnel de 3 ou 6 mois en Europe</p>
-            <div style="margin-top: 18px; display: flex; flex-direction: column; gap: 11px; font-size: 14px;">
-                <div><strong>⏱️</strong> 3 à 6 mois</div>
-                <div><strong>👤</strong> 18-30 ans de Nouvelle-Aquitaine</div>
-                <div><strong>🏢</strong> France Travail ou Mission Locale</div>
-                <div><strong>💰</strong> Financement : voyage + séjour + gestion</div>
-            </div>
-            <div style="background: var(--color-orange); color: white; padding: 12px; border-radius: 8px; text-align: center; margin-top: 20px; font-weight: 700; font-size: 15px;">
-                👁️ Cliquez pour voir l'infographie complète
-            </div>
-        </div>
-            <div style="background: var(--color-bleu); color: white; padding: 10px; border-radius: 8px; text-align: center; margin-top: 15px; font-weight: 700;">
-                👁️ Cliquez pour voir l'infographie complète
-            </div>
-        </div>
-
-
-<div class="slide" style="justify-content: center;">
-    <h1 style="color: var(--color-vert); text-align: center; margin-bottom: 40px;">🌏 Programme Vacances-Travail (PVT)</h1>
-    
-    <div style="max-width: 1100px; margin: 0 auto;">
-        <img src="https://claude.ai/api/3f903628-dae6-4d47-8173-fe3911887d5c/files/5cea4dff-33ea-4cba-83b4-841a9529c7d2/preview" alt="Programme Vacances-Travail PVT" style="width: 100%; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.2);">
-    </div>
-    
-    <div style="background: linear-gradient(135deg, var(--color-bleu), var(--color-vert)); padding: 25px 40px; border-radius: 16px; color: white; margin-top: 40px; text-align: center; max-width: 900px;">
-        <h2 style="color: white; font-size: 26px; margin-bottom: 10px;">✈️ Voyagez et travaillez à l'étranger pendant 1 à 2 ans</h2>
-        <p style="font-size: 18px; margin-top: 10px;">15+ pays disponibles • Canada, Australie, Nouvelle-Zélande, Japon, Argentine...</p>
-    </div>
-</div>
-
-<div class="slide" style="background: linear-gradient(135deg, var(--color-bleu), var(--color-vert)); justify-content: center; align-items: center; text-align: center;">
-    <div style="font-size: 64px;">📚</div>
-    <h1 style="color: white; font-size: 48px;"><a href="https://mlpb-tools.github.io/Catalogue-/" target="_blank" style="color: white; text-decoration: none;">📚 Catalogue Mobilités</a></h1>
-    <div style="background: white; padding: 32px; border-radius: 20px; margin-top: 24px; max-width: 600px;">
-        <h2>45 offres concrètes</h2>
-        <p style="font-size: 16px; margin-top: 12px;">Filtrables par <strong>pays</strong>, <strong>durée</strong> et <strong>secteur</strong></p>
-    </div>
-    
-</div>
-
-<div class="slide" style="justify-content: center;">
-    <div style="background: var(--color-orange); color: white; padding: 20px; border-radius: 16px; text-align: center; margin-bottom: 24px;">
-        <h1 style="color: white; font-size: 36px;">🎯 Activité en sous-groupes</h1>
-    </div>
-    <div style="background: white; border: 4px solid var(--color-orange); border-radius: 20px; padding: 40px; text-align: center;">
-        <div style="font-size: 72px; margin-bottom: 20px;">📋</div>
-        <h2>Consigne</h2>
-        <p style="font-size: 20px; margin-top: 16px; line-height: 1.6;">
-            Choisis une offre dans le catalogue et note :<br><br>
-            <strong>Le programme • Le pays • La durée • La mission</strong>
-        </p>
-    </div>
-    
-</div>
-
-<div class="slide">
-    <h1 style="color: var(--color-vert);">💰 Financer sa mobilité</h1>
-    <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 24px;">
-        <div class="card" style="background: linear-gradient(135deg, var(--color-bleu), var(--color-vert)); color: white;">
-            <h3>🇪🇺 Bourses Erasmus+</h3>
-            <p>Bourse forfaitaire selon pays + frais de voyage</p>
-        </div>
-        <div class="card" style="border-left: 6px solid var(--color-orange);">
-            <h3 style="color: var(--color-orange);">🏛️ Aides Mission Locale</h3>
-            <p>Accompagnement pour montage financier de ton projet</p>
-        </div>
-        <div class="card" style="border-left: 6px solid var(--color-violet);">
-            <h3 style="color: var(--color-violet);">🗺️ Aides régionales</h3>
-            <p>Dispositifs spécifiques Nouvelle-Aquitaine</p>
+    <!-- SLIDE 7 : Catalogue (bandeau cliquable) -->
+    <div class="slide" style="background: linear-gradient(135deg, var(--color-bleu), var(--color-vert)); justify-content: center; align-items: center; text-align: center; cursor: pointer;"
+         onclick="window.open('https://mlpb-tools.github.io/Catalogue-/', '_blank')">
+        <div style="font-size: 64px;">📚</div>
+        <h1 style="color: white; font-size: 48px; margin-top:10px;">Catalogue Mobilités</h1>
+        <div style="background: white; padding: 32px; border-radius: 20px; margin-top: 24px; max-width: 600px;">
+            <h2>45 offres concrètes</h2>
+            <p style="font-size: 16px; margin-top: 12px;">Filtrables par <strong>pays</strong>, <strong>durée</strong> et <strong>secteur</strong></p>
+            <p style="margin-top:10px; font-weight:600; color:var(--color-bleu);">Clique sur le bandeau pour ouvrir le catalogue</p>
         </div>
     </div>
-    <div style="background: var(--color-vert); color: white; padding: 20px; border-radius: 16px; text-align: center; margin-top: 20px;">
-        <p style="font-weight: 600;">💡 La plupart des programmes couvrent frais de voyage, logement et repas</p>
-    </div>
-    
-</div>
 
-<div class="slide" style="justify-content: center;">
-    <div style="background: var(--color-vert); color: white; padding: 20px; border-radius: 16px; text-align: center; margin-bottom: 24px;">
-       <h1 style="color: var(--color-vert); text-align: center;">🧮 <a href="https://mlpb-tools.github.io/Calcul4U/" target="_blank" style="color: var(--color-vert); text-decoration: none;">ACTIVITÉ - Calculateur Budget</a></h1>
-    </div>
-    <div style="text-align: center;">
-        <div style="font-size: 96px; margin-bottom: 24px;">💶</div>
-        <div style="background: white; border: 4px solid var(--color-vert); border-radius: 20px; padding: 32px; max-width: 700px; margin: 0 auto;">
+    <!-- SLIDE 8 : Activité catalogue -->
+    <div class="slide" style="justify-content: center;">
+        <div style="background: var(--color-orange); color: white; padding: 20px; border-radius: 16px; text-align: center; margin-bottom: 24px;">
+            <h1 style="color: white; font-size: 36px;">🎯 Activité en sous-groupes</h1>
+        </div>
+        <div style="background: white; border: 4px solid var(--color-orange); border-radius: 20px; padding: 40px; text-align: center;">
+            <div style="font-size: 72px; margin-bottom: 20px;">📋</div>
             <h2>Consigne</h2>
-            <p style="font-size: 18px; margin-top: 16px;">
-                Utilise le <strong>Calculateur Budget</strong> pour estimer le coût de ton projet sur une destination choisie
+            <p style="font-size: 20px; margin-top: 16px; line-height: 1.6;">
+                Choisis une offre dans le <strong>Catalogue Mobilités</strong> et note :<br><br>
+                <strong>Le programme • Le pays • La durée • La mission</strong>
+            </p>
+            <p style="margin-top:18px;">
+                👉 Catalogue : <a href="https://mlpb-tools.github.io/Catalogue-/" target="_blank">https://mlpb-tools.github.io/Catalogue-/</a>
             </p>
         </div>
     </div>
-    
-</div>
 
-<div class="slide">
-    <h1 style="color: var(--color-rose);">📋 Démarches administratives</h1>
-    <div class="grid grid-2" style="margin-top: 24px;">
-        <div class="card" style="border-left: 6px solid var(--color-bleu);">
-            <div style="font-size: 36px;">🛂</div>
-            <h3>Passeport</h3>
-            <p>Vérifier validité (6 mois minimum)</p>
-        </div>
-        <div class="card" style="border-left: 6px solid var(--color-vert);">
-            <div style="font-size: 36px;">💳</div>
-            <h3>CEAM</h3>
-            <p>Carte Européenne Assurance Maladie</p>
-        </div>
-        <div class="card" style="border-left: 6px solid var(--color-orange);">
-            <div style="font-size: 36px;">🏠</div>
-            <h3>Logement</h3>
-            <p>Souvent pris en charge par programme</p>
-        </div>
-        <div class="card" style="border-left: 6px solid var(--color-violet);">
-            <div style="font-size: 36px;">🛡️</div>
-            <h3>Assurance</h3>
-            <p>Responsabilité civile nécessaire</p>
-        </div>
-    </div>
-    <div style="background: linear-gradient(135deg, var(--color-rose), var(--color-violet)); color: white; padding: 20px; border-radius: 16px; text-align: center; margin-top: 20px;">
-        <p style="font-weight: 600;">✅ Ton conseiller t'accompagne dans toutes ces démarches</p>
-    </div>
-    
-</div>
-
-<div class="slide" style="background: linear-gradient(135deg, var(--color-orange), var(--color-rose)); justify-content: center;">
-    <h1 style="color: white; text-align: center; font-size: 48px;">🛠️ Outils à ta disposition</h1>
-    <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 32px;">
-        <div style="background: white; padding: 24px; border-radius: 16px; text-align: center;">
-            <div style="font-size: 40px; margin-bottom: 8px;">✈️</div>
-            <h3>Webinaire Mobilité</h3>
-        </div>
-        <div style="background: white; padding: 24px; border-radius: 16px; text-align: center;">
-            <div style="font-size: 40px; margin-bottom: 8px;">📚</div>
-            <h3>Catalogue Mobilités</h3>
-        </div>
-        <div style="background: white; padding: 24px; border-radius: 16px; text-align: center;">
-            <div style="font-size: 40px; margin-bottom: 8px;">🧮</div>
-            <h3>Calculatrice Budget</h3>
-        </div>
-    </div>
-    
-</div>
-
-<div class="slide" style="justify-content: center;">
-    <h1 style="color: var(--color-bleu); text-align: center;">✍️ Module Candidature</h1>
-    <p style="font-size: 18px; text-align: center; margin: 16px 0;">Une bonne candidature repose sur 3 axes essentiels</p>
-    <div class="grid grid-3" style="margin-top: 32px;">
-        <div style="background: linear-gradient(135deg, var(--color-orange), var(--color-vert)); color: white; padding: 28px; border-radius: 16px; text-align: center;">
-            <div style="font-size: 40px; margin-bottom: 12px;">💫</div>
-            <h3 style="color: white;">Motivation</h3>
-        </div>
-        <div style="background: linear-gradient(135deg, var(--color-vert), var(--color-bleu)); color: white; padding: 28px; border-radius: 16px; text-align: center;">
-            <div style="font-size: 40px; margin-bottom: 12px;">🎯</div>
-            <h3 style="color: white;">Compétences</h3>
-        </div>
-        <div style="background: linear-gradient(135deg, var(--color-bleu), var(--color-violet)); color: white; padding: 28px; border-radius: 16px; text-align: center;">
-            <div style="font-size: 40px; margin-bottom: 12px;">🔗</div>
-            <h3 style="color: white;">Cohérence</h3>
-        </div>
-    </div>
-    
-</div>
-
-<div class="slide">
-    <h1 style="color: var(--color-violet);">❓ 5 questions clés avant de postuler</h1>
-    <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 24px;">
-        <div style="background: var(--color-bleu); color: white; padding: 16px 24px; border-radius: 16px;">
-            <p style="font-weight: 600;">1️⃣ Pourquoi cette offre m'intéresse ?</p>
-        </div>
-        <div style="background: var(--color-vert); color: white; padding: 16px 24px; border-radius: 16px;">
-            <p style="font-weight: 600;">2️⃣ Pourquoi ce pays en particulier ?</p>
-        </div>
-        <div style="background: var(--color-orange); color: white; padding: 16px 24px; border-radius: 16px;">
-            <p style="font-weight: 600;">3️⃣ Qu'est-ce que j'apporte au projet ?</p>
-        </div>
-        <div style="background: var(--color-rose); color: white; padding: 16px 24px; border-radius: 16px;">
-            <p style="font-weight: 600;">4️⃣ Quelles compétences puis-je mobiliser ?</p>
-        </div>
-        <div style="background: var(--color-violet); color: white; padding: 16px 24px; border-radius: 16px;">
-            <p style="font-weight: 600;">5️⃣ Quelles sont mes attentes ?</p>
-        </div>
-    </div>
-    
-</div>
-
-<div class="slide">
-    <h1 style="color: var(--color-orange);">📝 Structure d'une mini-candidature</h1>
-    <div style="background: white; border: 4px solid var(--color-orange); border-radius: 20px; padding: 32px; margin-top: 24px;">
-        <div style="display: flex; flex-direction: column; gap: 16px;">
-            <div style="border-left: 4px solid var(--color-bleu); padding-left: 16px;">
-                <p style="font-weight: 700; color: var(--color-bleu);">2 lignes : Présentation</p>
-                <p style="font-size: 14px; color: #666; margin-top: 4px;">Qui es-tu ? Ton parcours actuel</p>
+    <!-- SLIDE 9 : Financer sa mobilité -->
+    <div class="slide">
+        <h1 style="color: var(--color-vert);">💰 Financer sa mobilité</h1>
+        <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 24px;">
+            <div class="card" style="background: linear-gradient(135deg, var(--color-bleu), var(--color-vert)); color: white;">
+                <h3>🇪🇺 Bourses Erasmus+</h3>
+                <p>Bourse forfaitaire selon pays + frais de voyage</p>
             </div>
-            <div style="border-left: 4px solid var(--color-vert); padding-left: 16px;">
-                <p style="font-weight: 700; color: var(--color-vert);">3 lignes : Motivation</p>
-                <p style="font-size: 14px; color: #666; margin-top: 4px;">Pourquoi cette offre ? Pourquoi ce pays ?</p>
+            <div class="card" style="border-left: 6px solid var(--color-orange);">
+                <h3 style="color: var(--color-orange);">🏛️ Aides Mission Locale</h3>
+                <p>Accompagnement pour montage financier de ton projet</p>
             </div>
-            <div style="border-left: 4px solid var(--color-orange); padding-left: 16px;">
-                <p style="font-weight: 700; color: var(--color-orange);">3 lignes : Compétences</p>
-                <p style="font-size: 14px; color: #666; margin-top: 4px;">Ce que tu apportes, tes atouts concrets</p>
+            <div class="card" style="border-left: 6px solid var(--color-violet);">
+                <h3 style="color: var(--color-violet);">🗺️ Aides régionales</h3>
+                <p>Dispositifs spécifiques Nouvelle-Aquitaine</p>
             </div>
-            <div style="border-left: 4px solid var(--color-rose); padding-left: 16px;">
-                <p style="font-weight: 700; color: var(--color-rose);">2 lignes : Conclusion</p>
-                <p style="font-size: 14px; color: #666; margin-top: 4px;">Disponibilités et remerciements</p>
+        </div>
+        <div style="background: var(--color-vert); color: white; padding: 20px; border-radius: 16px; text-align: center; margin-top: 20px;">
+            <p style="font-weight: 600;">💡 La plupart des programmes couvrent frais de voyage, logement et repas</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 10 : Activité budget -->
+    <div class="slide" style="justify-content: center;">
+        <div style="background: var(--color-vert); color: white; padding: 20px; border-radius: 16px; text-align: center; margin-bottom: 24px;">
+            <h1 style="color: white; font-size: 36px;">🧮 Activité - Calculateur Budget</h1>
+        </div>
+        <div style="text-align: center;">
+            <div style="font-size: 96px; margin-bottom: 24px;">💶</div>
+            <div style="background: white; border: 4px solid var(--color-vert); border-radius: 20px; padding: 32px; max-width: 700px; margin: 0 auto;">
+                <h2>Consigne</h2>
+                <p style="font-size: 18px; margin-top: 16px;">
+                    Utilise le <strong>Calculateur Budget</strong> pour estimer le coût de ton projet sur une destination choisie.
+                </p>
+                <p style="margin-top:18px;">
+                    👉 Ouvre le calculateur :<br>
+                    <a href="https://mlpb-tools.github.io/Calcul4U/" target="_blank">https://mlpb-tools.github.io/Calcul4U/</a>
+                </p>
             </div>
         </div>
     </div>
-    <div style="background: linear-gradient(135deg, var(--color-orange), var(--color-rose)); color: white; padding: 18px; border-radius: 16px; text-align: center; margin-top: 20px;">
-        <p style="font-weight: 600;">📏 Total : 10 lignes maximum pour être efficace</p>
-    </div>
-    
-</div>
 
-<div class="slide">
-    <h1 style="color: var(--color-bleu);">📧 Exemple d'email de candidature</h1>
-    <div style="background: white; border: 3px solid var(--color-bleu); border-radius: 16px; padding: 28px; margin-top: 20px; font-family: monospace; font-size: 13px; line-height: 1.8;">
-        <p><strong>Objet :</strong> Candidature volontariat environnemental - Espagne</p>
-        <p style="margin-top: 16px;">Bonjour,</p>
-        <p style="margin-top: 12px; border-left: 3px solid var(--color-bleu); padding-left: 12px;">
-            <strong style="color: var(--color-bleu);">[Présentation]</strong> Je m'appelle [Nom], j'ai 22 ans et je suis en recherche d'emploi dans le secteur de l'environnement.
-        </p>
-        <p style="margin-top: 12px; border-left: 3px solid var(--color-vert); padding-left: 12px;">
-            <strong style="color: var(--color-vert);">[Motivation]</strong> Votre projet de reforestation m'intéresse car je souhaite m'engager concrètement. L'Espagne représente une opportunité de découvrir de nouvelles techniques écologiques.
-        </p>
-        <p style="margin-top: 12px; border-left: 3px solid var(--color-orange); padding-left: 12px;">
-            <strong style="color: var(--color-orange);">[Compétences]</strong> J'ai une formation en espaces verts et 6 mois d'expérience en pépinière. Je suis motivé et capable de travailler en équipe.
-        </p>
-        <p style="margin-top: 12px; border-left: 3px solid var(--color-rose); padding-left: 12px;">
-            <strong style="color: var(--color-rose);">[Conclusion]</strong> Je suis disponible dès le mois prochain. Merci de votre attention.
-        </p>
-        <p style="margin-top: 12px;">Cordialement,<br>[Nom]</p>
+    <!-- SLIDE 11 : Démarches administratives -->
+    <div class="slide">
+        <h1 style="color: var(--color-rose);">📋 Démarches administratives</h1>
+        <div class="grid-2" style="margin-top: 24px;">
+            <div class="card" style="border-left: 6px solid var(--color-bleu);">
+                <div style="font-size: 36px;">🛂</div>
+                <h3>Passeport</h3>
+                <p>Vérifier validité (6 mois minimum)</p>
+            </div>
+            <div class="card" style="border-left: 6px solid var(--color-vert);">
+                <div style="font-size: 36px;">💳</div>
+                <h3>CEAM</h3>
+                <p>Carte Européenne Assurance Maladie</p>
+            </div>
+            <div class="card" style="border-left: 6px solid var(--color-orange);">
+                <div style="font-size: 36px;">🏠</div>
+                <h3>Logement</h3>
+                <p>Souvent pris en charge par programme</p>
+            </div>
+            <div class="card" style="border-left: 6px solid var(--color-violet);">
+                <div style="font-size: 36px;">🛡️</div>
+                <h3>Assurance</h3>
+                <p>Responsabilité civile nécessaire</p>
+            </div>
+        </div>
+        <div style="background: linear-gradient(135deg, var(--color-rose), var(--color-violet)); color: white; padding: 20px; border-radius: 16px; text-align: center; margin-top: 20px;">
+            <p style="font-weight: 600;">✅ Ton conseiller t'accompagne dans toutes ces démarches</p>
+        </div>
     </div>
-    
-</div>
 
-<div class="slide" style="justify-content: center;">
-    <div style="background: var(--color-rose); color: white; padding: 20px; border-radius: 16px; text-align: center; margin-bottom: 24px;">
-        <h1 style="color: white; font-size: 36px;">✏️ Activité individuelle</h1>
+    <!-- SLIDE 12 : Outils -->
+    <div class="slide" style="background: linear-gradient(135deg, var(--color-orange), var(--color-rose)); justify-content: center;">
+        <h1 style="color: white; text-align: center; font-size: 48px;">🛠️ Outils à ta disposition</h1>
+        <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 32px;">
+            <div style="background: white; padding: 24px; border-radius: 16px; text-align: center;">
+                <div style="font-size: 40px; margin-bottom: 8px;">✈️</div>
+                <h3>Webinaire Mobilité</h3>
+            </div>
+            <div style="background: white; padding: 24px; border-radius: 16px; text-align: center;">
+                <div style="font-size: 40px; margin-bottom: 8px;">📚</div>
+                <h3>Catalogue Mobilités</h3>
+            </div>
+            <div style="background: white; padding: 24px; border-radius: 16px; text-align: center;">
+                <div style="font-size: 40px; margin-bottom: 8px;">🧮</div>
+                <h3>Calculatrice Budget</h3>
+            </div>
+        </div>
     </div>
-    <div style="text-align: center;">
-        <div style="font-size: 96px; margin-bottom: 24px;">📝</div>
-        <div style="background: white; border: 4px solid var(--color-rose); border-radius: 20px; padding: 40px; max-width: 700px; margin: 0 auto;">
+
+    <!-- SLIDE 13 : Module Candidature -->
+    <div class="slide">
+        <h1 style="color: var(--color-bleu); text-align: center;">✍️ Module Candidature</h1>
+        <p style="font-size: 18px; text-align: center; margin: 16px 0;">Une bonne candidature repose sur 3 axes essentiels</p>
+        <div class="grid-3" style="margin-top: 32px;">
+            <div style="background: linear-gradient(135deg, var(--color-orange), var(--color-vert)); color: white; padding: 28px; border-radius: 16px; text-align: center;">
+                <div style="font-size: 40px; margin-bottom: 12px;">💫</div>
+                <h3 style="color: white;">Motivation</h3>
+            </div>
+            <div style="background: linear-gradient(135deg, var(--color-vert), var(--color-bleu)); color: white; padding: 28px; border-radius: 16px; text-align: center;">
+                <div style="font-size: 40px; margin-bottom: 12px;">🎯</div>
+                <h3 style="color: white;">Compétences</h3>
+            </div>
+            <div style="background: linear-gradient(135deg, var(--color-bleu), var(--color-violet)); color: white; padding: 28px; border-radius: 16px; text-align: center;">
+                <div style="font-size: 40px; margin-bottom: 12px;">🔗</div>
+                <h3 style="color: white;">Cohérence</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 14 : 5 questions clés -->
+    <div class="slide">
+        <h1 style="color: var(--color-violet);">❓ 5 questions clés avant de postuler</h1>
+        <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 24px;">
+            <div style="background: var(--color-bleu); color: white; padding: 16px 24px; border-radius: 16px;">
+                <p style="font-weight: 600;">1️⃣ Pourquoi cette offre m'intéresse ?</p>
+            </div>
+            <div style="background: var(--color-vert); color: white; padding: 16px 24px; border-radius: 16px;">
+                <p style="font-weight: 600;">2️⃣ Pourquoi ce pays en particulier ?</p>
+            </div>
+            <div style="background: var(--color-orange); color: white; padding: 16px 24px; border-radius: 16px;">
+                <p style="font-weight: 600;">3️⃣ Qu'est-ce que j'apporte au projet ?</p>
+            </div>
+            <div style="background: var(--color-rose); color: white; padding: 16px 24px; border-radius: 16px;">
+                <p style="font-weight: 600;">4️⃣ Quelles compétences puis-je mobiliser ?</p>
+            </div>
+            <div style="background: var(--color-violet); color: white; padding: 16px 24px; border-radius: 16px;">
+                <p style="font-weight: 600;">5️⃣ Quelles sont mes attentes ?</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 15 : Structure mini-candidature -->
+    <div class="slide">
+        <h1 style="color: var(--color-orange);">📝 Structure d'une mini-candidature</h1>
+        <div style="background: white; border: 4px solid var(--color-orange); border-radius: 20px; padding: 32px; margin-top: 24px;">
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+                <div style="border-left: 4px solid var(--color-bleu); padding-left: 16px;">
+                    <p style="font-weight: 700; color: var(--color-bleu);">2 lignes : Présentation</p>
+                    <p style="font-size: 14px; color: #666; margin-top: 4px;">Qui es-tu ? Ton parcours actuel</p>
+                </div>
+                <div style="border-left: 4px solid var(--color-vert); padding-left: 16px;">
+                    <p style="font-weight: 700; color: var(--color-vert);">3 lignes : Motivation</p>
+                    <p style="font-size: 14px; color: #666; margin-top: 4px;">Pourquoi cette offre ? Pourquoi ce pays ?</p>
+                </div>
+                <div style="border-left: 4px solid var(--color-orange); padding-left: 16px;">
+                    <p style="font-weight: 700; color: var(--color-orange);">3 lignes : Compétences</p>
+                    <p style="font-size: 14px; color: #666; margin-top: 4px;">Ce que tu apportes, tes atouts concrets</p>
+                </div>
+                <div style="border-left: 4px solid var(--color-rose); padding-left: 16px;">
+                    <p style="font-weight: 700; color: var(--color-rose);">2 lignes : Conclusion</p>
+                    <p style="font-size: 14px; color: #666; margin-top: 4px;">Disponibilités et remerciements</p>
+                </div>
+            </div>
+        </div>
+        <div style="background: linear-gradient(135deg, var(--color-orange), var(--color-rose)); color: white; padding: 18px; border-radius: 16px; text-align: center; margin-top: 20px;">
+            <p style="font-weight: 600;">📏 Total : 10 lignes maximum pour être efficace</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 16 : Exemple d'email -->
+    <div class="slide">
+        <h1 style="color: var(--color-bleu);">📧 Exemple d'email de candidature</h1>
+        <div style="background: white; border: 3px solid var(--color-bleu); border-radius: 16px; padding: 28px; margin-top: 20px; font-family: monospace; font-size: 13px; line-height: 1.8;">
+            <p><strong>Objet :</strong> Candidature volontariat environnemental - Espagne</p>
+            <p style="margin-top: 16px;">Bonjour,</p>
+            <p style="margin-top: 12px; border-left: 3px solid var(--color-bleu); padding-left: 12px;">
+                <strong style="color: var(--color-bleu);">[Présentation]</strong> Je m'appelle [Nom], j'ai 22 ans et je suis en recherche d'emploi dans le secteur de l'environnement.
+            </p>
+            <p style="margin-top: 12px; border-left: 3px solid var(--color-vert); padding-left: 12px;">
+                <strong style="color: var(--color-vert);">[Motivation]</strong> Votre projet de reforestation m'intéresse car je souhaite m'engager concrètement. L'Espagne représente une opportunité de découvrir de nouvelles techniques écologiques.
+            </p>
+            <p style="margin-top: 12px; border-left: 3px solid var(--color-orange); padding-left: 12px;">
+                <strong style="color: var(--color-orange);">[Compétences]</strong> J'ai une formation en espaces verts et 6 mois d'expérience en pépinière. Je suis motivé et capable de travailler en équipe.
+            </p>
+            <p style="margin-top: 12px; border-left: 3px solid var(--color-rose); padding-left: 12px;">
+                <strong style="color: var(--color-rose);">[Conclusion]</strong> Je suis disponible dès le mois prochain. Merci de votre attention.
+            </p>
+            <p style="margin-top: 12px;">Cordialement,<br>[Nom]</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 17 : Activité individuelle -->
+    <div class="slide" style="justify-content: center;">
+        <div style="background: var(--color-rose); color: white; padding: 20px; border-radius: 16px; text-align: center; margin-bottom: 24px;">
+            <h1 style="color: white; font-size: 36px;">✏️ Activité individuelle</h1>
+        </div>
+        <div style="text-align: center;">
+            <div style="font-size: 96px; margin-bottom: 24px;">📝</div>
+            <div style="background: white; border: 4px solid var(--color-rose); border-radius: 20px; padding: 40px; max-width: 700px; margin: 0 auto;">
+                <h2>Consigne</h2>
+                <p style="font-size: 20px; margin-top: 16px;">
+                    Rédige <strong>10 lignes de candidature</strong> en t'appuyant sur une offre du Catalogue Mobilités.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 18 : Retours en sous-groupes -->
+    <div class="slide" style="justify-content: center;">
+        <div style="background: var(--color-vert); color: white; padding: 20px; border-radius: 16px; text-align: center; margin-bottom: 24px;">
+            <h1 style="color: white; font-size: 36px;">💬 Retours en sous-groupes</h1>
+        </div>
+        <div style="background: white; border: 4px solid var(--color-vert); border-radius: 20px; padding: 40px; text-align: center;">
             <h2>Consigne</h2>
-            <p style="font-size: 20px; margin-top: 16px;">
-                Rédige <strong>10 lignes de candidature</strong> en t'appuyant sur une offre du Catalogue Mobilités
+            <p style="font-size: 18px; margin-top: 16px; line-height: 1.7;">
+                Échangez vos candidatures et donnez à chacun :<br><br>
+                <strong style="color: var(--color-vert);">✅ 1 point fort</strong><br>
+                <strong style="color: var(--color-orange);">💡 1 amélioration possible</strong>
             </p>
         </div>
-    </div>
-    
-</div>
-
-<div class="slide" style="justify-content: center;">
-    <div style="background: var(--color-vert); color: white; padding: 20px; border-radius: 16px; text-align: center; margin-bottom: 24px;">
-        <h1 style="color: white; font-size: 36px;">💬 Retours en sous-groupes</h1>
-    </div>
-    <div style="background: white; border: 4px solid var(--color-vert); border-radius: 20px; padding: 40px; text-align: center;">
-        <h2>Consigne</h2>
-        <p style="font-size: 18px; margin-top: 16px; line-height: 1.7;">
-            Échangez vos candidatures et donnez à chacun :<br><br>
-            <strong style="color: var(--color-vert);">✅ 1 point fort</strong><br>
-            <strong style="color: var(--color-orange);">💡 1 amélioration possible</strong>
-        </p>
-    </div>
-    <div class="grid grid-3" style="margin-top: 24px;">
-        <div style="background: var(--color-vert); color: white; padding: 16px; border-radius: 16px; text-align: center;">
-            <p style="font-weight: 600;">Bienveillance</p>
-        </div>
-        <div style="background: var(--color-bleu); color: white; padding: 16px; border-radius: 16px; text-align: center;">
-            <p style="font-weight: 600;">Constructif</p>
-        </div>
-        <div style="background: var(--color-orange); color: white; padding: 16px; border-radius: 16px; text-align: center;">
-            <p style="font-weight: 600;">Concret</p>
-        </div>
-    </div>
-    
-</div>
-
-<div class="slide">
-    <h1 style="color: var(--color-violet);">✅ Critères d'une bonne candidature</h1>
-    <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 24px;">
-        <div class="card" style="border-left: 6px solid var(--color-bleu);">
-            <h3 style="color: var(--color-bleu);">💖 Sincérité</h3>
-            <p>Reste authentique, parle de toi vraiment</p>
-        </div>
-        <div class="card" style="border-left: 6px solid var(--color-vert);">
-            <h3 style="color: var(--color-vert);">💎 Clarté</h3>
-            <p>Phrases courtes et précises, facile à lire</p>
-        </div>
-        <div class="card" style="border-left: 6px solid var(--color-orange);">
-            <h3 style="color: var(--color-orange);">🎯 Adaptation à l'offre</h3>
-            <p>Montre que tu connais le projet</p>
-        </div>
-        <div class="card" style="border-left: 6px solid var(--color-rose);">
-            <h3 style="color: var(--color-rose);">✍️ Orthographe</h3>
-            <p>Relis-toi ou fais relire</p>
-        </div>
-        <div class="card" style="border-left: 6px solid var(--color-violet);">
-            <h3 style="color: var(--color-violet);">🔗 Cohérence</h3>
-            <p>Lien logique entre toi et le projet</p>
-        </div>
-    </div>
-    
-</div>
-
-<div class="slide" style="background: linear-gradient(135deg, var(--color-bleu), var(--color-vert));">
-    <h1 style="color: white; text-align: center;">🗺️ Mon plan d'action</h1>
-    <div style="background: white; border-radius: 20px; padding: 40px; margin-top: 32px; max-width: 800px; margin-left: auto; margin-right: auto;">
-        <div style="display: flex; flex-direction: column; gap: 24px;">
-            <div>
-                <h3 style="color: var(--color-bleu);">🌍 Ma destination préférée :</h3>
-                <div style="border-bottom: 2px solid #ddd; padding: 12px 0;"></div>
+        <div class="grid-3" style="margin-top: 24px;">
+            <div style="background: var(--color-vert); color: white; padding: 16px; border-radius: 16px; text-align: center;">
+                <p style="font-weight: 600;">Bienveillance</p>
             </div>
-            <div>
-                <h3 style="color: var(--color-vert);">📋 Le programme qui me correspond :</h3>
-                <div style="border-bottom: 2px solid #ddd; padding: 12px 0;"></div>
+            <div style="background: var(--color-bleu); color: white; padding: 16px; border-radius: 16px; text-align: center;">
+                <p style="font-weight: 600;">Constructif</p>
             </div>
-            <div>
-                <h3 style="color: var(--color-orange);">✅ Ma prochaine étape :</h3>
-                <div style="border-bottom: 2px solid #ddd; padding: 12px 0;"></div>
-            </div>
-            <div>
-                <h3 style="color: var(--color-rose);">🤝 J'ai besoin d'aide pour :</h3>
-                <div style="border-bottom: 2px solid #ddd; padding: 12px 0;"></div>
+            <div style="background: var(--color-orange); color: white; padding: 16px; border-radius: 16px; text-align: center;">
+                <p style="font-weight: 600;">Concret</p>
             </div>
         </div>
     </div>
-    
-</div>
 
-<div class="slide" style="background: linear-gradient(135deg, var(--color-violet), var(--color-rose)); justify-content: center;">
-    <h1 style="color: white; text-align: center; font-size: 52px; margin-bottom: 30px;">📊 ÉVALUATION FINALE</h1>
-    <p style="color: white; text-align: center; font-size: 22px; margin-bottom: 40px;">Après ce webinaire, où en es-tu ?</p>
-    
-    <div style="background: white; border-radius: 20px; padding: 50px; max-width: 950px; overflow-y: auto; max-height: 70vh;">
-        
-        <!-- Q6 - VOTE INTERACTIF -->
-        <div style="background: linear-gradient(135deg, var(--color-orange), var(--color-rose)); padding: 35px; border-radius: 16px; margin-bottom: 35px;">
-            <h3 style="color: white; font-size: 24px; margin-bottom: 20px; text-align: center;">Q6 – Partir à l'étranger… ça te donne envie ?</h3>
-            <div style="display: flex; justify-content: space-between; align-items: center; background: white; padding: 20px; border-radius: 12px;">
-                <span style="font-weight: 700; font-size: 18px;">0/10 Pas du tout</span>
-                <div style="display: flex; gap: 8px;">
-                    <div style="width: 40px; height: 40px; background: #ffebee; border: 2px solid var(--color-rose); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700;">0</div>
-                    <div style="width: 40px; height: 40px; background: #fff3e0; border: 2px solid var(--color-orange); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700;">5</div>
-                    <div style="width: 40px; height: 40px; background: #e8f5e9; border: 2px solid var(--color-vert); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700;">10</div>
+    <!-- SLIDE 19 : Critères d'une bonne candidature -->
+    <div class="slide">
+        <h1 style="color: var(--color-violet);">✅ Critères d'une bonne candidature</h1>
+        <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 24px;">
+            <div class="card" style="border-left: 6px solid var(--color-bleu);">
+                <h3 style="color: var(--color-bleu);">💖 Sincérité</h3>
+                <p>Reste authentique, parle de toi vraiment</p>
+            </div>
+            <div class="card" style="border-left: 6px solid var(--color-vert);">
+                <h3 style="color: var(--color-vert);">💎 Clarté</h3>
+                <p>Phrases courtes et précises, facile à lire</p>
+            </div>
+            <div class="card" style="border-left: 6px solid var(--color-orange);">
+                <h3 style="color: var(--color-orange);">🎯 Adaptation à l'offre</h3>
+                <p>Montre que tu connais le projet</p>
+            </div>
+            <div class="card" style="border-left: 6px solid var(--color-rose);">
+                <h3 style="color: var(--color-rose);">✍️ Orthographe</h3>
+                <p>Relis-toi ou fais relire</p>
+            </div>
+            <div class="card" style="border-left: 6px solid var(--color-violet);">
+                <h3 style="color: var(--color-violet);">🔗 Cohérence</h3>
+                <p>Lien logique entre toi et le projet</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 20 : Mon plan d'action -->
+    <div class="slide" style="background: linear-gradient(135deg, var(--color-bleu), var(--color-vert));">
+        <h1 style="color: white; text-align: center;">🗺️ Mon plan d'action</h1>
+        <div style="background: white; border-radius: 20px; padding: 40px; margin-top: 32px; max-width: 800px; margin-left: auto; margin-right: auto;">
+            <div style="display: flex; flex-direction: column; gap: 24px;">
+                <div>
+                    <h3 style="color: var(--color-bleu);">🌍 Ma destination préférée :</h3>
+                    <div style="border-bottom: 2px solid #ddd; padding: 12px 0;"></div>
                 </div>
-                <span style="font-weight: 700; font-size: 18px;">10/10 Carrément !</span>
-            </div>
-            <p style="color: white; text-align: center; margin-top: 15px; font-size: 16px;">💬 Écrivez votre note dans le chat Teams !</p>
-        </div>
-        
-        <!-- Q7-Q10 -->
-        <div style="display: flex; flex-direction: column; gap: 25px;">
-            
-            <!-- Q7 -->
-            <div>
-                <h3 style="color: var(--color-bleu); font-size: 19px; margin-bottom: 12px;">Q7 – Tu te sens plus capable de gérer un imprévu en mobilité ?</h3>
-                <div style="display: flex; gap: 12px;">
-                    <div style="background: #e8f5e9; padding: 10px 18px; border-radius: 8px; border: 2px solid var(--color-vert);">👍 Oui</div>
-                    <div style="background: #fff3e0; padding: 10px 18px; border-radius: 8px; border: 2px solid var(--color-orange);">🙂 Un peu plus</div>
-                    <div style="background: #ffebee; padding: 10px 18px; border-radius: 8px; border: 2px solid var(--color-rose);">😕 Pas vraiment</div>
+                <div>
+                    <h3 style="color: var(--color-vert);">📋 Le programme qui me correspond :</h3>
+                    <div style="border-bottom: 2px solid #ddd; padding: 12px 0;"></div>
+                </div>
+                <div>
+                    <h3 style="color: var(--color-orange);">✅ Ma prochaine étape :</h3>
+                    <div style="border-bottom: 2px solid #ddd; padding: 12px 0;"></div>
+                </div>
+                <div>
+                    <h3 style="color: var(--color-rose);">🤝 J'ai besoin d'aide pour :</h3>
+                    <div style="border-bottom: 2px solid #ddd; padding: 12px 0;"></div>
                 </div>
             </div>
-            
-            <!-- Q8 -->
-            <div>
-                <h3 style="color: var(--color-vert); font-size: 19px; margin-bottom: 12px;">Q8 – Rencontrer des gens d'autres pays, ça te paraît comment maintenant ?</h3>
-                <div style="display: flex; gap: 12px;">
-                    <div style="background: #e8f5e9; padding: 10px 18px; border-radius: 8px; border: 2px solid var(--color-vert);">😄 Plus motivant</div>
-                    <div style="background: #fff3e0; padding: 10px 18px; border-radius: 8px; border: 2px solid var(--color-orange);">🤔 Toujours hésitant</div>
-                    <div style="background: #ffebee; padding: 10px 18px; border-radius: 8px; border: 2px solid var(--color-rose);">😬 Toujours stressant</div>
-                </div>
-            </div>
-            
-            <!-- Q9 -->
-            <div>
-                <h3 style="color: var(--color-orange); font-size: 19px; margin-bottom: 12px;">Q9 – Tes idées pour l'étranger sont…</h3>
-                <div style="display: flex; gap: 12px;">
-                    <div style="background: #e8f5e9; padding: 10px 18px; border-radius: 8px; border: 2px solid var(--color-vert);">🎯 Plus claires</div>
-                    <div style="background: #fff3e0; padding: 10px 18px; border-radius: 8px; border: 2px solid var(--color-orange);">💡 Un peu plus construites</div>
-                    <div style="background: #ffebee; padding: 10px 18px; border-radius: 8px; border: 2px solid var(--color-rose);">❓ Toujours floues</div>
-                </div>
-            </div>
-            
-            <!-- Q10 -->
-            <div>
-                <h3 style="color: var(--color-violet); font-size: 19px; margin-bottom: 12px;">Q10 – Tu te sens prêt(e) pour une première étape (rdv/outil/atelier) ?</h3>
-                <div style="display: flex; gap: 12px;">
-                    <div style="background: #e8f5e9; padding: 10px 18px; border-radius: 8px; border: 2px solid var(--color-vert);">🚀 Oui</div>
-                    <div style="background: #fff3e0; padding: 10px 18px; border-radius: 8px; border: 2px solid var(--color-orange);">🤔 Peut-être</div>
-                    <div style="background: #ffebee; padding: 10px 18px; border-radius: 8px; border: 2px solid var(--color-rose);">💤 Pas maintenant</div>
-                </div>
-            </div>
-            
         </div>
+    </div>
+
+    <!-- SLIDE 21 : Évaluation finale -->
+    <div class="slide" style="background: linear-gradient(135deg, var(--color-violet), var(--color-rose)); justify-content: center;">
+        <h1 style="color: white; text-align: center; font-size: 52px; margin-bottom: 30px;">📊 ÉVALUATION FINALE</h1>
+        <p style="color: white; text-align: center; font-size: 22px; margin-bottom: 40px;">Après ce webinaire, où en es-tu ?</p>
+
+        <div style="background: white; border-radius: 20px; padding: 50px; max-width: 950px; overflow-y: auto; max-height: 70vh;">
+
+            <!-- Q6 - curseur -->
+            <div style="background: linear-gradient(135deg, var(--color-orange), var(--color-rose)); padding: 35px; border-radius: 16px; margin-bottom: 35px;">
+                <h3 style="color: white; font-size: 24px; margin-bottom: 20px; text-align: center;">Q6 – Partir à l'étranger… ça te donne envie ?</h3>
+                <div style="display: flex; justify-content: space-between; align-items: center; background: white; padding: 20px; border-radius: 12px;">
+                    <span style="font-weight: 700; font-size: 18px;">0/10 Pas du tout</span>
+                    <div style="display: flex; gap: 8px;">
+                        <div style="width: 40px; height: 40px; background: #ffebee; border: 2px solid var(--color-rose); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700;">0</div>
+                        <div style="width: 40px; height: 40px; background: #fff3e0; border: 2px solid var(--color-orange); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700;">5</div>
+                        <div style="width: 40px; height: 40px; background: #e8f5e9; border: 2px solid var(--color-vert); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700;">10</div>
+                    </div>
+                    <span style="font-weight: 700; font-size: 18px;">10/10 Carrément !</span>
+                </div>
+                <p style="color: white; text-align: center; margin-top: 15px; font-size: 16px;">💬 Écrivez votre note dans le chat Teams !</p>
+            </div>
+
+            <!-- Q7-Q10 -->
+            <div style="display: flex; flex-direction: column; gap: 25px;">
+
+                <!-- Q7 -->
+                <div>
+                    <h3 style="color: var(--color-bleu); font-size: 19px; margin-bottom: 12px;">Q7 – Tu te sens plus capable de gérer un imprévu en mobilité ?</h3>
+                    <div style="display: flex; gap: 12px;">
+                        <div style="background: #e8f5e9; padding: 10px 18px; border-radius: 8px; border: 2px solid var(--color-vert);">👍 Oui</div>
+                        <div style="background: #fff3e0; padding: 10px 18px; border-radius: 8px; border: 2px solid var(--color-orange);">🙂 Un peu plus</div>
+                        <div style="background: #ffebee; padding: 10px 18px; border-radius: 8px; border: 2px solid var(--color-rose);">😕 Pas vraiment</div>
+                    </div>
+                </div>
+
+                <!-- Q8 -->
+                <div>
+                    <h3 style="color: var(--color-vert); font-size: 19px; margin-bottom: 12px;">Q8 – Rencontrer des gens d'autres pays, ça te paraît comment maintenant ?</h3>
+                    <div style="display: flex; gap: 12px;">
+                        <div style="background: #e8f5e9; padding: 10px 18px; border-radius: 8px; border: 2px solid var(--color-vert);">😄 Plus motivant</div>
+                        <div style="background: #fff3e0; padding: 10px 18px; border-radius: 8px; border: 2px solid var(--color-orange);">🤔 Toujours hésitant</div>
+                        <div style="background: #ffebee; padding: 10px 18px; border-radius: 8px; border: 2px solid var(--color-rose);">😬 Toujours stressant</div>
+                    </div>
+                </div>
+
+                <!-- Q9 -->
+                <div>
+                    <h3 style="color: var(--color-orange); font-size: 19px; margin-bottom: 12px;">Q9 – Tes idées pour l'étranger sont…</h3>
+                    <div style="display: flex; gap: 12px;">
+                        <div style="background: #e8f5e9; padding: 10px 18px; border-radius: 8px; border: 2px solid var(--color-vert);">🎯 Plus claires</div>
+                        <div style="background: #fff3e0; padding: 10px 18px; border-radius: 8px; border: 2px solid var(--color-orange);">💡 Un peu plus construites</div>
+                        <div style="background: #ffebee; padding: 10px 18px; border-radius: 8px; border: 2px solid var(--color-rose);">❓ Toujours floues</div>
+                    </div>
+                </div>
+
+                <!-- Q10 -->
+                <div>
+                    <h3 style="color: var(--color-violet); font-size: 19px; margin-bottom: 12px;">Q10 – Tu te sens prêt(e) pour une première étape (rdv/outil/atelier) ?</h3>
+                    <div style="display: flex; gap: 12px;">
+                        <div style="background: #e8f5e9; padding: 10px 18px; border-radius: 8px; border: 2px solid var(--color-vert);">🚀 Oui</div>
+                        <div style="background: #fff3e0; padding: 10px 18px; border-radius: 8px; border: 2px solid var(--color-orange);">🤔 Peut-être</div>
+                        <div style="background: #ffebee; padding: 10px 18px; border-radius: 8px; border: 2px solid var(--color-rose);">💤 Pas maintenant</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 22 : Contact + WhatsApp -->
+    <div class="slide" style="background: linear-gradient(135deg, var(--color-orange), var(--color-rose)); justify-content: center; align-items: center; text-align: center;">
+        <div style="font-size: 64px;">🤝</div>
+        <h1 style="color: white; font-size: 48px; margin-top: 16px;">On reste en contact !</h1>
+        <div style="background: white; padding: 36px; border-radius: 20px; margin-top: 32px; max-width: 650px;">
+            <h2 style="font-size: 28px; margin-bottom: 8px;">Mission Locale Pays Basque</h2>
+            <h3 style="color: var(--color-orange); font-size: 20px; margin-bottom: 24px;">Pôle Mobilité Internationale</h3>
+
+            <!-- WhatsApp -->
+            <div style="background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); padding: 30px 50px; border-radius: 20px; margin: 30px 0;">
+                <div style="display: flex; align-items: center; justify-content: center; gap: 20px;">
+                    <div style="font-size: 48px;">📱</div>
+                    <div style="text-align: left;">
+                        <p style="color: #171718; font-size: 18px; font-weight: 600; margin-bottom: 5px;">Contacte-nous sur WhatsApp</p>
+                        <p style="color: #171718; font-size: 28px; font-weight: 900;">06 37 33 37 57</p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.2); color: #171718; padding: 20px; border-radius: 16px; margin-top: 28px; max-width: 600px;">
+                <p style="font-size: 18px; font-weight: 700;">🚀 Prends rendez-vous avec ton conseiller pour démarrer ton projet !</p>
+            </div>
+        </div>
+    </div>
+
+</div> <!-- fin .presentation -->
+
+<!-- MODALE BAGAGES -->
+<div class="modal-bagages" id="modalBagages">
+    <div class="modal-content-bagages" onclick="event.stopPropagation()">
+        <span class="close-modal" onclick="closeBagagesModal()">×</span>
+        <!-- 2ème image BAGAGES -->
+        <img src="bagages-infographie.png" alt="Infographie Programme BAGAGES - Stages en Europe">
     </div>
 </div>
 
-<div class="slide" style="background: linear-gradient(135deg, var(--color-orange), var(--color-rose)); justify-content: center; align-items: center; text-align: center;">
-    <div style="font-size: 64px;">🤝</div>
-    <h1 style="color: white; font-size: 48px; margin-top: 16px;">On reste en contact !</h1>
-    <div style="background: white; padding: 36px; border-radius: 20px; margin-top: 32px; max-width: 650px;">
-        <h2 style="font-size: 28px; margin-bottom: 8px;">Mission Locale Pays Basque</h2>
-        <h3 style="color: var(--color-orange); font-size: 20px; margin-bottom: 24px;">Pôle Mobilité Internationale</h3>
-        <!-- WhatsApp -->
-<div style="background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); padding: 30px 50px; border-radius: 20px; margin: 30px 0;">
-    <div style="display: flex; align-items: center; justify-content: center; gap: 20px;">
-        <div style="font-size: 48px;">📱</div>
-        <div style="text-align: left;">
-            <p style="color: white; font-size: 18px; font-weight: 600; margin-bottom: 5px;">Contacte-nous sur WhatsApp</p>
-            <p style="color: white; font-size: 28px; font-weight: 900;">06 37 33 37 57</p>
-        </div>
-    </div>
+<!-- COMPTEUR SLIDES -->
+<div class="slide-counter">
+    <span id="currentSlide">1</span> / <span id="totalSlides">1</span>
 </div>
 
-    <div style="background: rgba(255,255,255,0.2); color: white; padding: 20px; border-radius: 16px; margin-top: 28px; max-width: 600px;">
-        <p style="font-size: 18px; font-weight: 700;">🚀 Prends rendez-vous avec ton conseiller pour démarrer ton projet !</p>
-    </div>
+<!-- NAVIGATION -->
+<button class="nav-btn prev" onclick="changeSlide(-1)">←</button>
+<button class="nav-btn next" onclick="changeSlide(1)">→</button>
 
-    </div>
+<script>
+    const slides = document.querySelectorAll('.slide');
+    let currentSlide = 1;
+    const totalSlides = slides.length;
+    document.getElementById('totalSlides').textContent = totalSlides;
 
-    <!-- NAVIGATION -->
-    <button class="nav-btn prev" onclick="changeSlide(-1)">←</button>
-    <button class="nav-btn next" onclick="changeSlide(1)">→</button>
-    <!-- Modale BAGAGES -->
-    <div class="modal-bagages" id="modalBagages" onclick="closeBagagesModal()">
-        <div class="modal-content-bagages" onclick="event.stopPropagation()">
-            <span class="close-modal" onclick="closeBagagesModal()">×</span>
-            <img src="https://claude.ai/api/3f903628-dae6-4d47-8173-fe3911887d5c/files/63fa0677-a096-4008-8a4e-f72c428f4214/preview" alt="Infographie Programme BAGAGES - Stages en Europe">
-        </div>
-    </div>
-    <div class="slide-counter">
-        <span id="currentSlide">1</span> / <span id="totalSlides">21</span>
-    </div>
-
-    <script>
-        let currentSlide = 1;
-        let totalSlides = 23;
-
-        function changeSlide(n) {
-            const slides = document.querySelectorAll('.slide');
-            slides[currentSlide - 1].classList.remove('active');
-            
-            currentSlide += n;
-            if (currentSlide > totalSlides) currentSlide = 1;
-            if (currentSlide < 1) currentSlide = totalSlides;
-            
-            slides[currentSlide - 1].classList.add('active');
-            document.getElementById('currentSlide').textContent = currentSlide;
-            updateProgressBar();
-       // Fonctions pour la modale BAGAGES
-        function openBagagesModal() {
-            document.getElementById('modalBagages').classList.add('active');
-        }
-
-        function closeBagagesModal() {
-            document.getElementById('modalBagages').classList.remove('active');
-        }
-
-        // Fermer la modale avec la touche Échap
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeBagagesModal();
-            }
-        });
-
- }
-
-        function updateProgressBar() {
-            const progress = (currentSlide / totalSlides) * 100;
-            document.getElementById('progressBar').style.width = progress + '%';
-        }
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowLeft') changeSlide(-1);
-            if (e.key === 'ArrowRight') changeSlide(1);
-        });
-
+    function showSlide(index) {
+        slides.forEach(s => s.classList.remove('active'));
+        slides[index - 1].classList.add('active');
+        document.getElementById('currentSlide').textContent = index;
         updateProgressBar();
-    </script>
+    }
+
+    function changeSlide(n) {
+        currentSlide += n;
+        if (currentSlide > totalSlides) currentSlide = 1;
+        if (currentSlide < 1) currentSlide = totalSlides;
+        showSlide(currentSlide);
+    }
+
+    function updateProgressBar() {
+        const progress = (currentSlide / totalSlides) * 100;
+        document.getElementById('progressBar').style.width = progress + '%';
+    }
+
+    // Modale BAGAGES
+    function openBagagesModal() {
+        document.getElementById('modalBagages').classList.add('active');
+    }
+
+    function closeBagagesModal() {
+        document.getElementById('modalBagages').classList.remove('active');
+    }
+
+    document.getElementById('modalBagages').addEventListener('click', closeBagagesModal);
+
+    // Navigation clavier
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') changeSlide(-1);
+        if (e.key === 'ArrowRight') changeSlide(1);
+        if (e.key === 'Escape') closeBagagesModal();
+    });
+
+    // Init
+    showSlide(currentSlide);
+</script>
 </body>
 </html>
