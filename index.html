@@ -1,837 +1,1135 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Webinaire Mobilité - MLPB</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Webinaire Mobilité - MLPB</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        :root {
-            --color-orange: #f39200;
-            --color-vert: #95c11f;
-            --color-bleu: #2897d5;
-            --color-rose: #d60b52;
-            --color-violet: #a3195b;
-            --color-noir: #171718;
-        }
+    :root {
+      --color-orange: #f39200;
+      --color-vert: #95c11f;
+      --color-bleu: #2897d5;
+      --color-rose: #d60b52;
+      --color-violet: #a3195b;
+      --color-noir: #171718;
+    }
 
-        /* Modale BAGAGES */
-        .modal-bagages {
-            display: none;
-            position: fixed;
-            z-index: 9999;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .modal-bagages.active {
-            display: flex;
-        }
-        
-        .modal-content-bagages {
-            max-width: 90%;
-            max-height: 90vh;
-            position: relative;
-        }
-        
-        .modal-content-bagages img {
-            width: 100%;
-            height: auto;
-            border-radius: 10px;
-        }
-        
-        .close-modal {
-            position: absolute;
-            top: -40px;
-            right: 0;
-            color: white;
-            font-size: 40px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-        
-        .close-modal:hover {
-            transform: scale(1.2);
-        }
+    /* Modale BAGAGES */
+    .modal-bagages {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-bagages.active { display: flex; }
+    .modal-content-bagages { max-width: 90%; max-height: 90vh; position: relative; }
+    .close-modal {
+      position: absolute;
+      top: -40px;
+      right: 0;
+      color: white;
+      font-size: 40px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .close-modal:hover { transform: scale(1.2); }
 
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background: white;
-            color: #171718;
-            overflow: hidden;
-        }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: white;
+      color: #171718;
+      overflow: hidden;
+    }
 
-        .presentation {
-            width: 100vw;
-            height: 100vh;
-            position: relative;
-        }
+    .presentation { width: 100vw; height: 100vh; position: relative; }
 
-        .slide {
-            width: 100%;
-            height: 100vh;
-            display: none;
-            padding: 50px;
-            position: relative;
-            overflow-y: auto;
-        }
+    .slide {
+      width: 100%;
+      height: 100vh;
+      display: none;
+      padding: 50px;
+      position: relative;
+      overflow-y: auto;
+    }
 
-        .slide.active {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
+    .slide.active {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
 
-        .nav-btn {
-            position: fixed;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 70px;
-            height: 70px;
-            background: #171718;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            font-size: 32px;
-            cursor: pointer;
-            z-index: 1000;
-            transition: all 0.3s;
-            font-weight: bold;
-        }
+    .nav-btn {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 70px;
+      height: 70px;
+      background: #171718;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      font-size: 32px;
+      cursor: pointer;
+      z-index: 1000;
+      transition: all 0.3s;
+      font-weight: bold;
+    }
+    .nav-btn:hover {
+      background: var(--color-orange);
+      transform: translateY(-50%) scale(1.1);
+    }
+    .nav-btn.prev { left: 30px; }
+    .nav-btn.next { right: 30px; }
 
-        .nav-btn:hover {
-            background: var(--color-orange);
-            transform: translateY(-50%) scale(1.1);
-        }
+    .slide-counter {
+      position: fixed;
+      bottom: 30px;
+      left: 30px;
+      background: #171718;
+      color: white;
+      padding: 15px 30px;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 18px;
+      z-index: 1000;
+    }
 
-        .nav-btn.prev { left: 30px; }
-        .nav-btn.next { right: 30px; }
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 5px;
+      background: var(--color-orange);
+      width: 0%;
+      z-index: 1001;
+      transition: width 0.3s;
+    }
 
-        .slide-counter {
-            position: fixed;
-            bottom: 30px;
-            left: 30px;
-            background: #171718;
-            color: white;
-            padding: 15px 30px;
-            border-radius: 30px;
-            font-weight: 700;
-            font-size: 18px;
-            z-index: 1000;
-        }
+    .card {
+      background: white;
+      border: 5px solid #171718;
+      padding: 30px;
+      border-radius: 0;
+      transition: all 0.3s;
+    }
+    .card:hover {
+      transform: translate(5px, -5px);
+      box-shadow: -8px 8px 0 #171718;
+    }
 
-        .progress-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 5px;
-            background: var(--color-orange);
-            width: 0%;
-            z-index: 1001;
-            transition: width 0.3s;
-        }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      max-width: 1200px;
+      width: 100%;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
+      max-width: 1200px;
+      width: 100%;
+    }
 
-        .card {
-            background: white;
-            border: 5px solid #171718;
-            padding: 30px;
-            border-radius: 0;
-            transition: all 0.3s;
-        }
+    h1 {
+      font-size: 56px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: -2px;
+      margin-bottom: 20px;
+    }
+    h3 {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
 
-        .card:hover {
-            transform: translate(5px, -5px);
-            box-shadow: -8px 8px 0 #171718;
-        }
+    a { color: inherit; text-decoration: none; }
 
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            max-width: 1200px;
-            width: 100%;
-        }
+    /* Helpers images */
+    .img-card {
+      background: white;
+      border: 5px solid #171718;
+      padding: 18px;
+      border-radius: 0;
+      width: 100%;
+      transition: all 0.3s;
+    }
+    .img-card:hover {
+      transform: translate(5px, -5px);
+      box-shadow: -8px 8px 0 #171718;
+    }
+    .img-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border: 3px solid #171718;
+    }
+    .img-caption {
+      margin-top: 12px;
+      font-weight: 800;
+      font-size: 18px;
+      text-transform: uppercase;
+      letter-spacing: -0.5px;
+    }
+    .small-note { font-size: 14px; color: #555; margin-top: 8px; line-height: 1.5; }
 
-        .grid-3 {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 20px;
-            max-width: 1200px;
-            width: 100%;
-        }
+    /* Autopositionnement */
+    .quiz-wrap {
+      background: white;
+      border-radius: 18px;
+      padding: 28px;
+      max-width: 980px;
+      width: 100%;
+      overflow-y: auto;
+      max-height: 72vh;
+      border: 4px solid rgba(0,0,0,0.15);
+    }
+    .quiz-intro {
+      font-size: 16px;
+      line-height: 1.6;
+      color: #333;
+      margin-bottom: 18px;
+    }
+    .section {
+      border: 3px solid #171718;
+      padding: 18px;
+      margin-bottom: 18px;
+      border-radius: 14px;
+      background: #fff;
+    }
+    .section-title {
+      font-size: 18px;
+      font-weight: 900;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .q {
+      margin: 10px 0 8px;
+      font-weight: 700;
+      color: #171718;
+      line-height: 1.4;
+    }
+    .choices {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .choice {
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 2px solid #171718;
+      font-weight: 700;
+      font-size: 14px;
+      background: #f6f6f6;
+    }
+    .note {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 2px dashed #999;
+      font-size: 13px;
+      color: #333;
+      background: #fafafa;
+    }
 
-        h1 {
-            font-size: 56px;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: -2px;
-            margin-bottom: 20px;
-        }
-
-        h3 {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 12px;
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-    </style>
+    /* Responsive */
+    @media (max-width: 980px) {
+      .grid-2 { grid-template-columns: 1fr; }
+      .grid-3 { grid-template-columns: 1fr; }
+      h1 { font-size: 42px; }
+      .slide { padding: 26px; }
+      .nav-btn { width: 56px; height: 56px; font-size: 26px; }
+    }
+  </style>
 </head>
+
 <body>
-    <div class="progress-bar" id="progressBar"></div>
-    
-    <div class="presentation">
+  <div class="progress-bar" id="progressBar"></div>
 
-<!-- SLIDE 0 - PAGE D'ACCUEIL -->
-<div class="slide active" style="background: #171718; color: white; text-align: center; justify-content: center; align-items: center;">
-    <div style="margin-bottom: 60px;">
+  <div class="presentation">
+
+    <!-- SLIDE 0 - PAGE D'ACCUEIL -->
+    <div class="slide active" style="background: #171718; color: white; text-align: center; justify-content: center; align-items: center;">
+      <div style="margin-bottom: 60px;">
         <img src="https://static.wixstatic.com/media/dd5dab_47743b1c86024865ba19e623a3db327f~mv2.avif/v1/fill/w_224,h_60,al_c,q_80,enc_avif,quality_auto/dd5dab_47743b1c86024865ba19e623a3db327f~mv2.avif" alt="Mission Locale Pays Basque" style="height: 80px;">
-    </div>
+      </div>
 
-    <h1 style="font-size: 72px; font-weight: 900; color: white; margin-bottom: 30px; letter-spacing: -2px; line-height: 1.1; max-width: 1100px; text-transform: uppercase;">
+      <h1 style="font-size: 72px; font-weight: 900; color: white; margin-bottom: 30px; letter-spacing: -2px; line-height: 1.1; max-width: 1100px; text-transform: uppercase;">
         TROUVEZ VOTRE<br>
         <span style="color: var(--color-orange);">AVENTURE INTERNATIONALE</span>
-    </h1>
+      </h1>
 
-    <p style="font-size: 28px; font-weight: 400; color: #ccc; max-width: 800px;">
+      <p style="font-size: 28px; font-weight: 400; color: #ccc; max-width: 800px;">
         Le guide des programmes de mobilité pour les 18-30 ans
-    </p>
-</div>
+      </p>
+    </div>
 
-<!-- SLIDE 1 - OBJECTIFS -->
-<div class="slide">
-    <h1 style="color: var(--color-orange); text-align: center;">🎯 Objectifs du webinaire</h1>
-    <div class="grid-2">
+    <!-- SLIDE 1 - OBJECTIFS (Titre cliquable vers votre-aventure-internationale.png) -->
+    <div class="slide">
+      <h1 style="color: var(--color-orange); text-align: center;">
+        <a href="votre-aventure-internationale.png" target="_blank" title="Ouvrir l'image">
+          🎯 Objectifs du webinaire 🔗
+        </a>
+      </h1>
+
+      <div class="grid-2">
         <div class="card" style="border-left: 8px solid var(--color-bleu);">
-            <div style="font-size: 48px; margin-bottom: 12px;">🌍</div>
-            <h3 style="color: var(--color-bleu);">Comprendre les options<br>de mobilité</h3>
-            <p>Découvrir les différents types de programmes disponibles</p>
+          <div style="font-size: 48px; margin-bottom: 12px;">🌍</div>
+          <h3 style="color: var(--color-bleu);">Comprendre les options<br>de mobilité</h3>
+          <p>Découvrir les différents types de programmes disponibles</p>
         </div>
         <div class="card" style="border-left: 8px solid var(--color-vert);">
-            <div style="font-size: 48px; margin-bottom: 12px;">📋</div>
-            <h3 style="color: var(--color-vert);">Découvrir les programmes<br>existants</h3>
-            <p>Explorer 45 offres concrètes dans 15+ pays</p>
+          <div style="font-size: 48px; margin-bottom: 12px;">📋</div>
+          <h3 style="color: var(--color-vert);">Découvrir les programmes<br>existants</h3>
+          <p>Explorer 45 offres concrètes dans 15+ pays</p>
         </div>
         <div class="card" style="border-left: 8px solid var(--color-orange);">
-            <div style="font-size: 48px; margin-bottom: 12px;">🧭</div>
-            <h3 style="color: var(--color-orange);">Identifier ton profil<br>mobilité</h3>
-            <p>Trouver le programme qui te correspond</p>
+          <div style="font-size: 48px; margin-bottom: 12px;">🧭</div>
+          <h3 style="color: var(--color-orange);">Identifier ton profil<br>mobilité</h3>
+          <p>Trouver le programme qui te correspond</p>
         </div>
         <div class="card" style="border-left: 8px solid var(--color-rose);">
-            <div style="font-size: 48px; margin-bottom: 12px;">✅</div>
-            <h3 style="color: var(--color-rose);">Repartir avec un<br>plan d'action</h3>
-            <p>Avoir des étapes concrètes pour démarrer</p>
+          <div style="font-size: 48px; margin-bottom: 12px;">✅</div>
+          <h3 style="color: var(--color-rose);">Repartir avec un<br>plan d'action</h3>
+          <p>Avoir des étapes concrètes pour démarrer</p>
         </div>
+      </div>
     </div>
-</div>
 
-<!-- SLIDE 2 - AUTO-POSITIONNEMENT -->
-<div class="slide" style="background: linear-gradient(135deg, var(--color-orange), var(--color-rose)); justify-content: center;">
-    <h1 style="color: white; text-align: center; font-size: 52px; margin-bottom: 30px; text-transform: uppercase;">🎯 AUTO-POSITIONNEMENT</h1>
-    <p style="color: white; text-align: center; font-size: 24px; margin-bottom: 50px;">Où en es-tu avec la mobilité internationale ?</p>
-    
-    <div style="background: white; border-radius: 20px; padding: 40px; max-width: 900px; overflow-y: auto; max-height: 70vh;">
-        <div style="display: flex; flex-direction: column; gap: 30px;">
-            <div>
-                <h3 style="color: var(--color-bleu); font-size: 20px; margin-bottom: 15px;">Q1 – Quand tu as un imprévu dans ta journée, tu réagis comment ?</h3>
-                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-                    <div style="background: #e8f5e9; padding: 12px 20px; border-radius: 10px; border: 2px solid var(--color-vert);">👍 Je me débrouille</div>
-                    <div style="background: #fff3e0; padding: 12px 20px; border-radius: 10px; border: 2px solid var(--color-orange);">😐 Parfois oui, parfois non</div>
-                    <div style="background: #ffebee; padding: 12px 20px; border-radius: 10px; border: 2px solid var(--color-rose);">😕 C'est compliqué pour moi</div>
-                </div>
-            </div>
-            
-            <div>
-                <h3 style="color: var(--color-vert); font-size: 20px; margin-bottom: 15px;">Q2 – Rencontrer des jeunes d'autres pays / cultures, ça te ferait quoi ?</h3>
-                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-                    <div style="background: #e8f5e9; padding: 12px 20px; border-radius: 10px; border: 2px solid var(--color-vert);">😄 Je serais partant(e)</div>
-                    <div style="background: #fff3e0; padding: 12px 20px; border-radius: 10px; border: 2px solid var(--color-orange);">🤔 J'hésiterais</div>
-                    <div style="background: #ffebee; padding: 12px 20px; border-radius: 10px; border: 2px solid var(--color-rose);">😬 Ça me stresserait</div>
-                </div>
-            </div>
-            
-            <div>
-                <h3 style="color: var(--color-orange); font-size: 20px; margin-bottom: 15px;">Q3 – Si tu dois parler anglais/espagnol, tu te sens où ?</h3>
-                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-                    <div style="background: #e8f5e9; padding: 12px 20px; border-radius: 10px; border: 2px solid var(--color-vert);">🗣️ Je peux parler un peu</div>
-                    <div style="background: #fff3e0; padding: 12px 20px; border-radius: 10px; border: 2px solid var(--color-orange);">🙂 Je comprends quelques mots</div>
-                    <div style="background: #ffebee; padding: 12px 20px; border-radius: 10px; border: 2px solid var(--color-rose);">📚 Je débute complètement</div>
-                </div>
-            </div>
-            
-            <div>
-                <h3 style="color: var(--color-bleu); font-size: 20px; margin-bottom: 15px;">Q4 – Être loin de ta famille / tes potes, tu gères ?</h3>
-                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-                    <div style="background: #e8f5e9; padding: 12px 20px; border-radius: 10px; border: 2px solid var(--color-vert);">😎 Oui, pas de souci</div>
-                    <div style="background: #fff3e0; padding: 12px 20px; border-radius: 10px; border: 2px solid var(--color-orange);">😐 Ça dépend de la durée</div>
-                    <div style="background: #ffebee; padding: 12px 20px; border-radius: 10px; border: 2px solid var(--color-rose);">😢 Ce serait difficile</div>
-                </div>
-            </div>
-            
-            <div>
-                <h3 style="color: var(--color-violet); font-size: 20px; margin-bottom: 15px;">Q5 – Tu sais déjà ce que tu voudrais faire à l'étranger ?</h3>
-                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-                    <div style="background: #e8f5e9; padding: 12px 20px; border-radius: 10px; border: 2px solid var(--color-vert);">🎯 Oui, c'est clair</div>
-                    <div style="background: #fff3e0; padding: 12px 20px; border-radius: 10px; border: 2px solid var(--color-orange);">💡 J'ai des idées floues</div>
-                    <div style="background: #ffebee; padding: 12px 20px; border-radius: 10px; border: 2px solid var(--color-rose);">❓ Pas trouvé encore</div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <p style="color: white; text-align: center; font-size: 18px; margin-top: 30px;">💬 Partagez vos réponses dans le chat Teams !</p>
-</div>
+    <!-- SLIDE 2 - AUTO-POSITIONNEMENT (nouvelle version) -->
+    <div class="slide" style="background: linear-gradient(135deg, var(--color-orange), var(--color-rose)); justify-content: center;">
+      <h1 style="color: white; text-align: center; font-size: 52px; margin-bottom: 10px; text-transform: uppercase;">🎯 AUTO-POSITIONNEMENT</h1>
+      <p style="color: white; text-align: center; font-size: 20px; margin-bottom: 24px; max-width: 980px;">
+        Évalue tes compétences et tes atouts
+      </p>
 
-<!-- SLIDE 3 - QU'EST-CE QUE LA MOBILITÉ -->
-<div class="slide">
-    <h1 style="color: var(--color-bleu); text-align: center;">💡 Qu'est-ce que la mobilité<br>internationale ?</h1>
-    <div style="background: linear-gradient(135deg, var(--color-bleu), var(--color-vert)); padding: 35px; border-radius: 20px; color: white; margin: 24px 0;">
-        <h2 style="color: white; font-size: 26px;">Une expérience à l'étranger</h2>
-        <p style="font-size: 18px; line-height: 1.7;">Partir dans un autre pays pour découvrir une nouvelle culture, développer des compétences et vivre une aventure humaine enrichissante.</p>
-    </div>
-    <div class="grid-2">
-        <div class="card" style="border-top: 6px solid var(--color-vert);">
-            <h3 style="color: var(--color-vert);">🌟 Bénéfices personnels</h3>
-            <p>Autonomie • Confiance • Découverte culturelle • Amitiés internationales • Aventure • Ouverture d'esprit</p>
+      <div class="quiz-wrap">
+        <div class="quiz-intro">
+          💡 <strong>Conseil :</strong> Sois honnête avec toi-même ! Il n'y a pas de bonnes ou mauvaises réponses.
+          C'est pour t'aider à identifier ce qui va bien et ce sur quoi tu peux progresser.
         </div>
-        <div class="card" style="border-top: 6px solid var(--color-orange);">
-            <h3 style="color: var(--color-orange);">💼 Bénéfices professionnels</h3>
-            <p>Langues • Compétences transversales • CV enrichi • Différenciation employeurs • Réseau international</p>
-        </div>
-    </div>
-</div>
 
-<!-- SLIDE 4 - PROGRAMMES COURTS -->
-<div class="slide">
-    <h1 style="color: var(--color-orange); text-align: center;">👥 Programmes courts collectifs</h1>
-    <div class="grid-2">
-        <div class="card" style="border: 4px solid var(--color-bleu);">
-            <div style="font-size: 48px; text-align: center;">🗣️</div>
-            <h2 style="color: var(--color-bleu); text-align: center; font-size: 22px;">Échange de Jeunes<br>Erasmus+</h2>
-            <p style="margin-top: 16px;"><strong>👤</strong> 18-30 ans • <strong>⏱️</strong> 5-21 jours • <strong>👥</strong> 5-6 jeunes • <strong>💰</strong> ~50€</p>
-        </div>
-        <div class="card" style="border: 4px solid var(--color-vert);">
-            <div style="font-size: 48px; text-align: center;">🤝</div>
-            <h2 style="color: var(--color-vert); text-align: center; font-size: 22px;">Équipes Volontaires<br>CES</h2>
-            <p style="margin-top: 16px;"><strong>👤</strong> 18-30 ans • <strong>⏱️</strong> Jusqu'à 2 mois • <strong>👥</strong> 6-40 jeunes • <strong>💰</strong> ~50€</p>
-        </div>
-    </div>
-</div>
+        <!-- Démarches administratives -->
+        <div class="section">
+          <div class="section-title">🗂️ Démarches administratives</div>
 
-<!-- SLIDE 5 - PROGRAMMES LONGS + BAGAGES -->
-<div class="slide">
-    <h1 style="color: var(--color-rose); text-align: center;">✈️ Programmes longs individuels</h1>
-    <div class="grid-3" style="margin-top: 24px;">
-        <a href="https://youth.europa.eu/home_fr" target="_blank" class="card" style="border-left: 6px solid var(--color-bleu);">
-            <h3 style="color: var(--color-bleu);">CES Court Terme</h3>
-            <p><strong>⏱️</strong> 10 jours - 2 mois<br><strong>🎯</strong> Suivi par tuteur<br><strong>✅</strong> Tester immersion</p>
-        </a>
-        
-        <a href="https://youth.europa.eu/home_fr" target="_blank" class="card" style="border-left: 6px solid var(--color-vert);">
-            <h3 style="color: var(--color-vert);">CES Long Terme</h3>
-            <p><strong>⏱️</strong> 2-12 mois<br><strong>🎯</strong> Plateforme linguistique<br><strong>✅</strong> Immersion longue</p>
-        </a>
-        
-        <div class="card" style="border-left: 10px solid var(--color-orange); cursor: pointer;" onclick="openBagagesModal()" onmouseover="this.style.transform='translate(5px, -5px)'; this.style.boxShadow='-10px 10px 0 var(--color-orange)';" onmouseout="this.style.transform=''; this.style.boxShadow='';">
-            <div style="font-size: 48px; margin-bottom: 15px;">🎒</div>
-            <h3 style="color: var(--color-orange); font-size: 22px; margin-bottom: 12px;">Stages BAGAGES</h3>
-            <p style="font-size: 15px; margin: 12px 0;">Stage 3 ou 6 mois en Europe</p>
-            <div style="margin-top: 15px; font-size: 14px;">
-                <div><strong>⏱️</strong> 3 à 6 mois</div>
-                <div><strong>👤</strong> 18-30 ans NA</div>
-                <div><strong>🏢</strong> France Travail / ML</div>
-                <div><strong>💰</strong> Financement complet</div>
+          <div class="q">Est-ce que tu te sens capable de gérer des papiers administratifs tout·e seul·e ?</div>
+          <div class="choices">
+            <div class="choice" style="border-color: var(--color-vert); background:#e8f5e9;">Oui, ça va</div>
+            <div class="choice" style="border-color: var(--color-orange); background:#fff3e0;">Un peu, mais j'ai besoin d'aide</div>
+            <div class="choice" style="border-color: var(--color-rose); background:#ffebee;">Non, ça me stresse beaucoup</div>
+          </div>
+
+          <div class="q">Est-ce que tu as tes papiers d'identité à jour (passeport, carte d'identité...) ?</div>
+          <div class="choices">
+            <div class="choice" style="border-color: var(--color-vert); background:#e8f5e9;">Oui, tout est prêt !</div>
+            <div class="choice" style="border-color: var(--color-orange); background:#fff3e0;">C'est en cours</div>
+            <div class="choice" style="border-color: var(--color-rose); background:#ffebee;">Non, je n'ai rien commencé</div>
+          </div>
+
+          <div class="q">As-tu déjà fait des démarches qui prennent du temps (demande de papiers, inscriptions...) ?</div>
+          <div class="choices">
+            <div class="choice" style="border-color: var(--color-vert); background:#e8f5e9;">Oui, plusieurs fois</div>
+            <div class="choice" style="border-color: var(--color-orange); background:#fff3e0;">Une ou deux fois</div>
+            <div class="choice" style="border-color: var(--color-rose); background:#ffebee;">Jamais</div>
+          </div>
+
+          <div class="note">💭 Notes personnelles (optionnel) : Ex: J'ai besoin d'aide pour mon passeport...</div>
+        </div>
+
+        <!-- Confiance en toi -->
+        <div class="section">
+          <div class="section-title">🫶 Confiance en toi</div>
+
+          <div class="q">Est-ce que tu te sens capable de partir à l'étranger ?</div>
+          <div class="choices">
+            <div class="choice" style="border-color: var(--color-vert); background:#e8f5e9;">Oui, carrément !</div>
+            <div class="choice" style="border-color: var(--color-orange); background:#fff3e0;">Plutôt oui, même si j'ai quelques doutes</div>
+            <div class="choice" style="border-color: var(--color-rose); background:#ffebee;">Pas trop, j'ai pas mal d'appréhensions</div>
+          </div>
+
+          <div class="q">Est-ce que tu as des peurs liées à ce projet ?</div>
+          <div class="choices">
+            <div class="choice" style="border-color: var(--color-vert); background:#e8f5e9;">Non, pas vraiment</div>
+            <div class="choice" style="border-color: var(--color-orange); background:#fff3e0;">Oui, un peu (peur d'être seul·e, de la langue...)</div>
+            <div class="choice" style="border-color: var(--color-rose); background:#ffebee;">Oui, beaucoup de peurs</div>
+          </div>
+
+          <div class="q">Comment tu te sens en général face aux changements et aux défis ?</div>
+          <div class="choices">
+            <div class="choice" style="border-color: var(--color-vert); background:#e8f5e9;">J'aime les nouveaux défis !</div>
+            <div class="choice" style="border-color: var(--color-orange); background:#fff3e0;">Ça dépend, parfois ça me stresse</div>
+            <div class="choice" style="border-color: var(--color-rose); background:#ffebee;">Les changements me font souvent peur</div>
+          </div>
+
+          <div class="note">💭 Quelles sont tes plus grandes peurs ou inquiétudes ? (optionnel)<br>Ex: J'ai peur de ne pas me faire d'amis, de rater mon projet...</div>
+        </div>
+
+        <!-- Langues -->
+        <div class="section">
+          <div class="section-title">🗣️ Tes langues</div>
+
+          <div class="q">Comment tu évalues ton niveau en anglais ?</div>
+          <div class="choices">
+            <div class="choice">Débutant (A1-A2)</div>
+            <div class="choice">Intermédiaire (B1-B2)</div>
+            <div class="choice">Avancé (C1-C2)</div>
+            <div class="choice">Aucune notion</div>
+          </div>
+
+          <div class="q">Parles-tu d'autres langues ? Lesquelles et à quel niveau ?</div>
+          <div class="note">Ex: Espagnol niveau intermédiaire, Euskara débutant...</div>
+
+          <div class="q">Est-ce que tu aimerais améliorer une langue avant de partir ?</div>
+          <div class="choices">
+            <div class="choice" style="border-color: var(--color-vert); background:#e8f5e9;">Oui, j'en ai besoin</div>
+            <div class="choice" style="border-color: var(--color-orange); background:#fff3e0;">Peut-être, ça pourrait aider</div>
+            <div class="choice" style="border-color: var(--color-bleu); background:#e3f2fd;">Non, ça va comme ça</div>
+          </div>
+
+          <div class="note">💭 Notes personnelles (optionnel) : Ex: Je parle un peu espagnol mais j'aimerais progresser...</div>
+        </div>
+
+        <!-- Expérience des voyages -->
+        <div class="section">
+          <div class="section-title">🌍 Ton expérience des voyages et de l'ouverture</div>
+
+          <div class="q">As-tu déjà voyagé loin de chez toi (autre ville, région, pays...) ?</div>
+          <div class="choices">
+            <div class="choice" style="border-color: var(--color-vert); background:#e8f5e9;">Oui, plusieurs fois</div>
+            <div class="choice" style="border-color: var(--color-orange); background:#fff3e0;">Oui, une ou deux fois</div>
+            <div class="choice" style="border-color: var(--color-rose); background:#ffebee;">Non, jamais vraiment</div>
+          </div>
+
+          <div class="q">Comment tu te sens à l'idée de vivre dans un endroit totalement nouveau ?</div>
+          <div class="choices">
+            <div class="choice" style="border-color: var(--color-vert); background:#e8f5e9;">Super excité·e et curieux·se !</div>
+            <div class="choice" style="border-color: var(--color-orange); background:#fff3e0;">Excité·e mais un peu stressé·e aussi</div>
+            <div class="choice" style="border-color: var(--color-rose); background:#ffebee;">Plutôt inquiet·ète</div>
+          </div>
+
+          <div class="note">💭 Notes personnelles (optionnel) : Ex: J'ai voyagé en Espagne avec ma famille...</div>
+        </div>
+
+        <!-- Organisation -->
+        <div class="section">
+          <div class="section-title">📅 Ton organisation</div>
+
+          <div class="q">Est-ce que tu arrives à bien organiser tes projets (devoirs, sorties, activités...) ?</div>
+          <div class="choices">
+            <div class="choice" style="border-color: var(--color-vert); background:#e8f5e9;">Oui, je gère bien !</div>
+            <div class="choice" style="border-color: var(--color-orange); background:#fff3e0;">Ça dépend, parfois oui parfois non</div>
+            <div class="choice" style="border-color: var(--color-rose); background:#ffebee;">Non, j'ai besoin qu'on m'aide</div>
+          </div>
+
+          <div class="note">💭 Notes personnelles (optionnel) : Ex: Je sais faire des planning mais j'ai du mal à m'y tenir...</div>
+        </div>
+
+        <!-- Budget -->
+        <div class="section">
+          <div class="section-title">💰 Ton budget</div>
+
+          <div class="q">As-tu une idée de combien coûte un projet comme le tien ?</div>
+          <div class="choices">
+            <div class="choice" style="border-color: var(--color-vert); background:#e8f5e9;">Oui, j'ai fait des recherches</div>
+            <div class="choice" style="border-color: var(--color-orange); background:#fff3e0;">J'ai une vague idée</div>
+            <div class="choice" style="border-color: var(--color-rose); background:#ffebee;">Non, aucune idée</div>
+          </div>
+
+          <div class="q">Sais-tu qu'il existe des aides financières pour les jeunes qui partent ?</div>
+          <div class="choices">
+            <div class="choice" style="border-color: var(--color-vert); background:#e8f5e9;">Oui, je connais</div>
+            <div class="choice" style="border-color: var(--color-orange); background:#fff3e0;">J'en ai entendu parler</div>
+            <div class="choice" style="border-color: var(--color-rose); background:#ffebee;">Non, pas du tout</div>
+          </div>
+
+          <div class="note">💭 Notes personnelles (optionnel) : Ex: J'ai des économies mais je ne sais pas si c'est suffisant...</div>
+        </div>
+
+        <!-- Entourage -->
+        <div class="section">
+          <div class="section-title">🧑‍🤝‍🧑 Ton entourage</div>
+
+          <div class="q">Est-ce que ta famille et tes proches soutiennent ton projet ?</div>
+          <div class="choices">
+            <div class="choice" style="border-color: var(--color-vert); background:#e8f5e9;">Oui, totalement !</div>
+            <div class="choice" style="border-color: var(--color-orange); background:#fff3e0;">Plutôt oui, mais ils ont des inquiétudes</div>
+            <div class="choice" style="border-color: var(--color-rose); background:#ffebee;">Non, ils ne sont pas d'accord</div>
+          </div>
+
+          <div class="q">Connais-tu quelqu'un là où tu veux aller (amis, famille, contacts...) ?</div>
+          <div class="choices">
+            <div class="choice" style="border-color: var(--color-vert); background:#e8f5e9;">Oui</div>
+            <div class="choice" style="border-color: var(--color-orange); background:#fff3e0;">Un peu</div>
+            <div class="choice" style="border-color: var(--color-rose); background:#ffebee;">Non, personne</div>
+          </div>
+
+          <div class="note">💭 Notes personnelles (optionnel) : Ex: Mes parents ont peur mais mes amis m'encouragent...</div>
+        </div>
+
+        <!-- Besoins -->
+        <div class="section" style="border-color: var(--color-orange);">
+          <div class="section-title">✅ De quoi as-tu besoin pour réussir ?</div>
+
+          <div class="q">Maintenant que tu as réfléchi à tout ça, de quel type d'accompagnement penses-tu avoir besoin ?</div>
+          <div class="choices" style="flex-direction: column;">
+            <div class="choice" style="border-color: var(--color-vert); background:#e8f5e9;">
+              🟩 <strong>Je peux y aller seul·e !</strong><br>
+              Je me sens prêt·e et je veux juste quelqu'un qui vérifie que je n'oublie rien.
             </div>
-            <div style="background: var(--color-orange); color: white; padding: 12px; border-radius: 8px; text-align: center; margin-top: 20px; font-weight: 700; font-size: 14px;">
-                👁️ Cliquez pour l'infographie
+            <div class="choice" style="border-color: var(--color-orange); background:#fff3e0;">
+              🟧 <strong>J'ai besoin qu'on m'accompagne</strong><br>
+              J'ai des questions et j'aimerais qu'on m'explique les étapes et qu'on m'aide à préparer mon projet.
             </div>
-        </div>
-    </div>
-</div>
+            <div class="choice" style="border-color: var(--color-rose); background:#ffebee;">
+              🟥 <strong>J'ai besoin de beaucoup d'aide</strong><br>
+              Je me sens un peu perdu·e et j'ai besoin qu'on me guide pas à pas et qu'on me rassure.
+            </div>
+          </div>
 
-<!-- SLIDE 6 - PVT -->
-<div class="slide" style="justify-content: center;">
-    <h1 style="color: var(--color-vert); text-align: center; margin-bottom: 40px; text-transform: uppercase;">🌏 Programme Vacances-Travail (PVT)</h1>
-    
-    <div style="max-width: 1100px; margin: 0 auto;">
+          <div class="note" style="border-style: solid; border-color: #171718;">
+            ✨ <strong>Bonne nouvelle !</strong> Quel que soit ton niveau, on peut t'aider ! L'important c'est d'être honnête sur ce dont tu as besoin pour que ton projet se passe au mieux. 🌟
+          </div>
+        </div>
+
+      </div>
+
+      <p style="color: white; text-align: center; font-size: 16px; margin-top: 18px;">💬 Partagez vos réponses dans le chat Teams !</p>
+    </div>
+
+    <!-- SLIDE 3 - MOBILITÉ (intègre l'infographie via iframe srcdoc) -->
+    <div class="slide" style="padding: 0; overflow: hidden;">
+      <iframe
+        title="Infographie mobilité internationale"
+        style="width: 100%; height: 100%; border: 0;"
+        srcdoc='<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { box-sizing: border-box; margin:0; padding:0; font-family: Nunito, sans-serif; overflow-x:hidden; }
+    html, body, .infographic-wrapper { height: 100%; width: 100%; }
+    .infographic-wrapper { background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%); padding: 2%; overflow-y:auto; }
+    .infographic-container { max-width: 1400px; margin: 0 auto; background: #ffffff; border-radius: 30px; padding: 3%; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+    .header { text-align:center; margin-bottom: 3%; }
+    .header h1 { font-size: 3em; font-weight: 800; margin:0; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .header .subtitle { font-size: 1.8em; color: #f093fb; font-family: Caveat, cursive; margin-top: 0.5%; }
+    .central-section { text-align:center; margin: 4% 0; position:relative; }
+    .character { font-size: 5em; margin-bottom: 2%; animation: float 3s ease-in-out infinite; }
+    @keyframes float { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-15px);} }
+    .speech-bubble { background:#fff3cd; border:3px solid #ffc107; border-radius:25px; padding:2%; max-width:500px; margin:0 auto; font-family:Caveat,cursive; font-size:1.6em; position:relative; box-shadow:0 5px 15px rgba(0,0,0,0.1); }
+    .speech-bubble:after { content:""; position:absolute; bottom:-20px; left:50%; transform:translateX(-50%); width:0; height:0; border-left:20px solid transparent; border-right:20px solid transparent; border-top:20px solid #ffc107; }
+    .journey-timeline { display:flex; justify-content:space-between; margin: 5% 0; position:relative; padding: 0 2%; }
+    .journey-timeline:before { content:""; position:absolute; top:25%; left:10%; right:10%; height:4px; background: linear-gradient(90deg,#667eea,#764ba2,#f093fb); z-index:0; }
+    .journey-phase { flex:1; text-align:center; position:relative; z-index:1; padding:2%; }
+    .phase-icon { font-size:2.5em; background:white; border-radius:50%; width:80px; height:80px; display:flex; align-items:center; justify-content:center; margin:0 auto 2%; border:5px solid; box-shadow:0 5px 15px rgba(0,0,0,0.2); }
+    .journey-phase:nth-child(1) .phase-icon { border-color:#667eea; }
+    .journey-phase:nth-child(2) .phase-icon { border-color:#764ba2; }
+    .journey-phase:nth-child(3) .phase-icon { border-color:#f093fb; }
+    .phase-title { font-size:1.6em; font-weight:700; margin-bottom:2%; }
+    .phase-keywords { font-size:1em; color:#555; margin-bottom:2%; line-height:1.8; }
+    .phase-quote { font-family:Caveat,cursive; font-size:1.3em; background:#f8f9fa; padding:2%; border-radius:15px; border-left:4px solid; margin-top:2%; }
+    .journey-phase:nth-child(1) .phase-quote { border-left-color:#667eea; }
+    .journey-phase:nth-child(2) .phase-quote { border-left-color:#764ba2; }
+    .journey-phase:nth-child(3) .phase-quote { border-left-color:#f093fb; }
+    .benefits-section { display:flex; gap:4%; margin:5% 0; }
+    .benefit-block { flex:1; background:linear-gradient(135deg,#f8f9fa 0%,#e9ecef 100%); border-radius:20px; padding:3%; border:3px solid; box-shadow:0 10px 25px rgba(0,0,0,0.1); }
+    .benefit-block:nth-child(1){ border-color:#667eea; }
+    .benefit-block:nth-child(2){ border-color:#f093fb; }
+    .benefit-icons{ font-size:2em; margin-bottom:2%; }
+    .benefit-block h3{ font-size:1.4em; margin-bottom:3%; font-weight:700; }
+    .benefit-list{ list-style:none; padding:0; margin:0; }
+    .benefit-list li{ padding:2% 0; font-size:1.1em; position:relative; padding-left:8%; }
+    .benefit-list li:before{ content:"✓"; position:absolute; left:0; color:#28a745; font-weight:700; font-size:1.3em; }
+    .benefit-tagline{ font-family:Caveat,cursive; font-size:1.5em; text-align:center; margin-top:3%; padding:2%; background:rgba(255,255,255,0.5); border-radius:15px; }
+    .fears-section{ margin:5% 0; background:#fff3cd; padding:3%; border-radius:20px; border:3px dashed #ffc107; }
+    .fears-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:3%; margin-top:2%; }
+    .fear-item{ display:flex; align-items:center; gap:2%; background:white; padding:2%; border-radius:15px; box-shadow:0 3px 10px rgba(0,0,0,0.1); }
+    .fear-question{ flex:1; font-size:1.1em; color:#dc3545; }
+    .fear-arrow{ font-size:1.5em; color:#28a745; }
+    .fear-answer{ flex:1; font-size:1.1em; color:#28a745; font-weight:600; }
+    .modulable-section{ text-align:center; margin:5% 0; background:linear-gradient(135deg,#e9ecef 0%,#f8f9fa 100%); padding:3%; border-radius:20px; }
+    .modulable-section h3{ font-size:1.8em; margin-bottom:3%; color:#764ba2; }
+    .modulable-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:2%; margin-top:2%; }
+    .modulable-item{ background:white; padding:3%; border-radius:15px; box-shadow:0 5px 15px rgba(0,0,0,0.1); }
+    .modulable-item .icon{ font-size:2.5em; margin-bottom:2%; }
+    .modulable-item p{ font-size:1em; font-weight:600; margin:0; }
+    .modulable-tagline{ font-family:Caveat,cursive; font-size:1.5em; margin-top:3%; color:#764ba2; }
+    .testimonials{ display:flex; gap:3%; margin:5% 0; }
+    .testimonial{ flex:1; background:#e3f2fd; border:3px solid #2196f3; border-radius:20px; padding:2%; font-family:Caveat,cursive; font-size:1.3em; position:relative; box-shadow:0 5px 15px rgba(0,0,0,0.1); }
+    .testimonial:before{ content:"\u0022"; font-size:3em; position:absolute; top:-10px; left:10px; color:#2196f3; }
+    .final-message{ background:linear-gradient(135deg,#667eea 0%,#764ba2 100%); color:white; padding:4%; border-radius:25px; text-align:center; margin-top:5%; box-shadow:0 15px 40px rgba(0,0,0,0.3); }
+    .final-message p{ font-size:1.6em; line-height:1.6; margin:1% 0; font-weight:600; }
+    .final-message .highlight{ font-size:1.8em; font-weight:800; }
+    @media (max-width: 768px){
+      .journey-timeline{ flex-direction:column; }
+      .journey-timeline:before{ display:none; }
+      .benefits-section{ flex-direction:column; }
+      .fears-grid,.modulable-grid{ grid-template-columns:1fr; }
+      .testimonials{ flex-direction:column; }
+      .header h1{ font-size:2em; }
+    }
+  </style>
+</head>
+<body>
+  <div class="infographic-wrapper">
+    <div class="infographic-container">
+      <div class="header">
+        <h1>🌍 La mobilité internationale</h1>
+        <div class="subtitle">Une expérience qui fait grandir</div>
+      </div>
+
+      <div class="central-section">
+        <div class="character">🧍‍♀️</div>
+        <div class="speech-bubble">« Et si je tentais une expérience ailleurs ? »</div>
+      </div>
+
+      <div class="journey-timeline">
+        <div class="journey-phase">
+          <div class="phase-icon">⏳</div>
+          <div class="phase-title">AVANT</div>
+          <div class="phase-keywords">🧠 Doutes<br>❓ Questions<br>🧩 Envie de changement<br>💭 Curiosité</div>
+          <div class="phase-quote">Je me pose des questions, je ne sais pas encore.</div>
+        </div>
+        <div class="journey-phase">
+          <div class="phase-icon">🌍</div>
+          <div class="phase-title">PENDANT</div>
+          <div class="phase-keywords">🤝 Découverte<br>🌱 Apprentissages concrets<br>👥 Nouvelles rencontres<br>🛠️ Autonomie</div>
+          <div class="phase-quote">Je fais, j&#39;apprends, j&#39;essaie.</div>
+        </div>
+        <div class="journey-phase">
+          <div class="phase-icon">🚀</div>
+          <div class="phase-title">APRÈS</div>
+          <div class="phase-keywords">⭐ Confiance<br>🧭 Expérience<br>📄 Choix plus clairs<br>🎯 Projection</div>
+          <div class="phase-quote">Je sais mieux ce que je veux et ce que je vaux.</div>
+        </div>
+      </div>
+
+      <div class="benefits-section">
+        <div class="benefit-block">
+          <div class="benefit-icons">💪 🧠 ❤️</div>
+          <h3>Bénéfices PERSONNELS</h3>
+          <ul class="benefit-list">
+            <li>Confiance en soi</li><li>Autonomie</li><li>Fierté</li><li>Ouverture d&#39;esprit</li><li>Capacité à s&#39;adapter</li>
+          </ul>
+          <div class="benefit-tagline">Je grandis en tant que personne.</div>
+        </div>
+        <div class="benefit-block">
+          <div class="benefit-icons">🧰 📈 👥</div>
+          <h3>Bénéfices PROFESSIONNELS</h3>
+          <ul class="benefit-list">
+            <li>Expérience valorisable</li><li>Engagement</li><li>Adaptation</li><li>Travail en équipe</li><li>Atout pour un CV</li>
+          </ul>
+          <div class="benefit-tagline">J&#39;ai quelque chose de concret à raconter.</div>
+        </div>
+      </div>
+
+      <div class="fears-section">
+        <h3 style="text-align:center; font-size:1.8em; margin-bottom:2%;">🛑 Peurs fréquentes → ✔️ Réponses</h3>
+        <div class="fears-grid">
+          <div class="fear-item"><div class="fear-question">❓ « Je parle pas anglais »</div><div class="fear-arrow">→</div><div class="fear-answer">✔️ On apprend en pratiquant</div></div>
+          <div class="fear-item"><div class="fear-question">❓ « Je n&#39;ai pas d&#39;argent »</div><div class="fear-arrow">→</div><div class="fear-answer">✔️ C&#39;est financé</div></div>
+          <div class="fear-item"><div class="fear-question">❓ « J&#39;ai peur d&#39;être seul »</div><div class="fear-arrow">→</div><div class="fear-answer">✔️ Tu es accompagné</div></div>
+          <div class="fear-item"><div class="fear-question">❓ « Et si ça se passe mal ? »</div><div class="fear-arrow">→</div><div class="fear-answer">✔️ Tu n&#39;es jamais bloqué</div></div>
+        </div>
+      </div>
+
+      <div class="modulable-section">
+        <h3>🧩 La mobilité, c&#39;est modulable</h3>
+        <div class="modulable-grid">
+          <div class="modulable-item"><div class="icon">⏱️</div><p>Court ou long</p></div>
+          <div class="modulable-item"><div class="icon">👥</div><p>En groupe ou seul</p></div>
+          <div class="modulable-item"><div class="icon">📍</div><p>Proche ou plus loin</p></div>
+          <div class="modulable-item"><div class="icon">🗣️</div><p>Avec ou sans langue</p></div>
+        </div>
+        <div class="modulable-tagline">Il existe une mobilité adaptée à chacun.</div>
+      </div>
+
+      <div class="testimonials">
+        <div class="testimonial">J&#39;ai repris confiance</div>
+        <div class="testimonial">Je ne pensais pas en être capable</div>
+        <div class="testimonial">Maintenant je sais mieux où je vais</div>
+      </div>
+
+      <div class="final-message">
+        <p class="highlight">Tu ne pars pas pour trouver un métier.</p>
+        <p class="highlight">Tu pars pour te découvrir,</p>
+        <p class="highlight">et avancer plus solidement.</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>'>
+      </iframe>
+    </div>
+
+    <!-- SLIDE 4 - PROGRAMMES (regroupe Échange de jeunes + Volontariats) + images -->
+    <div class="slide">
+      <h1 style="color: var(--color-orange); text-align: center;">👥 Programmes : Échanges & Volontariats</h1>
+
+      <div class="grid-2" style="margin-top: 22px;">
+        <div class="img-card">
+          <img src="echanges-jeunes.png" alt="Échanges de jeunes">
+          <div class="img-caption" style="color: var(--color-bleu);">Échanges de jeunes</div>
+        </div>
+
+        <div class="img-card">
+          <img src="indiv-teams.png" alt="Volontariats (CES)">
+          <div class="img-caption" style="color: var(--color-vert);">Volontariats (CES)</div>
+        </div>
+      </div>
+
+      <div style="margin-top: 18px; max-width: 1200px;">
+        <p class="small-note">
+          💡 Astuce animation : demandez au groupe ce qui leur parle le plus (durée, mission, pays, accompagnement) et notez 3 mots-clés par programme.
+        </p>
+      </div>
+    </div>
+
+    <!-- SLIDE 5 - STAGES (Bagages + Take Off Pro) + images -->
+    <div class="slide">
+      <h1 style="color: var(--color-rose); text-align: center;">🎒 Stages : BAGAGES & Take Off Pro</h1>
+
+      <div class="grid-2" style="margin-top: 22px;">
+        <div class="img-card">
+          <img src="stages-bagages.png" alt="Stages BAGAGES">
+          <div class="img-caption" style="color: var(--color-orange);">BAGAGES</div>
+        </div>
+
+        <div class="img-card">
+          <img src="take-off-pro.png" alt="Take Off Pro - Mission Locale">
+          <div class="img-caption" style="color: var(--color-violet);">Take Off Pro (Mission Locale)</div>
+        </div>
+      </div>
+
+      <!-- Modale BAGAGES conservée (si tu utilises toujours BAGAGES.pdf ailleurs) -->
+      <p class="small-note" style="max-width: 1200px; margin-top: 18px;">
+        👉 Si vous avez le PDF BAGAGES, vous pouvez toujours l’ouvrir via une modale (fonction conservée).
+      </p>
+    </div>
+
+    <!-- SLIDE 6 - PVT (intègre pvt.png) -->
+    <div class="slide" style="justify-content: center;">
+      <h1 style="color: var(--color-vert); text-align: center; margin-bottom: 32px; text-transform: uppercase;">🌏 Programme Vacances-Travail (PVT)</h1>
+
+      <div style="max-width: 1100px; margin: 0 auto;">
         <a href="PVT.pdf" target="_blank">
-            <img src="images/pvt.png" alt="Programme Vacances-Travail (PVT)" style="width: 100%; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); cursor: pointer;">
+          <img src="pvt.png" alt="Programme Vacances-Travail (PVT)" style="width: 100%; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); cursor: pointer;">
         </a>
-    </div>
-    
-    <div style="background: linear-gradient(135deg, var(--color-bleu), var(--color-vert)); padding: 25px 40px; border-radius: 16px; color: white; margin-top: 40px; text-align: center; max-width: 900px;">
-        <h2 style="color: white; font-size: 26px; margin-bottom: 10px;">✈️ Voyagez et travaillez à l'étranger pendant 1 à 2 ans</h2>
-        <p style="font-size: 18px; margin-top: 10px;">15+ pays disponibles • Canada, Australie, Nouvelle-Zélande, Japon, Argentine...</p>
-        <p style="font-size: 16px; margin-top: 15px; font-weight: 600;">📄 Cliquez sur l'image pour voir le PDF complet</p>
-    </div>
-</div>
+      </div>
 
-<!-- SLIDE 7 - CATALOGUE -->
-<div class="slide" style="background: linear-gradient(135deg, var(--color-bleu), var(--color-vert)); justify-content: center; align-items: center; text-align: center; cursor: pointer;" onclick="window.open('https://mlpb-tools.github.io/Catalogue-/', '_blank')">
-    <div style="font-size: 64px;">📚</div>
-    <h1 style="color: white; font-size: 48px; margin-top: 10px; text-transform: uppercase;">Catalogue Mobilités</h1>
-    <div style="background: white; padding: 32px; border-radius: 20px; margin-top: 24px; max-width: 600px;">
+      <div style="background: linear-gradient(135deg, var(--color-bleu), var(--color-vert)); padding: 22px 36px; border-radius: 16px; color: white; margin-top: 26px; text-align: center; max-width: 900px;">
+        <h2 style="color: white; font-size: 24px; margin-bottom: 10px;">✈️ Voyagez et travaillez à l'étranger pendant 1 à 2 ans</h2>
+        <p style="font-size: 16px; margin-top: 10px;">15+ pays disponibles • Canada, Australie, Nouvelle-Zélande, Japon, Argentine...</p>
+        <p style="font-size: 14px; margin-top: 12px; font-weight: 700;">📄 Cliquez sur l'image pour voir le PDF complet</p>
+      </div>
+    </div>
+
+    <!-- SLIDE 7 - CATALOGUE -->
+    <div class="slide" style="background: linear-gradient(135deg, var(--color-bleu), var(--color-vert)); justify-content: center; align-items: center; text-align: center; cursor: pointer;"
+         onclick="window.open('https://mlpb-tools.github.io/Catalogue-/', '_blank')">
+      <div style="font-size: 64px;">📚</div>
+      <h1 style="color: white; font-size: 48px; margin-top: 10px; text-transform: uppercase;">Catalogue Mobilités</h1>
+      <div style="background: white; padding: 32px; border-radius: 20px; margin-top: 24px; max-width: 600px;">
         <h2>45 offres concrètes</h2>
         <p style="font-size: 16px; margin-top: 12px;">Filtrables par <strong>pays</strong>, <strong>durée</strong> et <strong>secteur</strong></p>
         <p style="margin-top: 10px; font-weight: 600; color: var(--color-bleu);">Clique sur le bandeau pour ouvrir</p>
+      </div>
     </div>
-</div>
 
-<!-- SLIDE 8 - ACTIVITÉ CATALOGUE -->
-<div class="slide" style="justify-content: center;">
-    <div style="background: var(--color-orange); color: white; padding: 20px; border-radius: 16px; text-align: center; margin-bottom: 24px;">
-        <h1 style="color: white; font-size: 36px; text-transform: uppercase;">🎯 Activité en sous-groupes</h1>
-    </div>
-    <div style="background: white; border: 4px solid var(--color-orange); border-radius: 20px; padding: 40px; text-align: center;">
-        <div style="font-size: 72px; margin-bottom: 20px;">📋</div>
-        <h2>Consigne</h2>
-        <p style="font-size: 20px; margin-top: 16px; line-height: 1.6;">
-            Choisis une offre dans le Catalogue et note :<br><br>
-            <strong>Le programme • Le pays • La durée • La mission</strong>
+    <!-- (SUPPRIMÉ) ancienne page 9 : Activité catalogue -->
+
+    <!-- SLIDE 8 - FINANCEMENT (remplace blocs par financement-erasmus.png) -->
+    <div class="slide" style="justify-content: center;">
+      <h1 style="color: var(--color-vert); text-align: center; margin-bottom: 24px;">💰 Financer sa mobilité</h1>
+
+      <div style="max-width: 1100px; width: 100%; margin: 0 auto;">
+        <div class="img-card" style="border-color: var(--color-vert);">
+          <img src="financement-erasmus.png" alt="Financement Erasmus+">
+          <div class="img-caption" style="color: var(--color-vert);">Financement Erasmus+</div>
+        </div>
+      </div>
+
+      <div style="margin-top: 14px; max-width: 1100px;">
+        <p class="small-note">
+          💡 À dire à l’oral : la plupart des programmes couvrent les frais principaux (voyage, logement, repas) selon les règles du dispositif.
         </p>
+      </div>
     </div>
-</div>
 
-<!-- SLIDE 9 - FINANCEMENT -->
-<div class="slide">
-    <h1 style="color: var(--color-vert); text-align: center;">💰 Financer sa mobilité</h1>
-    <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 24px;">
-        <div class="card" style="background: linear-gradient(135deg, var(--color-bleu), var(--color-vert)); color: white;">
-            <h3>🇪🇺 Bourses Erasmus+</h3>
-            <p>Bourse forfaitaire selon pays + frais de voyage</p>
-        </div>
-        <div class="card" style="border-left: 6px solid var(--color-orange);">
-            <h3 style="color: var(--color-orange);">🏛️ Aides Mission Locale</h3>
-            <p>Accompagnement pour montage financier de ton projet</p>
-        </div>
-        <div class="card" style="border-left: 6px solid var(--color-violet);">
-            <h3 style="color: var(--color-violet);">🗺️ Aides régionales</h3>
-            <p>Dispositifs spécifiques Nouvelle-Aquitaine</p>
-        </div>
-    </div>
-    <div style="background: var(--color-vert); color: white; padding: 20px; border-radius: 16px; text-align: center; margin-top: 20px;">
-        <p style="font-weight: 600;">💡 La plupart des programmes couvrent frais de voyage, logement et repas</p>
-    </div>
-</div>
-
-<!-- SLIDE 10 - ACTIVITÉ BUDGET -->
-<div class="slide" style="justify-content: center;">
-    <div style="background: var(--color-vert); color: white; padding: 20px; border-radius: 16px; text-align: center; margin-bottom: 24px;">
+    <!-- SLIDE 9 - ACTIVITÉ BUDGET (inchangée) -->
+    <div class="slide" style="justify-content: center;">
+      <div style="background: var(--color-vert); color: white; padding: 20px; border-radius: 16px; text-align: center; margin-bottom: 24px;">
         <h1 style="color: white; font-size: 36px; text-transform: uppercase;">🧮 Activité - Calculateur Budget</h1>
-    </div>
-    <div style="text-align: center;">
+      </div>
+      <div style="text-align: center;">
         <div style="font-size: 96px; margin-bottom: 24px;">💶</div>
         <div style="background: white; border: 4px solid var(--color-vert); border-radius: 20px; padding: 32px; max-width: 700px; margin: 0 auto;">
-            <h2>Consigne</h2>
-            <p style="font-size: 18px; margin-top: 16px;">
-                Utilise le <strong>Calculateur Budget</strong> pour estimer le coût de ton projet
-            </p>
-            <p style="margin-top: 18px;">
-                👉 <a href="https://mlpb-tools.github.io/Calcul4U/" target="_blank" style="color: var(--color-vert); font-weight: 700;">Ouvrir le calculateur</a>
-            </p>
+          <h2>Consigne</h2>
+          <p style="font-size: 18px; margin-top: 16px;">
+            Utilise le <strong>Calculateur Budget</strong> pour estimer le coût de ton projet
+          </p>
+          <p style="margin-top: 18px;">
+            👉 <a href="https://mlpb-tools.github.io/Calcul4U/" target="_blank" style="color: var(--color-vert); font-weight: 700;">Ouvrir le calculateur</a>
+          </p>
         </div>
+      </div>
     </div>
-</div>
 
-<!-- SLIDE 11 - DÉMARCHES -->
-<div class="slide">
-    <h1 style="color: var(--color-rose); text-align: center;">📋 Démarches administratives</h1>
-    <div class="grid-2" style="margin-top: 24px;">
-        <div class="card" style="border-left: 6px solid var(--color-bleu);">
-            <div style="font-size: 36px;">🛂</div>
-            <h3>Passeport</h3>
-            <p>Vérifier validité (6 mois minimum)</p>
-        </div>
-        <div class="card" style="border-left: 6px solid var(--color-vert);">
-            <div style="font-size: 36px;">💳</div>
-            <h3>CEAM</h3>
-            <p>Carte Européenne Assurance Maladie</p>
-        </div>
-        <div class="card" style="border-left: 6px solid var(--color-orange);">
-            <div style="font-size: 36px;">🏠</div>
-            <h3>Logement</h3>
-            <p>Souvent pris en charge par programme</p>
-        </div>
-        <div class="card" style="border-left: 6px solid var(--color-violet);">
-            <div style="font-size: 36px;">🛡️</div>
-            <h3>Assurance</h3>
-            <p>Responsabilité civile nécessaire</p>
-        </div>
-    </div>
-    <div style="background: linear-gradient(135deg, var(--color-rose), var(--color-violet)); color: white; padding: 20px; border-radius: 16px; text-align: center; margin-top: 20px;">
-        <p style="font-weight: 600;">✅ Ton conseiller t'accompagne dans toutes ces démarches</p>
-    </div>
-</div>
+    <!-- SLIDE 10 - (remplace blocs par images) : ta-candidature.png + papiers.png -->
+    <div class="slide">
+      <h1 style="color: var(--color-rose); text-align: center;">📋 Tes essentiels : Candidature & Démarches</h1>
 
-<!-- SLIDE 12 - OUTILS -->
-<div class="slide" style="background: linear-gradient(135deg, var(--color-orange), var(--color-rose)); justify-content: center;">
-    <h1 style="color: white; text-align: center; font-size: 48px; text-transform: uppercase;">🛠️ Outils à ta disposition</h1>
-    <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 32px;">
+      <div class="grid-2" style="margin-top: 22px;">
+        <div class="img-card">
+          <img src="ta-candidature.png" alt="Ton identifiant CES - Ta candidature">
+          <div class="img-caption" style="color: var(--color-bleu);">Ton identifiant CES</div>
+        </div>
+
+        <div class="img-card">
+          <img src="papiers.png" alt="Démarches administratives">
+          <div class="img-caption" style="color: var(--color-orange);">Démarches administratives</div>
+        </div>
+      </div>
+
+      <div style="margin-top: 16px; max-width: 1200px;">
+        <p class="small-note">✅ Objectif : que chacun sache “où cliquer” et “quoi préparer” avant de postuler / partir.</p>
+      </div>
+    </div>
+
+    <!-- SLIDE 11 - OUTILS (inchangée) -->
+    <div class="slide" style="background: linear-gradient(135deg, var(--color-orange), var(--color-rose)); justify-content: center;">
+      <h1 style="color: white; text-align: center; font-size: 48px; text-transform: uppercase;">🛠️ Outils à ta disposition</h1>
+      <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 32px;">
         <div style="background: white; padding: 24px; border-radius: 16px; text-align: center;">
-            <div style="font-size: 40px; margin-bottom: 8px;">✈️</div>
-            <h3>Webinaire Mobilité</h3>
+          <div style="font-size: 40px; margin-bottom: 8px;">✈️</div>
+          <h3>Webinaire Mobilité</h3>
         </div>
         <div style="background: white; padding: 24px; border-radius: 16px; text-align: center;">
-            <div style="font-size: 40px; margin-bottom: 8px;">📚</div>
-            <h3>Catalogue Mobilités</h3>
+          <div style="font-size: 40px; margin-bottom: 8px;">📚</div>
+          <h3>Catalogue Mobilités</h3>
         </div>
         <div style="background: white; padding: 24px; border-radius: 16px; text-align: center;">
-            <div style="font-size: 40px; margin-bottom: 8px;">🧮</div>
-            <h3>Calculatrice Budget</h3>
+          <div style="font-size: 40px; margin-bottom: 8px;">🧮</div>
+          <h3>Calculatrice Budget</h3>
         </div>
+      </div>
     </div>
-</div>
 
-<!-- SLIDE 13 - MODULE CANDIDATURE -->
-<div class="slide">
-    <h1 style="color: var(--color-bleu); text-align: center; text-transform: uppercase;">✍️ Module Candidature</h1>
-    <p style="font-size: 18px; text-align: center; margin: 16px 0;">Une bonne candidature repose sur 3 axes essentiels</p>
-    <div class="grid-3" style="margin-top: 32px;">
+    <!-- SLIDE 12 - MODULE CANDIDATURE (inchangée) -->
+    <div class="slide">
+      <h1 style="color: var(--color-bleu); text-align: center; text-transform: uppercase;">✍️ Module Candidature</h1>
+      <p style="font-size: 18px; text-align: center; margin: 16px 0;">Une bonne candidature repose sur 3 axes essentiels</p>
+      <div class="grid-3" style="margin-top: 32px;">
         <div style="background: linear-gradient(135deg, var(--color-orange), var(--color-vert)); color: white; padding: 28px; border-radius: 16px; text-align: center;">
-            <div style="font-size: 40px; margin-bottom: 12px;">💫</div>
-            <h3 style="color: white;">Motivation</h3>
+          <div style="font-size: 40px; margin-bottom: 12px;">💫</div>
+          <h3 style="color: white;">Motivation</h3>
         </div>
         <div style="background: linear-gradient(135deg, var(--color-vert), var(--color-bleu)); color: white; padding: 28px; border-radius: 16px; text-align: center;">
-            <div style="font-size: 40px; margin-bottom: 12px;">🎯</div>
-            <h3 style="color: white;">Compétences</h3>
+          <div style="font-size: 40px; margin-bottom: 12px;">🎯</div>
+          <h3 style="color: white;">Compétences</h3>
         </div>
         <div style="background: linear-gradient(135deg, var(--color-bleu), var(--color-violet)); color: white; padding: 28px; border-radius: 16px; text-align: center;">
-            <div style="font-size: 40px; margin-bottom: 12px;">🔗</div>
-            <h3 style="color: white;">Cohérence</h3>
+          <div style="font-size: 40px; margin-bottom: 12px;">🔗</div>
+          <h3 style="color: white;">Cohérence</h3>
         </div>
+      </div>
     </div>
-</div>
 
-<!-- SLIDE 14 - 5 QUESTIONS -->
-<div class="slide">
-    <h1 style="color: var(--color-violet); text-align: center;">❓ 5 questions clés<br>avant de postuler</h1>
-    <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 24px;">
+    <!-- SLIDE 13 - 5 QUESTIONS (inchangée) -->
+    <div class="slide">
+      <h1 style="color: var(--color-violet); text-align: center;">❓ 5 questions clés<br>avant de postuler</h1>
+      <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 24px;">
         <div style="background: var(--color-bleu); color: white; padding: 16px 24px; border-radius: 16px;">
-            <p style="font-weight: 600;">1️⃣ Pourquoi cette offre m'intéresse ?</p>
+          <p style="font-weight: 600;">1️⃣ Pourquoi cette offre m'intéresse ?</p>
         </div>
         <div style="background: var(--color-vert); color: white; padding: 16px 24px; border-radius: 16px;">
-            <p style="font-weight: 600;">2️⃣ Pourquoi ce pays en particulier ?</p>
+          <p style="font-weight: 600;">2️⃣ Pourquoi ce pays en particulier ?</p>
         </div>
         <div style="background: var(--color-orange); color: white; padding: 16px 24px; border-radius: 16px;">
-            <p style="font-weight: 600;">3️⃣ Qu'est-ce que j'apporte au projet ?</p>
+          <p style="font-weight: 600;">3️⃣ Qu'est-ce que j'apporte au projet ?</p>
         </div>
         <div style="background: var(--color-rose); color: white; padding: 16px 24px; border-radius: 16px;">
-            <p style="font-weight: 600;">4️⃣ Quelles compétences puis-je mobiliser ?</p>
+          <p style="font-weight: 600;">4️⃣ Quelles compétences puis-je mobiliser ?</p>
         </div>
         <div style="background: var(--color-violet); color: white; padding: 16px 24px; border-radius: 16px;">
-            <p style="font-weight: 600;">5️⃣ Quelles sont mes attentes ?</p>
+          <p style="font-weight: 600;">5️⃣ Quelles sont mes attentes ?</p>
         </div>
+      </div>
     </div>
-</div>
 
-<!-- SLIDE 15 - STRUCTURE CANDIDATURE -->
-<div class="slide">
-    <h1 style="color: var(--color-orange); text-align: center;">📝 Structure d'une<br>mini-candidature</h1>
-    <div style="background: white; border: 4px solid var(--color-orange); border-radius: 20px; padding: 32px; margin-top: 24px;">
+    <!-- SLIDE 14 - STRUCTURE CANDIDATURE (inchangée) -->
+    <div class="slide">
+      <h1 style="color: var(--color-orange); text-align: center;">📝 Structure d'une<br>mini-candidature</h1>
+      <div style="background: white; border: 4px solid var(--color-orange); border-radius: 20px; padding: 32px; margin-top: 24px;">
         <div style="display: flex; flex-direction: column; gap: 16px;">
-            <div style="border-left: 4px solid var(--color-bleu); padding-left: 16px;">
-                <p style="font-weight: 700; color: var(--color-bleu);">2 lignes : Présentation</p>
-                <p style="font-size: 14px; color: #666; margin-top: 4px;">Qui es-tu ? Ton parcours actuel</p>
-            </div>
-            <div style="border-left: 4px solid var(--color-vert); padding-left: 16px;">
-                <p style="font-weight: 700; color: var(--color-vert);">3 lignes : Motivation</p>
-                <p style="font-size: 14px; color: #666; margin-top: 4px;">Pourquoi cette offre ? Pourquoi ce pays ?</p>
-            </div>
-            <div style="border-left: 4px solid var(--color-orange); padding-left: 16px;">
-                <p style="font-weight: 700; color: var(--color-orange);">3 lignes : Compétences</p>
-                <p style="font-size: 14px; color: #666; margin-top: 4px;">Ce que tu apportes, tes atouts concrets</p>
-            </div>
-            <div style="border-left: 4px solid var(--color-rose); padding-left: 16px;">
-                <p style="font-weight: 700; color: var(--color-rose);">2 lignes : Conclusion</p>
-                <p style="font-size: 14px; color: #666; margin-top: 4px;">Disponibilités et remerciements</p>
-            </div>
+          <div style="border-left: 4px solid var(--color-bleu); padding-left: 16px;">
+            <p style="font-weight: 700; color: var(--color-bleu);">2 lignes : Présentation</p>
+            <p style="font-size: 14px; color: #666; margin-top: 4px;">Qui es-tu ? Ton parcours actuel</p>
+          </div>
+          <div style="border-left: 4px solid var(--color-vert); padding-left: 16px;">
+            <p style="font-weight: 700; color: var(--color-vert);">3 lignes : Motivation</p>
+            <p style="font-size: 14px; color: #666; margin-top: 4px;">Pourquoi cette offre ? Pourquoi ce pays ?</p>
+          </div>
+          <div style="border-left: 4px solid var(--color-orange); padding-left: 16px;">
+            <p style="font-weight: 700; color: var(--color-orange);">3 lignes : Compétences</p>
+            <p style="font-size: 14px; color: #666; margin-top: 4px;">Ce que tu apportes, tes atouts concrets</p>
+          </div>
+          <div style="border-left: 4px solid var(--color-rose); padding-left: 16px;">
+            <p style="font-weight: 700; color: var(--color-rose);">2 lignes : Conclusion</p>
+            <p style="font-size: 14px; color: #666; margin-top: 4px;">Disponibilités et remerciements</p>
+          </div>
         </div>
-    </div>
-    <div style="background: linear-gradient(135deg, var(--color-orange), var(--color-rose)); color: white; padding: 18px; border-radius: 16px; text-align: center; margin-top: 20px;">
+      </div>
+      <div style="background: linear-gradient(135deg, var(--color-orange), var(--color-rose)); color: white; padding: 18px; border-radius: 16px; text-align: center; margin-top: 20px;">
         <p style="font-weight: 600;">📏 Total : 10 lignes maximum pour être efficace</p>
+      </div>
     </div>
-</div>
 
-<!-- SLIDE 16 - EXEMPLE EMAIL -->
-<div class="slide">
-    <h1 style="color: var(--color-bleu); text-align: center;">📧 Exemple d'email<br>de candidature</h1>
-    <div style="background: white; border: 3px solid var(--color-bleu); border-radius: 16px; padding: 28px; margin-top: 20px; font-family: monospace; font-size: 13px; line-height: 1.8;">
-        <p><strong>Objet :</strong> Candidature volontariat environnemental - Espagne</p>
-        <p style="margin-top: 16px;">Bonjour,</p>
-        <p style="margin-top: 12px; border-left: 3px solid var(--color-bleu); padding-left: 12px;">
-            <strong style="color: var(--color-bleu);">[Présentation]</strong> Je m'appelle [Nom], j'ai 22 ans et je suis en recherche d'emploi dans le secteur de l'environnement.
-        </p>
-        <p style="margin-top: 12px; border-left: 3px solid var(--color-vert); padding-left: 12px;">
-            <strong style="color: var(--color-vert);">[Motivation]</strong> Votre projet de reforestation m'intéresse car je souhaite m'engager concrètement. L'Espagne représente une opportunité de découvrir de nouvelles techniques écologiques.
-        </p>
-        <p style="margin-top: 12px; border-left: 3px solid var(--color-orange); padding-left: 12px;">
-            <strong style="color: var(--color-orange);">[Compétences]</strong> J'ai une formation en espaces verts et 6 mois d'expérience en pépinière. Je suis motivé et capable de travailler en équipe.
-        </p>
-        <p style="margin-top: 12px; border-left: 3px solid var(--color-rose); padding-left: 12px;">
-            <strong style="color: var(--color-rose);">[Conclusion]</strong> Je suis disponible dès le mois prochain. Merci de votre attention.
-        </p>
-        <p style="margin-top: 12px;">Cordialement,<br>[Nom]</p>
-    </div>
-</div>
+    <!-- (SUPPRIMÉ) SLIDE 16 - Exemple email -->
+    <!-- (SUPPRIMÉ) SLIDE 17 - Activité rédaction -->
 
-<!-- SLIDE 17 - ACTIVITÉ RÉDACTION -->
-<div class="slide" style="justify-content: center;">
-    <div style="background: var(--color-rose); color: white; padding: 20px; border-radius: 16px; text-align: center; margin-bottom: 24px;">
-        <h1 style="color: white; font-size: 36px; text-transform: uppercase;">✏️ Activité individuelle</h1>
-    </div>
-    <div style="text-align: center;">
-        <div style="font-size: 96px; margin-bottom: 24px;">📝</div>
-        <div style="background: white; border: 4px solid var(--color-rose); border-radius: 20px; padding: 40px; max-width: 700px; margin: 0 auto;">
-            <h2>Consigne</h2>
-            <p style="font-size: 20px; margin-top: 16px;">
-                Rédige <strong>10 lignes de candidature</strong> en t'appuyant sur une offre du Catalogue
-            </p>
-        </div>
-    </div>
-</div>
-
-<!-- SLIDE 18 - RETOURS GROUPES -->
-<div class="slide" style="justify-content: center;">
-    <div style="background: var(--color-vert); color: white; padding: 20px; border-radius: 16px; text-align: center; margin-bottom: 24px;">
+    <!-- SLIDE 15 - RETOURS GROUPES (inchangée) -->
+    <div class="slide" style="justify-content: center;">
+      <div style="background: var(--color-vert); color: white; padding: 20px; border-radius: 16px; text-align: center; margin-bottom: 24px;">
         <h1 style="color: white; font-size: 36px; text-transform: uppercase;">💬 Retours en sous-groupes</h1>
-    </div>
-    <div style="background: white; border: 4px solid var(--color-vert); border-radius: 20px; padding: 40px; text-align: center;">
+      </div>
+      <div style="background: white; border: 4px solid var(--color-vert); border-radius: 20px; padding: 40px; text-align: center;">
         <h2>Consigne</h2>
         <p style="font-size: 18px; margin-top: 16px; line-height: 1.7;">
-            Échangez vos candidatures et donnez à chacun :<br><br>
-            <strong style="color: var(--color-vert);">✅ 1 point fort</strong><br>
-            <strong style="color: var(--color-orange);">💡 1 amélioration possible</strong>
+          Échangez vos candidatures et donnez à chacun :<br><br>
+          <strong style="color: var(--color-vert);">✅ 1 point fort</strong><br>
+          <strong style="color: var(--color-orange);">💡 1 amélioration possible</strong>
         </p>
-    </div>
-    <div class="grid-3" style="margin-top: 24px;">
+      </div>
+      <div class="grid-3" style="margin-top: 24px;">
         <div style="background: var(--color-vert); color: white; padding: 16px; border-radius: 16px; text-align: center;">
-            <p style="font-weight: 600;">Bienveillance</p>
+          <p style="font-weight: 600;">Bienveillance</p>
         </div>
         <div style="background: var(--color-bleu); color: white; padding: 16px; border-radius: 16px; text-align: center;">
-            <p style="font-weight: 600;">Constructif</p>
+          <p style="font-weight: 600;">Constructif</p>
         </div>
         <div style="background: var(--color-orange); color: white; padding: 16px; border-radius: 16px; text-align: center;">
-            <p style="font-weight: 600;">Concret</p>
+          <p style="font-weight: 600;">Concret</p>
         </div>
+      </div>
     </div>
-</div>
 
-<!-- SLIDE 19 - CRITÈRES -->
-<div class="slide">
-    <h1 style="color: var(--color-violet); text-align: center;">✅ Critères d'une<br>bonne candidature</h1>
-    <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 24px;">
+    <!-- SLIDE 16 - CRITÈRES (inchangée) -->
+    <div class="slide">
+      <h1 style="color: var(--color-violet); text-align: center;">✅ Critères d'une<br>bonne candidature</h1>
+      <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 24px;">
         <div class="card" style="border-left: 6px solid var(--color-bleu);">
-            <h3 style="color: var(--color-bleu);">💖 Sincérité</h3>
-            <p>Reste authentique, parle de toi vraiment</p>
+          <h3 style="color: var(--color-bleu);">💖 Sincérité</h3>
+          <p>Reste authentique, parle de toi vraiment</p>
         </div>
         <div class="card" style="border-left: 6px solid var(--color-vert);">
-            <h3 style="color: var(--color-vert);">💎 Clarté</h3>
-            <p>Phrases courtes et précises, facile à lire</p>
+          <h3 style="color: var(--color-vert);">💎 Clarté</h3>
+          <p>Phrases courtes et précises, facile à lire</p>
         </div>
         <div class="card" style="border-left: 6px solid var(--color-orange);">
-            <h3 style="color: var(--color-orange);">🎯 Adaptation à l'offre</h3>
-            <p>Montre que tu connais le projet</p>
+          <h3 style="color: var(--color-orange);">🎯 Adaptation à l'offre</h3>
+          <p>Montre que tu connais le projet</p>
         </div>
         <div class="card" style="border-left: 6px solid var(--color-rose);">
-            <h3 style="color: var(--color-rose);">✍️ Orthographe</h3>
-            <p>Relis-toi ou fais relire</p>
+          <h3 style="color: var(--color-rose);">✍️ Orthographe</h3>
+          <p>Relis-toi ou fais relire</p>
         </div>
         <div class="card" style="border-left: 6px solid var(--color-violet);">
-            <h3 style="color: var(--color-violet);">🔗 Cohérence</h3>
-            <p>Lien logique entre toi et le projet</p>
+          <h3 style="color: var(--color-violet);">🔗 Cohérence</h3>
+          <p>Lien logique entre toi et le projet</p>
         </div>
+      </div>
     </div>
-</div>
 
-<!-- SLIDE 20 - PLAN D'ACTION -->
-<div class="slide" style="background: linear-gradient(135deg, var(--color-bleu), var(--color-vert)); justify-content: center;">
-    <h1 style="color: white; text-align: center; font-size: 56px; margin-bottom: 40px; text-transform: uppercase;">🗺️ TON PLAN D'ACTION</h1>
-    
-    <div style="background: white; border-radius: 20px; padding: 50px; max-width: 900px; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+    <!-- SLIDE 17 - PLAN D'ACTION (inchangée) -->
+    <div class="slide" style="background: linear-gradient(135deg, var(--color-bleu), var(--color-vert)); justify-content: center;">
+      <h1 style="color: white; text-align: center; font-size: 56px; margin-bottom: 40px; text-transform: uppercase;">🗺️ TON PLAN D'ACTION</h1>
+
+      <div style="background: white; border-radius: 20px; padding: 50px; max-width: 900px; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 35px;">
-            <div>
-                <h3 style="color: var(--color-bleu); font-size: 22px; margin-bottom: 15px;">🌍 Ma destination préférée</h3>
-                <div style="border-bottom: 3px solid var(--color-bleu); padding: 16px 0;"></div>
-            </div>
-            <div>
-                <h3 style="color: var(--color-vert); font-size: 22px; margin-bottom: 15px;">📋 Le programme pour moi</h3>
-                <div style="border-bottom: 3px solid var(--color-vert); padding: 16px 0;"></div>
-            </div>
-            <div>
-                <h3 style="color: var(--color-orange); font-size: 22px; margin-bottom: 15px;">✅ Ma prochaine étape</h3>
-                <div style="border-bottom: 3px solid var(--color-orange); padding: 16px 0;"></div>
-            </div>
-            <div>
-                <h3 style="color: var(--color-rose); font-size: 22px; margin-bottom: 15px;">🤝 Besoin d'aide pour</h3>
-                <div style="border-bottom: 3px solid var(--color-rose); padding: 16px 0;"></div>
-            </div>
+          <div>
+            <h3 style="color: var(--color-bleu); font-size: 22px; margin-bottom: 15px;">🌍 Ma destination préférée</h3>
+            <div style="border-bottom: 3px solid var(--color-bleu); padding: 16px 0;"></div>
+          </div>
+          <div>
+            <h3 style="color: var(--color-vert); font-size: 22px; margin-bottom: 15px;">📋 Le programme pour moi</h3>
+            <div style="border-bottom: 3px solid var(--color-vert); padding: 16px 0;"></div>
+          </div>
+          <div>
+            <h3 style="color: var(--color-orange); font-size: 22px; margin-bottom: 15px;">✅ Ma prochaine étape</h3>
+            <div style="border-bottom: 3px solid var(--color-orange); padding: 16px 0;"></div>
+          </div>
+          <div>
+            <h3 style="color: var(--color-rose); font-size: 22px; margin-bottom: 15px;">🤝 Besoin d'aide pour</h3>
+            <div style="border-bottom: 3px solid var(--color-rose); padding: 16px 0;"></div>
+          </div>
         </div>
-    </div>
-    
-    <p style="color: white; text-align: center; font-size: 20px; margin-top: 40px; font-weight: 600;">💬 Qui veut partager sa prochaine étape ?</p>
-</div>
+      </div>
 
-<!-- SLIDE 21 - ÉVALUATION FINALE -->
-<div class="slide" style="background: linear-gradient(135deg, var(--color-violet), var(--color-rose)); justify-content: center;">
-    <h1 style="color: white; text-align: center; font-size: 52px; margin-bottom: 30px; text-transform: uppercase;">📊 ÉVALUATION FINALE</h1>
-    <p style="color: white; text-align: center; font-size: 22px; margin-bottom: 40px;">Après ce webinaire, où en es-tu ?</p>
-    
-    <div style="background: white; border-radius: 20px; padding: 50px; max-width: 950px; overflow-y: auto; max-height: 70vh;">
+      <p style="color: white; text-align: center; font-size: 20px; margin-top: 40px; font-weight: 600;">💬 Qui veut partager sa prochaine étape ?</p>
+    </div>
+
+    <!-- SLIDE 18 - ÉVALUATION FINALE (supprime Q7 et Q8) -->
+    <div class="slide" style="background: linear-gradient(135deg, var(--color-violet), var(--color-rose)); justify-content: center;">
+      <h1 style="color: white; text-align: center; font-size: 52px; margin-bottom: 30px; text-transform: uppercase;">📊 ÉVALUATION FINALE</h1>
+      <p style="color: white; text-align: center; font-size: 22px; margin-bottom: 40px;">Après ce webinaire, où en es-tu ?</p>
+
+      <div style="background: white; border-radius: 20px; padding: 50px; max-width: 950px; overflow-y: auto; max-height: 70vh;">
         <div style="background: linear-gradient(135deg, var(--color-orange), var(--color-rose)); padding: 35px; border-radius: 16px; margin-bottom: 35px;">
-            <h3 style="color: white; font-size: 24px; margin-bottom: 20px; text-align: center;">Q6 – Partir à l'étranger… ça te donne envie ?</h3>
-            <div style="display: flex; justify-content: space-between; align-items: center; background: white; padding: 20px; border-radius: 12px;">
-                <span style="font-weight: 700; font-size: 18px;">0/10 Pas du tout</span>
-                <div style="display: flex; gap: 8px;">
-                    <div style="width: 40px; height: 40px; background: #ffebee; border: 2px solid var(--color-rose); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700;">0</div>
-                    <div style="width: 40px; height: 40px; background: #fff3e0; border: 2px solid var(--color-orange); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700;">5</div>
-                    <div style="width: 40px; height: 40px; background: #e8f5e9; border: 2px solid var(--color-vert); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700;">10</div>
-                </div>
-                <span style="font-weight: 700; font-size: 18px;">10/10 Carrément !</span>
+          <h3 style="color: white; font-size: 24px; margin-bottom: 20px; text-align: center;">Q6 – Partir à l'étranger… ça te donne envie ?</h3>
+          <div style="display: flex; justify-content: space-between; align-items: center; background: white; padding: 20px; border-radius: 12px;">
+            <span style="font-weight: 700; font-size: 18px;">0/10 Pas du tout</span>
+            <div style="display: flex; gap: 8px;">
+              <div style="width: 40px; height: 40px; background: #ffebee; border: 2px solid var(--color-rose); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700;">0</div>
+              <div style="width: 40px; height: 40px; background: #fff3e0; border: 2px solid var(--color-orange); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700;">5</div>
+              <div style="width: 40px; height: 40px; background: #e8f5e9; border: 2px solid var(--color-vert); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700;">10</div>
             </div>
-            <p style="color: white; text-align: center; margin-top: 15px; font-size: 16px;">💬 Écrivez votre note dans le chat Teams !</p>
+            <span style="font-weight: 700; font-size: 18px;">10/10 Carrément !</span>
+          </div>
+          <p style="color: white; text-align: center; margin-top: 15px; font-size: 16px;">💬 Écrivez votre note dans le chat Teams !</p>
         </div>
-        
-        <div style="display: flex; flex-direction: column; gap: 25px;">
-            <div>
-                <h3 style="color: var(--color-bleu); font-size: 19px; margin-bottom: 12px;">Q7 – Tu te sens plus capable de gérer un imprévu en mobilité ?</h3>
-                <div style="display: flex; gap: 12px;">
-                    <div style="background: #e8f5e9; padding: 10px 18px; border-radius: 8px; border: 2px solid var(--color-vert);">👍 Oui</div>
-                    <div style="background: #fff3e0; padding: 10px 18px; border-radius: 8px; border: 2px solid var(--color-orange);">🙂 Un peu plus</div>
-                    <div style="background: #ffebee; padding: 10px 18px; border-radius: 8px; border: 2px solid var(--color-rose);">😕 Pas vraiment</div>
-                </div>
-            </div>
-            
-            <div>
-                <h3 style="color: var(--color-vert); font-size: 19px; margin-bottom: 12px;">Q8 – Rencontrer des gens d'autres pays, ça te paraît comment maintenant ?</h3>
-                <div style="display: flex; gap: 12px;">
-                    <div style="background: #e8f5e9; padding: 10px 18px; border-radius: 8px; border: 2px solid var(--color-vert);">😄 Plus motivant</div>
-                    <div style="background: #fff3e0; padding: 10px 18px; border-radius: 8px; border: 2px solid var(--color-orange);">🤔 Toujours hésitant</div>
-                    <div style="background: #ffebee; padding: 10px 18px; border-radius: 8px; border: 2px solid var(--color-rose);">😬 Toujours stressant</div>
-                </div>
-            </div>
-            
-            <div>
-                <h3 style="color: var(--color-orange); font-size: 19px; margin-bottom: 12px;">Q9 – Tes idées pour l'étranger sont…</h3>
-                <div style="display: flex; gap: 12px;">
-                    <div style="background: #e8f5e9; padding: 10px 18px; border-radius: 8px; border: 2px solid var(--color-vert);">🎯 Plus claires</div>
-                    <div style="background: #fff3e0; padding: 10px 18px; border-radius: 8px; border: 2px solid var(--color-orange);">💡 Un peu plus construites</div>
-                    <div style="background: #ffebee; padding: 10px 18px; border-radius: 8px; border: 2px solid var(--color-rose);">❓ Toujours floues</div>
-                </div>
-            </div>
-            
-            <div>
-                <h3 style="color: var(--color-violet); font-size: 19px; margin-bottom: 12px;">Q10 – Tu te sens prêt(e) pour une première étape (rdv/outil/atelier) ?</h3>
-                <div style="display: flex; gap: 12px;">
-                    <div style="background: #e8f5e9; padding: 10px 18px; border-radius: 8px; border: 2px solid var(--color-vert);">🚀 Oui</div>
-                    <div style="background: #fff3e0; padding: 10px 18px; border-radius: 8px; border: 2px solid var(--color-orange);">🤔 Peut-être</div>
-                    <div style="background: #ffebee; padding: 10px 18px; border-radius: 8px; border: 2px solid var(--color-rose);">💤 Pas maintenant</div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
-<!-- SLIDE 22 - CONTACT -->
-<div class="slide" style="background: linear-gradient(135deg, var(--color-orange), var(--color-rose)); justify-content: center; align-items: center; text-align: center;">
-    <div style="font-size: 72px; margin-bottom: 30px;">🤝</div>
-    <h1 style="color: white; font-size: 56px; margin-bottom: 40px; text-transform: uppercase;">ON RESTE EN CONTACT !</h1>
-    
-    <div style="background: white; padding: 40px 60px; border-radius: 20px; margin-bottom: 40px; box-shadow: 0 10px 40px rgba(0,0,0,0.3);">
+        <div style="display: flex; flex-direction: column; gap: 25px;">
+          <!-- Q7 supprimée -->
+          <!-- Q8 supprimée -->
+
+          <div>
+            <h3 style="color: var(--color-orange); font-size: 19px; margin-bottom: 12px;">Q9 – Tes idées pour l'étranger sont…</h3>
+            <div style="display: flex; gap: 12px;">
+              <div style="background: #e8f5e9; padding: 10px 18px; border-radius: 8px; border: 2px solid var(--color-vert);">🎯 Plus claires</div>
+              <div style="background: #fff3e0; padding: 10px 18px; border-radius: 8px; border: 2px solid var(--color-orange);">💡 Un peu plus construites</div>
+              <div style="background: #ffebee; padding: 10px 18px; border-radius: 8px; border: 2px solid var(--color-rose);">❓ Toujours floues</div>
+            </div>
+          </div>
+
+          <div>
+            <h3 style="color: var(--color-violet); font-size: 19px; margin-bottom: 12px;">Q10 – Tu te sens prêt(e) pour une première étape (rdv/outil/atelier) ?</h3>
+            <div style="display: flex; gap: 12px;">
+              <div style="background: #e8f5e9; padding: 10px 18px; border-radius: 8px; border: 2px solid var(--color-vert);">🚀 Oui</div>
+              <div style="background: #fff3e0; padding: 10px 18px; border-radius: 8px; border: 2px solid var(--color-orange);">🤔 Peut-être</div>
+              <div style="background: #ffebee; padding: 10px 18px; border-radius: 8px; border: 2px solid var(--color-rose);">💤 Pas maintenant</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 19 - CONTACT (numéro modifié) -->
+    <div class="slide" style="background: linear-gradient(135deg, var(--color-orange), var(--color-rose)); justify-content: center; align-items: center; text-align: center;">
+      <div style="font-size: 72px; margin-bottom: 30px;">🤝</div>
+      <h1 style="color: white; font-size: 56px; margin-bottom: 40px; text-transform: uppercase;">ON RESTE EN CONTACT !</h1>
+
+      <div style="background: white; padding: 40px 60px; border-radius: 20px; margin-bottom: 40px; box-shadow: 0 10px 40px rgba(0,0,0,0.3);">
         <img src="https://static.wixstatic.com/media/dd5dab_47743b1c86024865ba19e623a3db327f~mv2.avif/v1/fill/w_224,h_60,al_c,q_80,enc_avif,quality_auto/dd5dab_47743b1c86024865ba19e623a3db327f~mv2.avif" alt="Mission Locale Pays Basque" style="height: 80px; margin-bottom: 20px;">
         <h2 style="color: var(--color-noir); font-size: 32px; margin-bottom: 10px;">Mission Locale Pays Basque</h2>
         <h3 style="color: var(--color-orange); font-size: 24px;">Pôle Mobilité Internationale</h3>
-    </div>
-    
-    <div style="background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); padding: 30px 50px; border-radius: 20px; margin-bottom: 30px;">
+      </div>
+
+      <div style="background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); padding: 30px 50px; border-radius: 20px; margin-bottom: 30px;">
         <div style="display: flex; align-items: center; justify-content: center; gap: 20px;">
-            <div style="font-size: 48px;">📱</div>
-            <div style="text-align: left;">
-                <p style="color: white; font-size: 18px; font-weight: 600; margin-bottom: 5px;">Contacte-nous sur WhatsApp</p>
-                <p style="color: white; font-size: 28px; font-weight: 900;">06 37 33 37 57</p>
-            </div>
+          <div style="font-size: 48px;">📱</div>
+          <div style="text-align: left;">
+            <p style="color: white; font-size: 18px; font-weight: 600; margin-bottom: 5px;">Contacte-nous sur WhatsApp</p>
+            <p style="color: white; font-size: 28px; font-weight: 900;">06 70 67 74 54</p>
+          </div>
         </div>
-    </div>
-    
-    <div style="background: rgba(255,255,255,0.2); color: white; padding: 25px 40px; border-radius: 16px; max-width: 700px;">
+      </div>
+
+      <div style="background: rgba(255,255,255,0.2); color: white; padding: 25px 40px; border-radius: 16px; max-width: 700px;">
         <p style="font-size: 22px; font-weight: 700;">🚀 Prends rendez-vous avec ton conseiller pour démarrer ton projet !</p>
-    </div>
-</div>
-
+      </div>
     </div>
 
-    <!-- NAVIGATION -->
-    <button class="nav-btn prev" onclick="changeSlide(-1)">←</button>
-    <button class="nav-btn next" onclick="changeSlide(1)">→</button>
-    
-    <!-- Modale BAGAGES -->
-    <div class="modal-bagages" id="modalBagages" onclick="closeBagagesModal()">
+  </div>
+
+  <!-- NAVIGATION -->
+  <button class="nav-btn prev" onclick="changeSlide(-1)">←</button>
+  <button class="nav-btn next" onclick="changeSlide(1)">→</button>
+
+  <!-- Modale BAGAGES (conservée) -->
+  <div class="modal-bagages" id="modalBagages" onclick="closeBagagesModal()">
     <div class="modal-content-bagages" onclick="event.stopPropagation()">
-        <span class="close-modal" onclick="closeBagagesModal()">×</span>
-        <embed src="BAGAGES.pdf" type="application/pdf" style="width: 100%; height: 90vh; border-radius: 10px;">
+      <span class="close-modal" onclick="closeBagagesModal()">×</span>
+      <embed src="BAGAGES.pdf" type="application/pdf" style="width: 100%; height: 90vh; border-radius: 10px;">
     </div>
-</div>
-    
-    <div class="slide-counter">
-        <span id="currentSlide">1</span> / <span id="totalSlides">23</span>
-    </div>
+  </div>
 
-    <script>
-        let currentSlide = 1;
-        let totalSlides = 23;
+  <div class="slide-counter">
+    <span id="currentSlide">1</span> / <span id="totalSlides">1</span>
+  </div>
 
-        function changeSlide(n) {
-            const slides = document.querySelectorAll('.slide');
-            slides[currentSlide - 1].classList.remove('active');
-            
-            currentSlide += n;
-            if (currentSlide > totalSlides) currentSlide = 1;
-            if (currentSlide < 1) currentSlide = totalSlides;
-            
-            slides[currentSlide - 1].classList.add('active');
-            document.getElementById('currentSlide').textContent = currentSlide;
-            updateProgressBar();
-        }
+  <script>
+    let currentSlide = 1;
 
-        function updateProgressBar() {
-            const progress = (currentSlide / totalSlides) * 100;
-            document.getElementById('progressBar').style.width = progress + '%';
-        }
+    function getSlides() {
+      return document.querySelectorAll('.slide');
+    }
 
-        // Fonctions pour la modale BAGAGES
-        function openBagagesModal() {
-            document.getElementById('modalBagages').classList.add('active');
-        }
+    function setTotalSlides() {
+      const totalSlides = getSlides().length;
+      document.getElementById('totalSlides').textContent = totalSlides;
+      return totalSlides;
+    }
 
-        function closeBagagesModal() {
-            document.getElementById('modalBagages').classList.remove('active');
-        }
+    function changeSlide(n) {
+      const slides = getSlides();
+      const totalSlides = slides.length;
 
-        // Navigation clavier
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowLeft') changeSlide(-1);
-            if (e.key === 'ArrowRight') changeSlide(1);
-            if (e.key === 'Escape') closeBagagesModal();
-        });
+      slides[currentSlide - 1].classList.remove('active');
 
-        updateProgressBar();
-    </script>
+      currentSlide += n;
+      if (currentSlide > totalSlides) currentSlide = 1;
+      if (currentSlide < 1) currentSlide = totalSlides;
+
+      slides[currentSlide - 1].classList.add('active');
+      document.getElementById('currentSlide').textContent = currentSlide;
+      updateProgressBar();
+    }
+
+    function updateProgressBar() {
+      const totalSlides = getSlides().length;
+      const progress = (currentSlide / totalSlides) * 100;
+      document.getElementById('progressBar').style.width = progress + '%';
+    }
+
+    // Fonctions pour la modale BAGAGES
+    function openBagagesModal() {
+      document.getElementById('modalBagages').classList.add('active');
+    }
+    function closeBagagesModal() {
+      document.getElementById('modalBagages').classList.remove('active');
+    }
+
+    // Navigation clavier
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') changeSlide(-1);
+      if (e.key === 'ArrowRight') changeSlide(1);
+      if (e.key === 'Escape') closeBagagesModal();
+    });
+
+    // Init
+    setTotalSlides();
+    updateProgressBar();
+  </script>
 </body>
 </html>
