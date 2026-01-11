@@ -199,13 +199,15 @@
       justify-content:center;
     }
     .modal-img-content img{
-      width:100%;
-      height:100%;
-      object-fit:contain;
-      border-radius:10px;
-      background:#fff;
-    }
-    .close-modal{
+  width:100%;
+  height:100%;
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain;
+  border-radius:10px;
+  background:#fff;
+   }
+ .close-modal{
       position:absolute;
       top:-40px;
       right:0;
@@ -965,14 +967,17 @@
   <button class="nav-btn next" onclick="changeSlide(1)">→</button>
 
   <!-- MODALE IMAGE -->
-  <div class="modal-img" id="modalImg" onclick="closeImageModal()">
-    <div class="modal-img-content" onclick="event.stopPropagation()">
-      <span class="close-modal" onclick="closeImageModal()">×</span>
-      <img id="modalImgEl" src="" alt="Image en plein écran">
-    </div>
+<div class="modal-img" id="modalImg" onclick="closeImageModal()">
+  <div class="modal-img-content" onclick="event.stopPropagation()">
+    <span class="close-modal" onclick="closeImageModal()">×</span>
+    <img id="modalImgEl" src="" alt="Image en plein écran">
   </div>
+</div>
 
-  <script>
+<script>
+  // -----------------------------
+  // SLIDES NAVIGATION
+  // -----------------------------
   let currentSlide = 1;
 
   function getTotalSlides() {
@@ -982,6 +987,7 @@
   function changeSlide(n) {
     const slides = document.querySelectorAll('.slide');
     const totalSlides = getTotalSlides();
+    if (!slides.length) return;
 
     slides[currentSlide - 1].classList.remove('active');
 
@@ -991,46 +997,86 @@
 
     slides[currentSlide - 1].classList.add('active');
 
-    document.getElementById('currentSlide').textContent = currentSlide;
-    document.getElementById('totalSlides').textContent = totalSlides;
+    const currentEl = document.getElementById('currentSlide');
+    const totalEl = document.getElementById('totalSlides');
+    if (currentEl) currentEl.textContent = currentSlide;
+    if (totalEl) totalEl.textContent = totalSlides;
 
     updateProgressBar();
   }
 
   function updateProgressBar() {
     const totalSlides = getTotalSlides();
+    const bar = document.getElementById('progressBar');
+    if (!bar || totalSlides === 0) return;
+
     const progress = (currentSlide / totalSlides) * 100;
-    document.getElementById('progressBar').style.width = progress + '%';
+    bar.style.width = progress + '%';
   }
 
-  // Initialisation au chargement
+  // -----------------------------
+  // IMAGE MODAL
+  // -----------------------------
+  function openImageModal(src) {
+    const modal = document.getElementById('modalImg');
+    const img = document.getElementById('modalImgEl');
+    if (!modal || !img) return;
+
+    img.src = src;
+    modal.classList.add('active');
+  }
+
+  function closeImageModal() {
+    const modal = document.getElementById('modalImg');
+    const img = document.getElementById('modalImgEl');
+    if (!modal || !img) return;
+
+    modal.classList.remove('active');
+    img.src = '';
+  }
+
+  // ✅ ALIAS : garde compatibilité avec tes anciens onclick="openImgModal('...')"
+  const openImgModal = openImageModal;
+
+  // -----------------------------
+  // Rendre TOUTES les images cliquables
+  // (dans les slides uniquement)
+  // -----------------------------
+  function enableGlobalImageZoom() {
+    document.querySelectorAll('.slide img').forEach(img => {
+      // évite double-binding
+      if (img.dataset.zoomBound === "1") return;
+      img.dataset.zoomBound = "1";
+
+      img.style.cursor = 'zoom-in';
+
+      img.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const src = img.getAttribute('src');
+        if (src) openImageModal(src);
+      });
+    });
+  }
+
+  // -----------------------------
+  // Keyboard navigation
+  // -----------------------------
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') changeSlide(-1);
+    if (e.key === 'ArrowRight') changeSlide(1);
+    if (e.key === 'Escape') closeImageModal();
+  });
+
+  // -----------------------------
+  // INIT on load
+  // -----------------------------
   document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('totalSlides').textContent = getTotalSlides();
+    const totalEl = document.getElementById('totalSlides');
+    if (totalEl) totalEl.textContent = getTotalSlides();
+
     updateProgressBar();
+    enableGlobalImageZoom();
   });
 </script>
-
-    function openImageModal(src) {
-      const modal = document.getElementById('modalImg');
-      const img = document.getElementById('modalImgEl');
-      img.src = src;
-      modal.classList.add('active');
-    }
-
-    function closeImageModal() {
-      const modal = document.getElementById('modalImg');
-      const img = document.getElementById('modalImgEl');
-      modal.classList.remove('active');
-      img.src = '';
-    }
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowLeft') changeSlide(-1);
-      if (e.key === 'ArrowRight') changeSlide(1);
-      if (e.key === 'Escape') closeImageModal();
-    });
-
-    updateProgressBar();
-  </script>
 </body>
 </html>
